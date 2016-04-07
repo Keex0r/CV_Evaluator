@@ -21,10 +21,10 @@ namespace CV_Evaluator
          
         }
 
-        private void PlotCV(Cycle cv, jwToolLib.jwGraph.jwGraph graph)
+        private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
         {
             graph.Series.Clear();
-                var ser = graph.Series.AddSeries(jwToolLib.jwGraph.Series.enumSeriesType.Line,jwToolLib.jwGraph.Axis.enumAxisLocation.Primary);
+                var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
                 foreach (var d in cv.Datapoints)
                 {
                     ser.AddXY(d.Volt, d.Current);
@@ -60,12 +60,12 @@ namespace CV_Evaluator
             PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
         }
 
-        private void PaintPeaks(Cycle cv, Graphics g, jwToolLib.jwGraph.jwGraph graph)
+        private void PaintPeaks(Cycle cv, Graphics g, jwGraph.jwGraph.jwGraph graph)
         {
             foreach (var peak in cv.Peaks)
             {
                 var peakpos = peak.GetCenterPos;
-                var peakp = graph.ValuesToPixelposition(peakpos, jwToolLib.jwGraph.Axis.enumAxisLocation.Primary);
+                var peakp = graph.ValuesToPixelposition(peakpos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
                 var hasBaseline = peak.BaselineP1 != -1 && peak.BaselineP2 != -1;
                 if (!hasBaseline)
                 {
@@ -80,14 +80,14 @@ namespace CV_Evaluator
                     var ypos = graph.Y1Axis.ValueToPixelPosition(bypeak)+graph.GraphBorder.Top;
                     var p1 = new PointF(peakp.X, ypos);
                     g.DrawLine(Pens.Brown, peakp, p1);
-                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b1, jwToolLib.jwGraph.Axis.enumAxisLocation.Primary), p1);
-                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b2, jwToolLib.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b1, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
                 }
             }
         }
         private void jwGraph1_Paint(object sender, PaintEventArgs e)
         {
-            var graph = (jwToolLib.jwGraph.jwGraph)sender;
+            var graph = (jwGraph.jwGraph.jwGraph)sender;
             if (graph.Tag == null) return;
             Cycle cv = (Cycle)graph.Tag;
             PaintPeaks(cv, e.Graphics, graph);

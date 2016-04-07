@@ -49,7 +49,7 @@ namespace CV_Evaluator
                     }
                     double[][] vals = { x.ToArray(), y.ToArray() };
                     double[] result = null;
-                    jwToolLib.jwMathLib.Fitting.LinearRegression.GetRegression(vals, ref result);
+                    Fitting.LinearRegression.GetRegression(vals, ref result);
                     var b1 = BaselineValues1;
                     var b2 = BaselineValues2;
                     var m = (b2.Item2 - b1.Item2) / (b2.Item1 - b1.Item1);

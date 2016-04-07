@@ -68,7 +68,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jwGraph1 = new jwToolLib.jwGraph.jwGraph();
+            this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
             this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -462,10 +462,10 @@
             this.jwGraph1.HighQuality = true;
             this.jwGraph1.HorizontalMarkerCount = 0;
             this.jwGraph1.IncludeMarkersInScaling = true;
-            this.jwGraph1.LeftMouseAction = jwToolLib.jwGraph.jwGraph.enLeftMouseAction.ZoomIn;
+            this.jwGraph1.LeftMouseAction = jwGraph.jwGraph.jwGraph.enLeftMouseAction.ZoomIn;
             this.jwGraph1.LeftMouseFunctionalityEnabled = true;
             this.jwGraph1.LegendAlwaysVisible = false;
-            this.jwGraph1.LegendPosition = jwToolLib.jwGraph.jwGraph.enumLegendPosition.TopRight;
+            this.jwGraph1.LegendPosition = jwGraph.jwGraph.jwGraph.enumLegendPosition.TopRight;
             this.jwGraph1.LegendTitle = null;
             this.jwGraph1.Location = new System.Drawing.Point(0, 0);
             this.jwGraph1.Message = "";
@@ -597,7 +597,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource cVBindingSource;
-        private jwToolLib.jwGraph.jwGraph jwGraph1;
+        private jwGraph.jwGraph.jwGraph jwGraph1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
