@@ -23,6 +23,7 @@ namespace CV_Evaluator
                 return Cycles.Count();
             }
         }
+        
         public static CV FromText(string input, string delimiter)
         {
             var e = new List<double>();

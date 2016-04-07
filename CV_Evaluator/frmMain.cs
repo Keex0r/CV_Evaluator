@@ -18,7 +18,7 @@ namespace CV_Evaluator
             InitializeComponent();
             CVs = new BindingList<CV>();
             cVBindingSource.DataSource = CVs;
-         
+
         }
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
@@ -57,11 +57,15 @@ namespace CV_Evaluator
 
         private void cycleBindingSource_CurrentChanged(object sender, EventArgs e)
         {
+            cVPeakBindingSource.DataSource = ((Cycle)cycleBindingSource.Current).Peaks;
             PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
         }
 
         private void PaintPeaks(Cycle cv, Graphics g, jwGraph.jwGraph.jwGraph graph)
         {
+            var rect = graph.InnerChartArea;
+            rect.Inflate(new Size(4, 4));
+            g.SetClip(rect);
             foreach (var peak in cv.Peaks)
             {
                 var peakpos = peak.GetCenterPos;
@@ -84,6 +88,7 @@ namespace CV_Evaluator
                     g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
                 }
             }
+            g.ResetClip();
         }
         private void jwGraph1_Paint(object sender, PaintEventArgs e)
         {
@@ -96,6 +101,13 @@ namespace CV_Evaluator
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             CVs.Add(CV.FromText(CV_Evaluator.Properties.Resources.CV, "\t"));
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+           var cyc = (Cycle)cycleBindingSource.Current;
+           cyc.PickPeaks(10,cyc.Datapoints.Select((d) => d.Current).Min() * 0.1);
+            cVPeakBindingSource.ResetBindings(true);
         }
     }
 }

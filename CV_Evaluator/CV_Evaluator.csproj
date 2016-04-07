@@ -52,9 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLinearRegression.cs" />
-    <Compile Include="CV.cs" />
-    <Compile Include="CVPeak.cs" />
-    <Compile Include="Cycle.cs" />
+    <Compile Include="CV Data\CV.cs" />
+    <Compile Include="CV Data\CVPeak.cs" />
+    <Compile Include="CV Data\Cycle.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,7 +63,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Datapoint.cs" />
+    <Compile Include="CV Data\Datapoint.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\DataSources\CV.datasource" />
+    <None Include="Properties\DataSources\CVPeak.datasource" />
     <None Include="Properties\DataSources\Cycle.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
