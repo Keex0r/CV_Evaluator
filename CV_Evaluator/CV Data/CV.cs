@@ -90,6 +90,7 @@ namespace CV_Evaluator
                         isOriginCross = ((thisCycle.Datapoints.Count > 10) & isOriginCross) | count >= volt.Count() - 1;
                     } while (!(isOriginCross));
                     thisCycle.Number = res.Cycles.Count + 1;
+                    thisCycle.PickPeaks(10, thisCycle.Datapoints.Select(d => d.Current).Max() * 0.1, thisCycle.Datapoints.Select(d => d.Current).Min() * 0.1);
                     res.Cycles.Add(thisCycle);
                     
                     count += 1;

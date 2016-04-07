@@ -106,8 +106,46 @@ namespace CV_Evaluator
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
            var cyc = (Cycle)cycleBindingSource.Current;
-           cyc.PickPeaks(10,cyc.Datapoints.Select((d) => d.Current).Min() * 0.1);
+           cyc.PickPeaks(10,cyc.Datapoints.Select((d) => d.Current).Max() * 0.25, cyc.Datapoints.Select((d) => d.Current).Min() * 0.25);
             cVPeakBindingSource.ResetBindings(true);
+            jwGraph1.Invalidate();
+        }
+
+        private int pointselect = -1;
+        private CVPeak workpeak;
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            if (cVPeakBindingSource.Current == null) return;
+            CVPeak peak = (CVPeak)cVPeakBindingSource.Current;
+            pointselect = 1;
+            workpeak = peak;
+            toolStripStatusLabel1.Text = "Select 1st point.";
+        }
+
+        private void jwGraph1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (pointselect == -1) return;
+            jwGraph.jwGraph.Series ser=null;
+            jwGraph.jwGraph.Datapoint point = null;
+            int index=-1;
+            if (jwGraph1.PointHitTest(e.Location, ref ser, ref index, ref point))
+            {
+                if(pointselect==1)
+                {
+                    workpeak.BaselineP1 = index;
+                    pointselect = 2;
+                    toolStripStatusLabel1.Text = "Select 2nd point.";
+                } else
+                {
+                    workpeak.BaselineP2 = index;
+                    pointselect = -1;
+                    toolStripStatusLabel1.Text = "Done.";
+                    jwGraph1.Invalidate();
+                }
+                
+
+            }
         }
     }
 }

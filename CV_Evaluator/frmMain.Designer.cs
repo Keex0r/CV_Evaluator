@@ -64,30 +64,25 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.centerPDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baselineP1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baselineP2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.getCenterPosDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.realPeakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baselineValues1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.baselineValues2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -104,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -400,20 +396,14 @@
             this.dataGridView2.AutoGenerateColumns = false;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.numberDataGridViewTextBoxColumn,
-            this.Column1});
+            this.scanrateDataGridViewTextBoxColumn,
+            this.parentDataGridViewTextBoxColumn});
             this.dataGridView2.DataSource = this.cycleBindingSource;
             this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView2.Location = new System.Drawing.Point(3, 185);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(273, 176);
             this.dataGridView2.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "Scanrate";
-            this.Column1.HeaderText = "Scanrate";
-            this.Column1.Name = "Column1";
             // 
             // jwGraph1
             // 
@@ -454,6 +444,7 @@
             this.jwGraph1.Text = "jwGraph1";
             this.jwGraph1.TopLeftColor = System.Drawing.Color.White;
             this.jwGraph1.VerticalMarkerCount = 0;
+            this.jwGraph1.MouseDown += new jwGraph.jwGraph.jwGraph.MouseDownEventHandler(this.jwGraph1_MouseDown);
             this.jwGraph1.Paint += new System.Windows.Forms.PaintEventHandler(this.jwGraph1_Paint);
             // 
             // toolStrip1
@@ -462,10 +453,11 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
-            this.toolStripButton3});
+            this.toolStripButton3,
+            this.toolStripButton4});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(215, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(293, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -511,16 +503,8 @@
             this.dataGridView3.AutoGenerateColumns = false;
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.centerPDataGridViewTextBoxColumn,
             this.peakCurrentDataGridViewTextBoxColumn,
-            this.baselineP1DataGridViewTextBoxColumn,
-            this.baselineP2DataGridViewTextBoxColumn,
-            this.processDataGridViewTextBoxColumn,
-            this.getCenterPosDataGridViewTextBoxColumn,
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn,
-            this.realPeakHeightDataGridViewTextBoxColumn,
-            this.baselineValues1DataGridViewTextBoxColumn,
-            this.baselineValues2DataGridViewTextBoxColumn});
+            this.processDataGridViewTextBoxColumn});
             this.dataGridView3.DataSource = this.cVPeakBindingSource;
             this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView3.Location = new System.Drawing.Point(3, 367);
@@ -528,12 +512,27 @@
             this.dataGridView3.Size = new System.Drawing.Size(273, 178);
             this.dataGridView3.TabIndex = 1;
             // 
-            // numberDataGridViewTextBoxColumn
+            // toolStripButton3
             // 
-            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
-            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            // 
+            // scanrateDataGridViewTextBoxColumn
+            // 
+            this.scanrateDataGridViewTextBoxColumn.DataPropertyName = "Scanrate";
+            this.scanrateDataGridViewTextBoxColumn.HeaderText = "Scanrate";
+            this.scanrateDataGridViewTextBoxColumn.Name = "scanrateDataGridViewTextBoxColumn";
+            // 
+            // parentDataGridViewTextBoxColumn
+            // 
+            this.parentDataGridViewTextBoxColumn.DataPropertyName = "Parent";
+            this.parentDataGridViewTextBoxColumn.HeaderText = "Parent";
+            this.parentDataGridViewTextBoxColumn.Name = "parentDataGridViewTextBoxColumn";
             // 
             // cycleBindingSource
             // 
@@ -558,29 +557,11 @@
             this.cVBindingSource.DataSource = typeof(CV_Evaluator.CV);
             this.cVBindingSource.CurrentChanged += new System.EventHandler(this.cVBindingSource_CurrentChanged);
             // 
-            // centerPDataGridViewTextBoxColumn
-            // 
-            this.centerPDataGridViewTextBoxColumn.DataPropertyName = "CenterP";
-            this.centerPDataGridViewTextBoxColumn.HeaderText = "CenterP";
-            this.centerPDataGridViewTextBoxColumn.Name = "centerPDataGridViewTextBoxColumn";
-            // 
             // peakCurrentDataGridViewTextBoxColumn
             // 
             this.peakCurrentDataGridViewTextBoxColumn.DataPropertyName = "PeakCurrent";
             this.peakCurrentDataGridViewTextBoxColumn.HeaderText = "PeakCurrent";
             this.peakCurrentDataGridViewTextBoxColumn.Name = "peakCurrentDataGridViewTextBoxColumn";
-            // 
-            // baselineP1DataGridViewTextBoxColumn
-            // 
-            this.baselineP1DataGridViewTextBoxColumn.DataPropertyName = "BaselineP1";
-            this.baselineP1DataGridViewTextBoxColumn.HeaderText = "BaselineP1";
-            this.baselineP1DataGridViewTextBoxColumn.Name = "baselineP1DataGridViewTextBoxColumn";
-            // 
-            // baselineP2DataGridViewTextBoxColumn
-            // 
-            this.baselineP2DataGridViewTextBoxColumn.DataPropertyName = "BaselineP2";
-            this.baselineP2DataGridViewTextBoxColumn.HeaderText = "BaselineP2";
-            this.baselineP2DataGridViewTextBoxColumn.Name = "baselineP2DataGridViewTextBoxColumn";
             // 
             // processDataGridViewTextBoxColumn
             // 
@@ -588,60 +569,42 @@
             this.processDataGridViewTextBoxColumn.HeaderText = "Process";
             this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
             // 
-            // getCenterPosDataGridViewTextBoxColumn
-            // 
-            this.getCenterPosDataGridViewTextBoxColumn.DataPropertyName = "GetCenterPos";
-            this.getCenterPosDataGridViewTextBoxColumn.HeaderText = "GetCenterPos";
-            this.getCenterPosDataGridViewTextBoxColumn.Name = "getCenterPosDataGridViewTextBoxColumn";
-            this.getCenterPosDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // baseLineCurrentAtPeakDataGridViewTextBoxColumn
-            // 
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn.DataPropertyName = "BaseLineCurrentAtPeak";
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn.HeaderText = "BaseLineCurrentAtPeak";
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn.Name = "baseLineCurrentAtPeakDataGridViewTextBoxColumn";
-            this.baseLineCurrentAtPeakDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // realPeakHeightDataGridViewTextBoxColumn
-            // 
-            this.realPeakHeightDataGridViewTextBoxColumn.DataPropertyName = "RealPeakHeight";
-            this.realPeakHeightDataGridViewTextBoxColumn.HeaderText = "RealPeakHeight";
-            this.realPeakHeightDataGridViewTextBoxColumn.Name = "realPeakHeightDataGridViewTextBoxColumn";
-            this.realPeakHeightDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // baselineValues1DataGridViewTextBoxColumn
-            // 
-            this.baselineValues1DataGridViewTextBoxColumn.DataPropertyName = "BaselineValues1";
-            this.baselineValues1DataGridViewTextBoxColumn.HeaderText = "BaselineValues1";
-            this.baselineValues1DataGridViewTextBoxColumn.Name = "baselineValues1DataGridViewTextBoxColumn";
-            this.baselineValues1DataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // baselineValues2DataGridViewTextBoxColumn
-            // 
-            this.baselineValues2DataGridViewTextBoxColumn.DataPropertyName = "BaselineValues2";
-            this.baselineValues2DataGridViewTextBoxColumn.HeaderText = "BaselineValues2";
-            this.baselineValues2DataGridViewTextBoxColumn.Name = "baselineValues2DataGridViewTextBoxColumn";
-            this.baselineValues2DataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // cVPeakBindingSource
             // 
             this.cVPeakBindingSource.DataSource = typeof(CV_Evaluator.CVPeak);
             // 
-            // toolStripButton3
+            // statusStrip1
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 575);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(837, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(109, 22);
+            this.toolStripButton4.Text = "Set Baseline points";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(837, 597);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -667,6 +630,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -716,15 +681,12 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.BindingSource cycleBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.DataGridViewTextBoxColumn centerPDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peakCurrentDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn baselineP1DataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn baselineP2DataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn getCenterPosDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn baseLineCurrentAtPeakDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn realPeakHeightDataGridViewTextBoxColumn;
@@ -732,6 +694,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn baselineValues2DataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource cVPeakBindingSource;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peakCurrentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

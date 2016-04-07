@@ -90,5 +90,22 @@ using System.Linq;
                 }
                 ResultParams = res;
             }
+
+            public static double[] Get2ndOrderPoly(double x1,double y1, double x2, double y2, double x3, double y3)
+        {
+            double a = -(((-x2) * y1 + x3 * y1 + x1 * y2 - x3 * y2 - x1 * y3 + x2 * y3) /
+      ((x2 - x3) * (Math.Pow(x1,2) - x1 * x2 - x1 * x3 + x2 * x3)));
+            double b = -((Math.Pow(x2 , 2) * y1 - Math.Pow(x3, 2) * y1 - Math.Pow(x1 , 2) * y2 + Math.Pow(x3 , 2) * y2 + Math.Pow(x1 , 2) * y3 - Math.Pow(x2 , 2) * y3) /
+      ((x1 - x2) * (x1 - x3) * (x2 - x3)));
+            double c = -(((-Math.Pow(x2, 2)) * x3 * y1 + x2 * Math.Pow(x3, 2) * y1 + Math.Pow(x1, 2) * x3 * y2 - x1 * Math.Pow(x3, 2) * y2 - Math.Pow(x1, 2) * x2 * y3 +
+       x1 * Math.Pow(x2, 2) * y3) / ((x1 - x2) * (x1 - x3) * (x2 - x3)));
+            return new double[] { a, b, c };
+        }
+        public static Tuple<double,double> Get2ndOrderPolyExtreme(double a,double b,double c)
+        {
+            var maxx = -b / (2 * a);
+            var maxxy = a * Math.Pow(maxx, 2) + b * maxx + c;
+            return Tuple.Create(maxx, maxxy);
+        }
         }
     }

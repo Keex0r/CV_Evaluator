@@ -18,12 +18,17 @@ namespace CV_Evaluator
         /// <summary>
         /// Gleitkommaindex, Position zwischen zwei Indizes, prozentual
         /// </summary>
+        [System.ComponentModel.Browsable(false)]
         public double CenterP { get; set; }
         public double PeakCurrent { get; set; }
+        [System.ComponentModel.Browsable(false)]
         public int BaselineP1 { get; set; }
+        [System.ComponentModel.Browsable(false)]
         public int BaselineP2 { get; set; }
+        [System.ComponentModel.Browsable(false)]
         public Cycle Parent;
         public string Process { get; set; }
+        [System.ComponentModel.Browsable(false)]
         public Tuple<double,double> GetCenterPos
         {
             get
@@ -34,6 +39,7 @@ namespace CV_Evaluator
                 return Tuple.Create(peakx, PeakCurrent);
             }
         }
+        [System.ComponentModel.Browsable(false)]
         public double BaseLineCurrentAtPeak
         {
             get
@@ -62,12 +68,14 @@ namespace CV_Evaluator
                 }
             }
         }
+        [System.ComponentModel.Browsable(false)]
         public double RealPeakHeight {
             get
             {
                 return PeakCurrent - BaseLineCurrentAtPeak;
             }
         }
+        [System.ComponentModel.Browsable(false)]
         private Tuple<double,double> GetValues(int Index)
         {
             if (Index != -1)
@@ -76,6 +84,7 @@ namespace CV_Evaluator
                 return Tuple.Create(0.0, 0.0);
 
         }
+        [System.ComponentModel.Browsable(false)]
         public Tuple<Double, Double> BaselineValues1
         {
             get
@@ -83,6 +92,7 @@ namespace CV_Evaluator
                 return GetValues(BaselineP1);
             }
         }
+        [System.ComponentModel.Browsable(false)]
         public Tuple<double, double> BaselineValues2
         {
             get
