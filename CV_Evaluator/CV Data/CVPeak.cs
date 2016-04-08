@@ -9,7 +9,11 @@ namespace CV_Evaluator
 {
     class CVPeak : INotifyPropertyChanged
     {
-
+        public enum enDirection
+        {
+            Positive,
+            Negative,
+        }
         public CVPeak(Cycle Parent)
         {
             this.Parent = Parent;
@@ -21,14 +25,23 @@ namespace CV_Evaluator
 
         public List<CVPeak> ConnectedPeaks;
 
+
+        public enDirection PeakDirection { get; set; }
         private double _CenterP;
         /// <summary>
         /// Gleitkommaindex, Position zwischen zwei Indizes, prozentual
         /// </summary>
         [System.ComponentModel.Browsable(false)]
         public double CenterP { get { return _CenterP; } set { _CenterP = value; Notify("PeakPosition"); } }
-        private double _PeakCurrent;
 
+        private double _SteepestRiseIndex;
+        /// <summary>
+        /// Gleitkommaindex, Position zwischen zwei Indizes, prozentual
+        /// </summary>
+        [System.ComponentModel.Browsable(false)]
+        public double SteepestRiseIndex { get { return _SteepestRiseIndex; } set { _SteepestRiseIndex = value; } }
+
+        private double _PeakCurrent;
         [System.ComponentModel.Browsable(false)]
         public double PeakCurrent { get { return _PeakCurrent; } set { _PeakCurrent = value; Notify("PeakHeight"); } }
 

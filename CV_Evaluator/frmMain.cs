@@ -108,12 +108,16 @@ namespace CV_Evaluator
                     using(Pen p = new Pen(Brushes.Red,1))
                     {
                         p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                        float top = Math.Min(otherpeakp.Y, peakp.Y)-20;
-                        float bottom = top + 20;
-                        //g.DrawLine(p, otherpeakp.X, otherpeakp.Y, otherpeakp.X, top);
-                        //g.DrawLine(p, peakp.X, peakp.Y, peakp.X, top);
-                        g.DrawLine(p, otherpeakp.X, bottom, otherpeakp.X, top);
-                        g.DrawLine(p, peakp.X, bottom, peakp.X, top);
+                        float top;
+                        if(c.PeakDirection == CVPeak.enDirection.Positive || peak.PeakDirection == CVPeak.enDirection.Positive)
+                        {
+                            top = Math.Min(otherpeakp.Y, peakp.Y) - 20;
+                        } else
+                        {
+                            top = Math.Max(otherpeakp.Y, peakp.Y) + 20;
+                        }
+                        g.DrawLine(p, otherpeakp.X, otherpeakp.Y, otherpeakp.X, top);
+                        g.DrawLine(p, peakp.X, peakp.Y, peakp.X, top);
                         g.DrawLine(p, otherpeakp.X, top, peakp.X, top);
                     }
                 }
@@ -179,12 +183,13 @@ namespace CV_Evaluator
             }
         }
 
-        private void toolStripButton5_Click(object sender, EventArgs e)
+
+        private void ConnectSelectedPeaks()
         {
             if (cycleBindingSource.Current == null) return;
             if (dgvPeaks.SelectedRows.Count < 2) return;
             Cycle cyc = (Cycle)cycleBindingSource.Current;
-            foreach(DataGridViewRow r in dgvPeaks.SelectedRows)
+            foreach (DataGridViewRow r in dgvPeaks.SelectedRows)
             {
                 var thispeak = (CVPeak)r.DataBoundItem;
                 foreach (DataGridViewRow r2 in dgvPeaks.SelectedRows)
@@ -195,7 +200,27 @@ namespace CV_Evaluator
                 }
             }
             jwGraph1.Invalidate();
+        }
+        private void ClearPeakConnections()
+        {
+            if (cVPeakBindingSource.Current == null) return;
+            CVPeak peak = (CVPeak)cVPeakBindingSource.Current;
+            foreach(CVPeak p in peak.ConnectedPeaks)
+            {
+                p.ConnectedPeaks.Remove(peak);
+            }
+            peak.ConnectedPeaks.Clear();
+            jwGraph1.Invalidate();
+        }
 
+        private void connectSelectedPeaksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConnectSelectedPeaks();
+        }
+
+        private void clearConnectionsOfSelectedPeakToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearPeakConnections();
         }
     }
 }

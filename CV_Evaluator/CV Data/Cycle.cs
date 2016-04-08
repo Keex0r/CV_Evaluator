@@ -97,6 +97,7 @@ namespace CV_Evaluator
                 }
 
                 var newp = new CVPeak(this);
+                newp.PeakDirection = Larger ? CVPeak.enDirection.Positive : CVPeak.enDirection.Negative;
                 newp.CenterP = point;
                 newp.PeakCurrent = extreme.Item2;
                 this.Peaks.Add(newp);
@@ -119,6 +120,9 @@ namespace CV_Evaluator
             return res;
         }
 
+        private void FindSteepestRise(CVPeak peak)
+        {
 
+        }
     }
 }
