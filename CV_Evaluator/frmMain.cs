@@ -52,12 +52,20 @@ namespace CV_Evaluator
 
         private void cVBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            cycleBindingSource.DataSource = ((CV)cVBindingSource.Current).Cycles;
+            cycleBindingSource.DataSource = ((CV)cVBindingSource.Current).bdsCycles;
         }
 
+        private Cycle LastCycle;
         private void cycleBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            cVPeakBindingSource.DataSource = ((Cycle)cycleBindingSource.Current).Peaks;
+           if(LastCycle != null) LastCycle.bdsPeaks.ListChanged -= RefreshCurrentCycle;
+            cVPeakBindingSource.DataSource = ((Cycle)cycleBindingSource.Current).bdsPeaks;
+            ((Cycle)cycleBindingSource.Current).bdsPeaks.ListChanged += RefreshCurrentCycle;
+            LastCycle = ((Cycle)cycleBindingSource.Current);
+            PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
+        }
+        private void RefreshCurrentCycle(object sender, EventArgs e)
+        {
             PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
         }
 
@@ -75,7 +83,10 @@ namespace CV_Evaluator
                 {
                     var zeroy = graph.Y1Axis.ValueToPixelPosition(0) + graph.GraphBorder.Top;
                     var p1 = new PointF(peakp.X, zeroy);
-                    g.DrawLine(Pens.Brown, peakp, p1);
+                    using (Pen p = new Pen(Brushes.Brown, 3))
+                    {
+                        g.DrawLine(p, peakp, p1);
+                    }
                 } else
                 {
                     var b1 = peak.BaselineValues1;
@@ -83,9 +94,28 @@ namespace CV_Evaluator
                     var bypeak = peak.BaseLineCurrentAtPeak;
                     var ypos = graph.Y1Axis.ValueToPixelPosition(bypeak)+graph.GraphBorder.Top;
                     var p1 = new PointF(peakp.X, ypos);
-                    g.DrawLine(Pens.Brown, peakp, p1);
-                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b1, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
-                    g.DrawLine(Pens.Brown, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                    using (Pen p = new Pen(Brushes.Brown, 3))
+                    {
+                        g.DrawLine(p, peakp, p1);
+                        g.DrawLine(p, graph.ValuesToPixelposition(b1, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                        g.DrawLine(p, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                    }
+                }
+                foreach(CVPeak c in peak.ConnectedPeaks)
+                {
+                    var otherpeakpos = c.GetCenterPos;
+                    var otherpeakp = graph.ValuesToPixelposition(otherpeakpos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
+                    using(Pen p = new Pen(Brushes.Red,1))
+                    {
+                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                        float top = Math.Min(otherpeakp.Y, peakp.Y)-20;
+                        float bottom = top + 20;
+                        //g.DrawLine(p, otherpeakp.X, otherpeakp.Y, otherpeakp.X, top);
+                        //g.DrawLine(p, peakp.X, peakp.Y, peakp.X, top);
+                        g.DrawLine(p, otherpeakp.X, bottom, otherpeakp.X, top);
+                        g.DrawLine(p, peakp.X, bottom, peakp.X, top);
+                        g.DrawLine(p, otherpeakp.X, top, peakp.X, top);
+                    }
                 }
             }
             g.ResetClip();
@@ -140,12 +170,32 @@ namespace CV_Evaluator
                 {
                     workpeak.BaselineP2 = index;
                     pointselect = -1;
+                    dgvPeaks.Refresh();
                     toolStripStatusLabel1.Text = "Done.";
                     jwGraph1.Invalidate();
                 }
                 
 
             }
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            if (cycleBindingSource.Current == null) return;
+            if (dgvPeaks.SelectedRows.Count < 2) return;
+            Cycle cyc = (Cycle)cycleBindingSource.Current;
+            foreach(DataGridViewRow r in dgvPeaks.SelectedRows)
+            {
+                var thispeak = (CVPeak)r.DataBoundItem;
+                foreach (DataGridViewRow r2 in dgvPeaks.SelectedRows)
+                {
+                    if (r2 == r) continue;
+                    var otherpeak = (CVPeak)r2.DataBoundItem;
+                    thispeak.ConnectedPeaks.Add(otherpeak);
+                }
+            }
+            jwGraph1.Invalidate();
+
         }
     }
 }

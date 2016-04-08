@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
@@ -12,9 +13,21 @@ namespace CV_Evaluator
         {
             this.Cycles = new List<Cycle>();
             this.Datasource = "";
+            bdsCycles = new BindingSource();
+            bdsCycles.DataSource = Cycles;
         }
+
+        public Cycle CurrentCycle()
+        {
+            if (bdsCycles == null) return null;
+            return (Cycle)bdsCycles.Current;
+        }
+        public BindingSource bdsCycles;
+
         public List<Cycle> Cycles { get; set; }
+
         public string Datasource { get; set; }
+
         public int nCycles
         {
             get
@@ -23,7 +36,8 @@ namespace CV_Evaluator
                 return Cycles.Count();
             }
         }
-        
+
+
         public static CV FromText(string input, string delimiter)
         {
             var e = new List<double>();
@@ -41,6 +55,7 @@ namespace CV_Evaluator
             return FromData(e, i, true);
 
         }
+
         public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, bool ByStartCrossing)
         {
             if (Voltage.Count() == 0 || Current.Count() == 0 || Current.Count() != Voltage.Count()) return null;

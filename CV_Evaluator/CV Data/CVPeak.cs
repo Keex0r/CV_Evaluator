@@ -3,31 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace CV_Evaluator
 {
-    class CVPeak
+    class CVPeak : INotifyPropertyChanged
     {
+
         public CVPeak(Cycle Parent)
         {
             this.Parent = Parent;
             BaselineP1 = -1;
             BaselineP2 = -1;
             Process = "Misc";
+            ConnectedPeaks = new List<CVPeak>();
         }
+
+        public List<CVPeak> ConnectedPeaks;
+
+        private double _CenterP;
         /// <summary>
         /// Gleitkommaindex, Position zwischen zwei Indizes, prozentual
         /// </summary>
         [System.ComponentModel.Browsable(false)]
-        public double CenterP { get; set; }
-        public double PeakCurrent { get; set; }
+        public double CenterP { get { return _CenterP; } set { _CenterP = value; Notify("PeakPosition"); } }
+        private double _PeakCurrent;
+
         [System.ComponentModel.Browsable(false)]
-        public int BaselineP1 { get; set; }
+        public double PeakCurrent { get { return _PeakCurrent; } set { _PeakCurrent = value; Notify("PeakHeight"); } }
+
+        private int _BaselineP1;
         [System.ComponentModel.Browsable(false)]
-        public int BaselineP2 { get; set; }
+        public int BaselineP1 { get { return _BaselineP1; } set { _BaselineP1 = value; Notify("PeakHeight"); } }
+
+        private int _BaselineP2;
         [System.ComponentModel.Browsable(false)]
+        public int BaselineP2 { get { return _BaselineP2; } set { _BaselineP2 = value; Notify("PeakHeight"); } }
+
         public Cycle Parent;
-        public string Process { get; set; }
+
+        private void Notify(string PropName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+           if(handler != null) PropertyChanged(this, new PropertyChangedEventArgs(PropName));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _Process;
+        public string Process { get { return _Process; } set { _Process = value; Notify("Process"); } }
+
         [System.ComponentModel.Browsable(false)]
         public Tuple<double,double> GetCenterPos
         {
@@ -68,13 +92,21 @@ namespace CV_Evaluator
                 }
             }
         }
-        [System.ComponentModel.Browsable(false)]
-        public double RealPeakHeight {
+
+        public double PeakHeight {
             get
             {
                 return PeakCurrent - BaseLineCurrentAtPeak;
             }
         }
+        public double PeakPosition
+        {
+            get
+            {
+                return GetCenterPos.Item1;
+            }
+        }
+
         [System.ComponentModel.Browsable(false)]
         private Tuple<double,double> GetValues(int Index)
         {

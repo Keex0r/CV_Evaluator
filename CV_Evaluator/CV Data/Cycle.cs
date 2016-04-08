@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
-    class Cycle
+    class Cycle : INotifyPropertyChanged
     {
         public Cycle(CV Parent)
         {
@@ -15,15 +17,32 @@ namespace CV_Evaluator
             this.Number = -1;
             this.Parent = Parent;
             Scanrate = 0.0;
+            bdsPeaks = new BindingSource();
+            bdsPeaks.DataSource = Peaks;
+            bdsDataPoints = new BindingSource();
+            bdsDataPoints.DataSource = Datapoints;
         }
+
+        public BindingSource bdsPeaks;
+        public BindingSource bdsDataPoints;
+
+        private void Notify(string PropName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(PropName));
+        }
+
+        public int nPeaks { get; set; }
         public double Scanrate { get; set; }
-        public CV Parent { get; set; }
+        [System.ComponentModel.Browsable(false)]
+        public CV Parent;
         [System.ComponentModel.Browsable(false)]
         public int Number { get; set; }
         [System.ComponentModel.Browsable(false)]
         public List<Datapoint> Datapoints { get; set; }
         [System.ComponentModel.Browsable(false)]
         public List<CVPeak> Peaks { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void PickPeaks(int Window, double PosMinHeight,double NegMinHeight)
         {
@@ -99,5 +118,7 @@ namespace CV_Evaluator
             }
             return res;
         }
+
+
     }
 }

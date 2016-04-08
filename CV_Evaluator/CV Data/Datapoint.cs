@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
-namespace CV_Evaluator
+namespace CV_Evaluator 
 {
-    class Datapoint
+    class Datapoint : INotifyPropertyChanged
     {
         public Datapoint(Cycle Parent)
         {
@@ -17,5 +18,10 @@ namespace CV_Evaluator
         public double Current { get; set; }
         public double Time { get; set; }
 
+        private void Notify(string PropName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(PropName));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
