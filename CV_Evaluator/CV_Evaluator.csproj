@@ -54,6 +54,7 @@
     <Compile Include="clsLinearRegression.cs" />
     <Compile Include="CV Data\CV.cs" />
     <Compile Include="CV Data\CVPeak.cs" />
+    <Compile Include="CV Data\CVPeakConnection.cs" />
     <Compile Include="CV Data\Cycle.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>

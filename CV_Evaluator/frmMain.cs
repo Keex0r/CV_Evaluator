@@ -76,51 +76,11 @@ namespace CV_Evaluator
             g.SetClip(rect);
             foreach (var peak in cv.Peaks)
             {
-                var peakpos = peak.GetCenterPos;
-                var peakp = graph.ValuesToPixelposition(peakpos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
-                var hasBaseline = peak.BaselineP1 != -1 && peak.BaselineP2 != -1;
-                if (!hasBaseline)
-                {
-                    var zeroy = graph.Y1Axis.ValueToPixelPosition(0) + graph.GraphBorder.Top;
-                    var p1 = new PointF(peakp.X, zeroy);
-                    using (Pen p = new Pen(Brushes.Brown, 3))
-                    {
-                        g.DrawLine(p, peakp, p1);
-                    }
-                } else
-                {
-                    var b1 = peak.BaselineValues1;
-                    var b2 = peak.BaselineValues2;
-                    var bypeak = peak.BaseLineCurrentAtPeak;
-                    var ypos = graph.Y1Axis.ValueToPixelPosition(bypeak)+graph.GraphBorder.Top;
-                    var p1 = new PointF(peakp.X, ypos);
-                    using (Pen p = new Pen(Brushes.Brown, 3))
-                    {
-                        g.DrawLine(p, peakp, p1);
-                        g.DrawLine(p, graph.ValuesToPixelposition(b1, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
-                        g.DrawLine(p, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
-                    }
-                }
-                foreach(CVPeak c in peak.ConnectedPeaks)
-                {
-                    var otherpeakpos = c.GetCenterPos;
-                    var otherpeakp = graph.ValuesToPixelposition(otherpeakpos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
-                    using(Pen p = new Pen(Brushes.Red,1))
-                    {
-                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                        float top;
-                        if(c.PeakDirection == CVPeak.enDirection.Positive || peak.PeakDirection == CVPeak.enDirection.Positive)
-                        {
-                            top = Math.Min(otherpeakp.Y, peakp.Y) - 20;
-                        } else
-                        {
-                            top = Math.Max(otherpeakp.Y, peakp.Y) + 20;
-                        }
-                        g.DrawLine(p, otherpeakp.X, otherpeakp.Y, otherpeakp.X, top);
-                        g.DrawLine(p, peakp.X, peakp.Y, peakp.X, top);
-                        g.DrawLine(p, otherpeakp.X, top, peakp.X, top);
-                    }
-                }
+                peak.DrawYourself(g, graph);
+            }
+            foreach (var PeakCon in cv.PeakConnections)
+            {
+                PeakCon.DrawYourself(g, graph);
             }
             g.ResetClip();
         }
@@ -196,20 +156,21 @@ namespace CV_Evaluator
                 {
                     if (r2 == r) continue;
                     var otherpeak = (CVPeak)r2.DataBoundItem;
-                    thispeak.ConnectedPeaks.Add(otherpeak);
+                    CVPeakConnection newc = new CVPeakConnection(cyc);
+                    newc.Peak1 = thispeak;
+                    newc.Peak2 = otherpeak;
+                    if (!cyc.PeakConnections.Any(c => c == newc)) cyc.PeakConnections.Add(newc);
                 }
             }
             jwGraph1.Invalidate();
         }
         private void ClearPeakConnections()
         {
+            if (cycleBindingSource.Current == null) return;
             if (cVPeakBindingSource.Current == null) return;
+            Cycle cyc = (Cycle)cycleBindingSource.Current;
             CVPeak peak = (CVPeak)cVPeakBindingSource.Current;
-            foreach(CVPeak p in peak.ConnectedPeaks)
-            {
-                p.ConnectedPeaks.Remove(peak);
-            }
-            peak.ConnectedPeaks.Clear();
+            cyc.PeakConnections.RemoveAll(p => p.Peak1 == peak || p.Peak2 == peak);
             jwGraph1.Invalidate();
         }
 

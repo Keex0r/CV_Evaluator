@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace CV_Evaluator
 {
@@ -146,5 +147,34 @@ namespace CV_Evaluator
             }
         }
 
+        public void DrawYourself(Graphics g, jwGraph.jwGraph.jwGraph graph)
+        {
+            var peakpos = this.GetCenterPos;
+            var peakp = graph.ValuesToPixelposition(peakpos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
+            var hasBaseline = this.BaselineP1 != -1 && this.BaselineP2 != -1;
+            if (!hasBaseline)
+            {
+                var zeroy = graph.Y1Axis.ValueToPixelPosition(0) + graph.GraphBorder.Top;
+                var p1 = new PointF(peakp.X, zeroy);
+                using (Pen p = new Pen(Brushes.Brown, 3))
+                {
+                    g.DrawLine(p, peakp, p1);
+                }
+            }
+            else
+            {
+                var b1 = this.BaselineValues1;
+                var b2 = this.BaselineValues2;
+                var bypeak = this.BaseLineCurrentAtPeak;
+                var ypos = graph.Y1Axis.ValueToPixelPosition(bypeak) + graph.GraphBorder.Top;
+                var p1 = new PointF(peakp.X, ypos);
+                using (Pen p = new Pen(Brushes.Brown, 3))
+                {
+                    g.DrawLine(p, peakp, p1);
+                    g.DrawLine(p, graph.ValuesToPixelposition(b1, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                    g.DrawLine(p, graph.ValuesToPixelposition(b2, jwGraph.jwGraph.Axis.enumAxisLocation.Primary), p1);
+                }
+            }
+        }
     }
 }

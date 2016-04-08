@@ -14,6 +14,7 @@ namespace CV_Evaluator
         {
             this.Datapoints = new List<Datapoint>();
             Peaks = new List<CVPeak>();
+            PeakConnections = new List<CVPeakConnection>();
             this.Number = -1;
             this.Parent = Parent;
             Scanrate = 0.0;
@@ -41,6 +42,8 @@ namespace CV_Evaluator
         public List<Datapoint> Datapoints { get; set; }
         [System.ComponentModel.Browsable(false)]
         public List<CVPeak> Peaks { get; set; }
+        [System.ComponentModel.Browsable(false)]
+        public List<CVPeakConnection> PeakConnections { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
