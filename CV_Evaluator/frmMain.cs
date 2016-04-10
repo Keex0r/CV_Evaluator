@@ -99,7 +99,7 @@ namespace CV_Evaluator
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
            var cyc = (Cycle)cycleBindingSource.Current;
-           cyc.PickPeaks(10,cyc.Datapoints.Select((d) => d.Current).Max() * 0.25, cyc.Datapoints.Select((d) => d.Current).Min() * 0.25);
+           cyc.PickPeaks(10, 0.25);
             cVPeakBindingSource.ResetBindings(true);
             jwGraph1.Invalidate();
         }

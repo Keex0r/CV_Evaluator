@@ -77,18 +77,19 @@
             this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.nPeaksDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SteepestRiseVoltage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peakPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -403,8 +404,8 @@
             this.dgvCycles.AutoGenerateColumns = false;
             this.dgvCycles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCycles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nPeaksDataGridViewTextBoxColumn,
-            this.scanrateDataGridViewTextBoxColumn});
+            this.scanrateDataGridViewTextBoxColumn,
+            this.numberDataGridViewTextBoxColumn});
             this.dgvCycles.DataSource = this.cycleBindingSource;
             this.dgvCycles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCycles.Location = new System.Drawing.Point(3, 178);
@@ -435,10 +436,11 @@
             this.dgvPeaks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPeaks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.peakDirectionDataGridViewTextBoxColumn,
-            this.SteepestRiseVoltage,
-            this.processDataGridViewTextBoxColumn,
+            this.steepestRiseVoltageDataGridViewTextBoxColumn,
             this.peakHeightDataGridViewTextBoxColumn,
-            this.peakPositionDataGridViewTextBoxColumn});
+            this.peakPositionDataGridViewTextBoxColumn,
+            this.rawPeakCurrentDataGridViewTextBoxColumn,
+            this.processDataGridViewTextBoxColumn});
             this.dgvPeaks.DataSource = this.cVPeakBindingSource;
             this.dgvPeaks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPeaks.Location = new System.Drawing.Point(3, 353);
@@ -585,17 +587,17 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // nPeaksDataGridViewTextBoxColumn
-            // 
-            this.nPeaksDataGridViewTextBoxColumn.DataPropertyName = "nPeaks";
-            this.nPeaksDataGridViewTextBoxColumn.HeaderText = "nPeaks";
-            this.nPeaksDataGridViewTextBoxColumn.Name = "nPeaksDataGridViewTextBoxColumn";
-            // 
             // scanrateDataGridViewTextBoxColumn
             // 
             this.scanrateDataGridViewTextBoxColumn.DataPropertyName = "Scanrate";
             this.scanrateDataGridViewTextBoxColumn.HeaderText = "Scanrate";
             this.scanrateDataGridViewTextBoxColumn.Name = "scanrateDataGridViewTextBoxColumn";
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
+            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
             // 
             // cycleBindingSource
             // 
@@ -630,18 +632,12 @@
             this.peakDirectionDataGridViewTextBoxColumn.HeaderText = "PeakDirection";
             this.peakDirectionDataGridViewTextBoxColumn.Name = "peakDirectionDataGridViewTextBoxColumn";
             // 
-            // SteepestRiseVoltage
+            // steepestRiseVoltageDataGridViewTextBoxColumn
             // 
-            this.SteepestRiseVoltage.DataPropertyName = "SteepestRiseVoltage";
-            this.SteepestRiseVoltage.HeaderText = "SteepestRiseVoltage";
-            this.SteepestRiseVoltage.Name = "SteepestRiseVoltage";
-            this.SteepestRiseVoltage.ReadOnly = true;
-            // 
-            // processDataGridViewTextBoxColumn
-            // 
-            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
-            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
-            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.DataPropertyName = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.HeaderText = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.Name = "steepestRiseVoltageDataGridViewTextBoxColumn";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // peakHeightDataGridViewTextBoxColumn
             // 
@@ -656,6 +652,18 @@
             this.peakPositionDataGridViewTextBoxColumn.HeaderText = "PeakPosition";
             this.peakPositionDataGridViewTextBoxColumn.Name = "peakPositionDataGridViewTextBoxColumn";
             this.peakPositionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rawPeakCurrentDataGridViewTextBoxColumn
+            // 
+            this.rawPeakCurrentDataGridViewTextBoxColumn.DataPropertyName = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.HeaderText = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.Name = "rawPeakCurrentDataGridViewTextBoxColumn";
+            // 
+            // processDataGridViewTextBoxColumn
+            // 
+            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
+            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
+            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
             // 
             // frmMain
             // 
@@ -737,37 +745,27 @@
         private jwGraph.jwGraph.jwGraph jwGraph1;
         private System.Windows.Forms.DataGridView dgvCycles;
         private System.Windows.Forms.BindingSource cycleBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView dgvPeaks;
-        private System.Windows.Forms.DataGridViewTextBoxColumn centerPDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn baselineP1DataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn baselineP2DataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn getCenterPosDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn baseLineCurrentAtPeakDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn realPeakHeightDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn baselineValues1DataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn baselineValues2DataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource cVPeakBindingSource;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peakCurrentDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn parentDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nPeaksDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem connectSelectedPeaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearConnectionsOfSelectedPeakToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakDirectionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SteepestRiseVoltage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn steepestRiseVoltageDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakHeightDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakPositionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rawPeakCurrentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
     }
 }
 

@@ -34,9 +34,9 @@ namespace CV_Evaluator
         }
         public void DrawYourself(Graphics g, jwGraph.jwGraph.jwGraph graph)
         {
-            var p1AbsPos = Peak1.GetCenterPos;
+            var p1AbsPos = Peak1.GetPeakPosition();
             var p1GraphPos = graph.ValuesToPixelposition(p1AbsPos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
-            var p2AbsPos = Peak2.GetCenterPos;
+            var p2AbsPos = Peak2.GetPeakPosition();
             var p2GraphPos = graph.ValuesToPixelposition(p2AbsPos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
 
             using (Pen p = new Pen(Brushes.Red, 1))
