@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
-    class CV
+   public class CV
     {
         public CV()
         {

@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace CV_Evaluator
 {
-    class CVPeak : INotifyPropertyChanged
+    public class CVPeak : INotifyPropertyChanged
     {
 
         public CVPeak(Cycle Parent)
@@ -292,6 +292,7 @@ namespace CV_Evaluator
             //Start at steepest rise, go back
             //Find 6? points with standard deviation <5e-9
             //Set Baseline to these extremes
+            //When a zero crossing accurs, use this point (and adjecent) for the baseline
             int start = (int)SteepestRiseIndex;
             double deriv;
             bool OK = false;

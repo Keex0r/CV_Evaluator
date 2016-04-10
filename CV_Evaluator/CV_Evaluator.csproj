@@ -62,12 +62,32 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="RandlesSevchik\frmRandlesSevchikResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RandlesSevchik\frmRandlesSevchikResults.Designer.cs">
+      <DependentUpon>frmRandlesSevchikResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RandlesSevchik\frmRandlesSevchikSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RandlesSevchik\frmRandlesSevchikSetup.Designer.cs">
+      <DependentUpon>frmRandlesSevchikSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CV Data\Datapoint.cs" />
+    <Compile Include="RandlesSevchik\RandlesSevchikResults.cs" />
+    <Compile Include="RandlesSevchik\RandlesSevchikSettings.cs" />
     <Compile Include="Tools.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RandlesSevchik\frmRandlesSevchikResults.resx">
+      <DependentUpon>frmRandlesSevchikResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RandlesSevchik\frmRandlesSevchikSetup.resx">
+      <DependentUpon>frmRandlesSevchikSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

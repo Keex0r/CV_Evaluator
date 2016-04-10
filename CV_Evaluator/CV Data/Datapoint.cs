@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace CV_Evaluator 
 {
-    class Datapoint : INotifyPropertyChanged
+    public class Datapoint : INotifyPropertyChanged
     {
         public Datapoint(Cycle Parent)
         {

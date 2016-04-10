@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
-    class Cycle : INotifyPropertyChanged
+    public class Cycle : INotifyPropertyChanged
     {
 
         public Cycle(CV Parent)

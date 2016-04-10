@@ -99,7 +99,7 @@ namespace CV_Evaluator
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
            var cyc = (Cycle)cycleBindingSource.Current;
-           cyc.PickPeaks(10, 0.25);
+           cyc.PickPeaks(10, 0.25,0.75);
             cVPeakBindingSource.ResetBindings(true);
             jwGraph1.Invalidate();
         }
@@ -181,6 +181,20 @@ namespace CV_Evaluator
         private void clearConnectionsOfSelectedPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearPeakConnections();
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            RandlesSevchik.RandlesSevchikSettings settings;
+            using (var frmSettings = new RandlesSevchik.frmRandlesSevchikSetup())
+            {
+                if (frmSettings.ShowDialog(this) == DialogResult.Cancel) return;
+                settings = frmSettings.Settings;
+            }
+            using (var frmResult = new RandlesSevchik.frmRandlesSevchikResults(settings,this.CVs))
+            {
+                frmResult.ShowDialog(this);
+            }
         }
     }
 }

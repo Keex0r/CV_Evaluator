@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CV_Evaluator
 {
-    class CVPeakConnection : IEquatable<CVPeakConnection>
+    public class CVPeakConnection : IEquatable<CVPeakConnection>
     {
         public CVPeakConnection(Cycle Parent)
         {
