@@ -52,6 +52,10 @@ namespace CV_Evaluator
             this.Peaks.Clear();
             PickPeaksDirection(Window, PosMinHeight,true);
             PickPeaksDirection(Window, NegMinHeight, false);
+            for(int i = 0;i<this.Peaks.Count;i++)
+            {
+                Peaks[i].Process = "Process " + (i + 1).ToString();
+            }
         }
         public void PickPeaksDirection(int Window, double minHeight, bool Larger)
         {
@@ -71,38 +75,33 @@ namespace CV_Evaluator
                 if ((Larger && Values.All(d => d < this.Datapoints[i].Current)) || (!Larger && Values.All(d => d > this.Datapoints[i].Current))) Peaks.Add(i);
 
             }
-            foreach(var p in Peaks)
+            foreach(int p in Peaks)
             {
                 if (reversals.Any(reversal => Math.Abs(p - reversal) < Window)) continue;
-
-                var x1 = Datapoints[p].Volt;
+                
+                var x1 = Datapoints[p].Time;
                 var y1 = Datapoints[p].Current;
-                var x2 = Datapoints[p-1].Volt;
+                var x2 = Datapoints[p-1].Time;
                 var y2 = Datapoints[p-1].Current;
-                var x3 = Datapoints[p+1].Volt;
+                var x3 = Datapoints[p+1].Time;
                 var y3 = Datapoints[p+1].Current;
                 var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
+                //Since Time=Index, the extreme value is always directly the index
                 var extreme = Fitting.LinearRegression.Get2ndOrderPolyExtreme(poly[0], poly[1], poly[2]);
-                bool dif = Datapoints[p].Volt - Datapoints[p - 1].Volt >= 0 ? true : false;
-                double point;
-                if ((dif && extreme.Item1 >= Datapoints[p].Volt) || (!dif && extreme.Item1 <= Datapoints[p].Volt))
+
+                List<double> values = new List<double>();
+                for (int i = p - 7; i <= p + 7; i++)
                 {
-                    var dx = Datapoints[p+1].Volt - Datapoints[p].Volt;
-                    var de = extreme.Item1- Datapoints[p].Volt;
-                    var fract = de / dx;
-                    point = p + fract;
-                } else
-                {
-                    var dx = Datapoints[p].Volt - Datapoints[p-1].Volt;
-                    var de = extreme.Item1 - Datapoints[p-1].Volt;
-                    var fract = de / dx;
-                    point = (p-1) + fract;
+                    values.Add(Datapoints[i].Current);
                 }
+                var avg = values.Average();
+                if (avg / extreme.Item2 > 0.75) continue;
 
                 var newp = new CVPeak(this);
                 newp.PeakDirection = Larger ? CVPeak.enDirection.Positive : CVPeak.enDirection.Negative;
-                newp.CenterP = point;
+                newp.CenterP = extreme.Item1;
                 newp.PeakCurrent = extreme.Item2;
+                newp.AutoPickBaseline();
                 this.Peaks.Add(newp);
             }
         }

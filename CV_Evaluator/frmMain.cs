@@ -18,7 +18,6 @@ namespace CV_Evaluator
             InitializeComponent();
             CVs = new BindingList<CV>();
             cVBindingSource.DataSource = CVs;
-
         }
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)

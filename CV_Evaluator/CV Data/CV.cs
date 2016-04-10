@@ -82,6 +82,7 @@ namespace CV_Evaluator
                         var dp = new Datapoint(thisCycle);
                         dp.Current = thisi;
                         dp.Volt = thise;
+                        dp.Time = thisCycle.Datapoints.Count;
                         thisCycle.Datapoints.Add(dp);
                         count += 1;
                         if (count < volt.Count() - 1)
@@ -98,8 +99,9 @@ namespace CV_Evaluator
                         else
                         {
                             var dp1 = new Datapoint(thisCycle);
-                            dp.Current = currs[count];
-                            dp.Volt = volt[count];
+                            dp1.Current = currs[count];
+                            dp1.Volt = volt[count];
+                            dp1.Time = thisCycle.Datapoints.Count;
                             thisCycle.Datapoints.Add(dp1);
                         }
                         isOriginCross = ((thisCycle.Datapoints.Count > 10) & isOriginCross) | count >= volt.Count() - 1;
