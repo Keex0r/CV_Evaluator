@@ -96,14 +96,6 @@ namespace CV_Evaluator
             CVs.Add(CV.FromText(CV_Evaluator.Properties.Resources.CV, "\t"));
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-           var cyc = (Cycle)cycleBindingSource.Current;
-           cyc.PickPeaks(10, 0.25,0.75);
-            cVPeakBindingSource.ResetBindings(true);
-            jwGraph1.Invalidate();
-        }
-
         private int pointselect = -1;
         private CVPeak workpeak;
 

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CV_Evaluator.RandlesSevchik
 {
@@ -106,6 +108,33 @@ namespace CV_Evaluator.RandlesSevchik
             else
             {
                 return Temperature+273.15;
+            }
+        }
+
+        public string GetXML()
+        {
+            var ser = new System.Xml.Serialization.XmlSerializer(typeof(RandlesSevchikSettings));
+            using (StringWriter sw = new StringWriter())
+            {
+                ser.Serialize(sw, this);
+                return sw.ToString(); 
+            }
+        }
+        public static RandlesSevchikSettings FromXML(string xml)
+        {
+            var ser = new System.Xml.Serialization.XmlSerializer(typeof(RandlesSevchikSettings));
+            using (StringReader sr = new StringReader(xml))
+            {
+                try
+                {
+                    var set = ser.Deserialize(sr);
+                    return (RandlesSevchikSettings)set;
+                } catch
+                {
+                    return null;
+                }
+               
+
             }
         }
     }

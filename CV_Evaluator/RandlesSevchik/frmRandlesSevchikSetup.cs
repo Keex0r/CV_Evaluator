@@ -18,18 +18,28 @@ namespace CV_Evaluator.RandlesSevchik
         public frmRandlesSevchikSetup()
         {
             InitializeComponent();
-            Settings = new RandlesSevchikSettings();
+            if(string.IsNullOrEmpty(Properties.Settings.Default.RandlesSevSettings))
+            {
+                Settings = new RandlesSevchikSettings();
+            } else
+            {
+                Settings = RandlesSevchikSettings.FromXML(Properties.Settings.Default.RandlesSevSettings);
+                if (Settings == null) Settings = new RandlesSevchikSettings();
+            }
             pgSettings.SelectedObject = Settings;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.RandlesSevSettings = Settings.GetXML();
+            Properties.Settings.Default.Save();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(Settings.GetXML());
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
