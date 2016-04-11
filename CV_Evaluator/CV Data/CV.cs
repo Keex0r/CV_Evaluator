@@ -7,23 +7,46 @@ using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
+    [Serializable]
    public class CV
     {
         public CV()
         {
             this.Cycles = new List<Cycle>();
             this.Datasource = "";
+            Setup();
+        }
+        public void Setup()
+        {
             bdsCycles = new BindingSource();
             bdsCycles.DataSource = Cycles;
+            foreach (var cyc in Cycles) cyc.Setup();
         }
-
         public Cycle CurrentCycle()
         {
             if (bdsCycles == null) return null;
             return (Cycle)bdsCycles.Current;
         }
+        [NonSerialized]
         public BindingSource bdsCycles;
 
+        public double ScanRate
+        {
+            get
+            {
+                if(this.Cycles==null || this.Cycles.Count==0)
+                {
+                    return 0.0;
+                } else
+                {
+                    return (this.Cycles.Select(x => x.Scanrate).Average());
+                }
+            }
+            set
+            {
+                foreach (var cyc in Cycles) cyc.Scanrate = value;
+            }
+        }
         public List<Cycle> Cycles { get; set; }
 
         public string Datasource { get; set; }

@@ -22,7 +22,7 @@ namespace CV_Evaluator.RandlesSevchik
             Concentration = 5;
             ConcentrationUnit = enConcentrationUnit.molm3;
         }
-
+        [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enScanrateUnit
         {
             [Description("V/s")]
@@ -30,6 +30,7 @@ namespace CV_Evaluator.RandlesSevchik
             [Description("mV/s")]
             mVs
         }
+        [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enAreaUnit
         {
             [Description("m²")]
@@ -39,6 +40,7 @@ namespace CV_Evaluator.RandlesSevchik
             [Description("mm²")]
             mm2
         }
+        [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enConcentrationUnit
         {
             [Description("mol/m³ = mmol/L")]
@@ -46,6 +48,7 @@ namespace CV_Evaluator.RandlesSevchik
             [Description("mol/L")]
             molL,
         }
+        [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enTemperatureUnit
         {
             [Description("K")]

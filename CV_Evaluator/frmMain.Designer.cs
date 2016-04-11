@@ -64,21 +64,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvCycles = new System.Windows.Forms.DataGridView();
-            this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dgvCVs = new System.Windows.Forms.DataGridView();
-            this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ScanRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvPeaks = new System.Windows.Forms.DataGridView();
-            this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peakPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -88,8 +76,22 @@
             this.connectSelectedPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.tsbSplitCycles = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peakPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -100,13 +102,13 @@
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCycles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -156,6 +158,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
@@ -170,6 +173,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -410,59 +414,34 @@
             this.dgvCycles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCycles.Location = new System.Drawing.Point(3, 178);
             this.dgvCycles.Name = "dgvCycles";
+            this.dgvCycles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCycles.Size = new System.Drawing.Size(273, 169);
             this.dgvCycles.TabIndex = 0;
             // 
-            // scanrateDataGridViewTextBoxColumn
-            // 
-            this.scanrateDataGridViewTextBoxColumn.DataPropertyName = "Scanrate";
-            this.scanrateDataGridViewTextBoxColumn.HeaderText = "Scanrate";
-            this.scanrateDataGridViewTextBoxColumn.Name = "scanrateDataGridViewTextBoxColumn";
-            // 
-            // numberDataGridViewTextBoxColumn
-            // 
-            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
-            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
-            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
-            // 
-            // cycleBindingSource
-            // 
-            this.cycleBindingSource.DataSource = typeof(CV_Evaluator.Cycle);
-            this.cycleBindingSource.CurrentChanged += new System.EventHandler(this.cycleBindingSource_CurrentChanged);
-            // 
             // dgvCVs
             // 
+            this.dgvCVs.AllowDrop = true;
             this.dgvCVs.AllowUserToAddRows = false;
             this.dgvCVs.AllowUserToDeleteRows = false;
             this.dgvCVs.AutoGenerateColumns = false;
             this.dgvCVs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCVs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.datasourceDataGridViewTextBoxColumn,
-            this.nCyclesDataGridViewTextBoxColumn});
+            this.nCyclesDataGridViewTextBoxColumn,
+            this.ScanRate});
             this.dgvCVs.DataSource = this.cVBindingSource;
             this.dgvCVs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCVs.Location = new System.Drawing.Point(3, 3);
             this.dgvCVs.Name = "dgvCVs";
+            this.dgvCVs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCVs.Size = new System.Drawing.Size(273, 169);
             this.dgvCVs.TabIndex = 0;
             // 
-            // datasourceDataGridViewTextBoxColumn
+            // ScanRate
             // 
-            this.datasourceDataGridViewTextBoxColumn.DataPropertyName = "Datasource";
-            this.datasourceDataGridViewTextBoxColumn.HeaderText = "Datasource";
-            this.datasourceDataGridViewTextBoxColumn.Name = "datasourceDataGridViewTextBoxColumn";
-            // 
-            // nCyclesDataGridViewTextBoxColumn
-            // 
-            this.nCyclesDataGridViewTextBoxColumn.DataPropertyName = "nCycles";
-            this.nCyclesDataGridViewTextBoxColumn.HeaderText = "nCycles";
-            this.nCyclesDataGridViewTextBoxColumn.Name = "nCyclesDataGridViewTextBoxColumn";
-            this.nCyclesDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // cVBindingSource
-            // 
-            this.cVBindingSource.DataSource = typeof(CV_Evaluator.CV);
-            this.cVBindingSource.CurrentChanged += new System.EventHandler(this.cVBindingSource_CurrentChanged);
+            this.ScanRate.DataPropertyName = "ScanRate";
+            this.ScanRate.HeaderText = "ScanRate";
+            this.ScanRate.Name = "ScanRate";
             // 
             // dgvPeaks
             // 
@@ -483,49 +462,6 @@
             this.dgvPeaks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPeaks.Size = new System.Drawing.Size(273, 170);
             this.dgvPeaks.TabIndex = 1;
-            // 
-            // peakDirectionDataGridViewTextBoxColumn
-            // 
-            this.peakDirectionDataGridViewTextBoxColumn.DataPropertyName = "PeakDirection";
-            this.peakDirectionDataGridViewTextBoxColumn.HeaderText = "PeakDirection";
-            this.peakDirectionDataGridViewTextBoxColumn.Name = "peakDirectionDataGridViewTextBoxColumn";
-            // 
-            // steepestRiseVoltageDataGridViewTextBoxColumn
-            // 
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.DataPropertyName = "SteepestRiseVoltage";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.HeaderText = "SteepestRiseVoltage";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.Name = "steepestRiseVoltageDataGridViewTextBoxColumn";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // peakHeightDataGridViewTextBoxColumn
-            // 
-            this.peakHeightDataGridViewTextBoxColumn.DataPropertyName = "PeakHeight";
-            this.peakHeightDataGridViewTextBoxColumn.HeaderText = "PeakHeight";
-            this.peakHeightDataGridViewTextBoxColumn.Name = "peakHeightDataGridViewTextBoxColumn";
-            this.peakHeightDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // peakPositionDataGridViewTextBoxColumn
-            // 
-            this.peakPositionDataGridViewTextBoxColumn.DataPropertyName = "PeakPosition";
-            this.peakPositionDataGridViewTextBoxColumn.HeaderText = "PeakPosition";
-            this.peakPositionDataGridViewTextBoxColumn.Name = "peakPositionDataGridViewTextBoxColumn";
-            this.peakPositionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rawPeakCurrentDataGridViewTextBoxColumn
-            // 
-            this.rawPeakCurrentDataGridViewTextBoxColumn.DataPropertyName = "RawPeakCurrent";
-            this.rawPeakCurrentDataGridViewTextBoxColumn.HeaderText = "RawPeakCurrent";
-            this.rawPeakCurrentDataGridViewTextBoxColumn.Name = "rawPeakCurrentDataGridViewTextBoxColumn";
-            // 
-            // processDataGridViewTextBoxColumn
-            // 
-            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
-            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
-            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
-            // 
-            // cVPeakBindingSource
-            // 
-            this.cVPeakBindingSource.DataSource = typeof(CV_Evaluator.CVPeak);
             // 
             // jwGraph1
             // 
@@ -577,10 +513,11 @@
             this.toolStripButton2,
             this.toolStripButton4,
             this.toolStripDropDownButton1,
-            this.toolStripButton5});
+            this.toolStripButton5,
+            this.tsbSplitCycles});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(562, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(707, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -649,6 +586,16 @@
             this.toolStripButton5.Text = "Randles Sevcik Evaluation";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
+            // tsbSplitCycles
+            // 
+            this.tsbSplitCycles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbSplitCycles.Image = ((System.Drawing.Image)(resources.GetObject("tsbSplitCycles.Image")));
+            this.tsbSplitCycles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSplitCycles.Name = "tsbSplitCycles";
+            this.tsbSplitCycles.Size = new System.Drawing.Size(176, 22);
+            this.tsbSplitCycles.Text = "Split selected Cycles to New CV";
+            this.tsbSplitCycles.Click += new System.EventHandler(this.tsbSplitCycles_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -665,6 +612,85 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // scanrateDataGridViewTextBoxColumn
+            // 
+            this.scanrateDataGridViewTextBoxColumn.DataPropertyName = "Scanrate";
+            this.scanrateDataGridViewTextBoxColumn.HeaderText = "Scanrate";
+            this.scanrateDataGridViewTextBoxColumn.Name = "scanrateDataGridViewTextBoxColumn";
+            // 
+            // numberDataGridViewTextBoxColumn
+            // 
+            this.numberDataGridViewTextBoxColumn.DataPropertyName = "Number";
+            this.numberDataGridViewTextBoxColumn.HeaderText = "Number";
+            this.numberDataGridViewTextBoxColumn.Name = "numberDataGridViewTextBoxColumn";
+            this.numberDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cycleBindingSource
+            // 
+            this.cycleBindingSource.DataSource = typeof(CV_Evaluator.Cycle);
+            this.cycleBindingSource.CurrentChanged += new System.EventHandler(this.cycleBindingSource_CurrentChanged);
+            // 
+            // datasourceDataGridViewTextBoxColumn
+            // 
+            this.datasourceDataGridViewTextBoxColumn.DataPropertyName = "Datasource";
+            this.datasourceDataGridViewTextBoxColumn.HeaderText = "Datasource";
+            this.datasourceDataGridViewTextBoxColumn.Name = "datasourceDataGridViewTextBoxColumn";
+            // 
+            // nCyclesDataGridViewTextBoxColumn
+            // 
+            this.nCyclesDataGridViewTextBoxColumn.DataPropertyName = "nCycles";
+            this.nCyclesDataGridViewTextBoxColumn.HeaderText = "nCycles";
+            this.nCyclesDataGridViewTextBoxColumn.Name = "nCyclesDataGridViewTextBoxColumn";
+            this.nCyclesDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cVBindingSource
+            // 
+            this.cVBindingSource.DataSource = typeof(CV_Evaluator.CV);
+            this.cVBindingSource.CurrentChanged += new System.EventHandler(this.cVBindingSource_CurrentChanged);
+            // 
+            // peakDirectionDataGridViewTextBoxColumn
+            // 
+            this.peakDirectionDataGridViewTextBoxColumn.DataPropertyName = "PeakDirection";
+            this.peakDirectionDataGridViewTextBoxColumn.HeaderText = "PeakDirection";
+            this.peakDirectionDataGridViewTextBoxColumn.Name = "peakDirectionDataGridViewTextBoxColumn";
+            // 
+            // steepestRiseVoltageDataGridViewTextBoxColumn
+            // 
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.DataPropertyName = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.HeaderText = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.Name = "steepestRiseVoltageDataGridViewTextBoxColumn";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // peakHeightDataGridViewTextBoxColumn
+            // 
+            this.peakHeightDataGridViewTextBoxColumn.DataPropertyName = "PeakHeight";
+            this.peakHeightDataGridViewTextBoxColumn.HeaderText = "PeakHeight";
+            this.peakHeightDataGridViewTextBoxColumn.Name = "peakHeightDataGridViewTextBoxColumn";
+            this.peakHeightDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // peakPositionDataGridViewTextBoxColumn
+            // 
+            this.peakPositionDataGridViewTextBoxColumn.DataPropertyName = "PeakPosition";
+            this.peakPositionDataGridViewTextBoxColumn.HeaderText = "PeakPosition";
+            this.peakPositionDataGridViewTextBoxColumn.Name = "peakPositionDataGridViewTextBoxColumn";
+            this.peakPositionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rawPeakCurrentDataGridViewTextBoxColumn
+            // 
+            this.rawPeakCurrentDataGridViewTextBoxColumn.DataPropertyName = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.HeaderText = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.Name = "rawPeakCurrentDataGridViewTextBoxColumn";
+            // 
+            // processDataGridViewTextBoxColumn
+            // 
+            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
+            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
+            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
+            // 
+            // cVPeakBindingSource
+            // 
+            this.cVPeakBindingSource.DataSource = typeof(CV_Evaluator.CVPeak);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -675,7 +701,7 @@
             this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
-            this.Text = "Form1";
+            this.Text = "CV Evaluator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -690,15 +716,15 @@
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCycles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -755,10 +781,6 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem connectSelectedPeaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearConnectionsOfSelectedPeakToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakDirectionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn steepestRiseVoltageDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakHeightDataGridViewTextBoxColumn;
@@ -766,6 +788,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn rawPeakCurrentDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ScanRate;
+        private System.Windows.Forms.ToolStripButton tsbSplitCycles;
+        private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
     }
 }
 

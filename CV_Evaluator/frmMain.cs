@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -187,6 +189,78 @@ namespace CV_Evaluator
             {
                 frmResult.ShowDialog(this);
             }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            using(var ms = new MemoryStream())
+            {
+                ser1.Serialize(ms, this.CVs.ToList());
+                using (var sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "CV Evaluator File|*.cve";
+                    sfd.AddExtension = true;
+                    if (sfd.ShowDialog() == DialogResult.Cancel) return;
+                    File.WriteAllBytes(sfd.FileName, ms.ToArray());
+                }
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            using (var ofd = new OpenFileDialog())
+            {
+                ofd.Filter= "CV Evaluator File|*.cve";
+                ofd.Multiselect = false;
+                if (ofd.ShowDialog() == DialogResult.Cancel) return;
+                var data = File.ReadAllBytes(ofd.FileName);
+                using (var ms = new MemoryStream(data))
+                {
+                    var values = (List<CV>)ser1.Deserialize(ms);
+                    this.CVs.Clear();
+                    foreach (var cv in values)
+                    {
+                        cv.Setup();
+                        CVs.Add(cv);
+                    }
+                }
+
+            }
+        }
+
+        private void SplitToNew(List<Cycle> cycles)
+        {
+            //Only for the same parent CV
+            if (cycles.Select(x => x.Parent).Distinct().Count() > 1) return;
+            var parent = cycles[0].Parent;
+            var newcv = new CV();
+            newcv.Datasource = "From Split";
+            foreach(var cyc in cycles)
+            {
+                parent.Cycles.Remove(cyc);
+                cyc.Parent=newcv;
+                cyc.Number = newcv.Cycles.Count + 1;
+                newcv.Cycles.Add(cyc);
+            }
+            newcv.Setup();
+            CVs.Add(newcv);
+            dgvCVs.ClearSelection();
+            
+            var row=dgvCVs.Rows.Cast<DataGridViewRow>().Where(x => x.DataBoundItem == newcv).Select(x => x).First();
+            row.Selected = true;
+            dgvCVs.CurrentCell = row.Cells[0];
+        }
+    
+        private void tsbSplitCycles_Click(object sender, EventArgs e)
+        {
+            List<Cycle> cycles = new List<Cycle>();
+            foreach (DataGridViewRow row in dgvCycles.SelectedRows)
+            {
+                cycles.Add((Cycle)row.DataBoundItem);
+            }
+            SplitToNew(cycles);
         }
     }
 }

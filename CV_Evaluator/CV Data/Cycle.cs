@@ -8,9 +8,12 @@ using System.Windows.Forms;
 
 namespace CV_Evaluator
 {
+    [Serializable]
     public class Cycle : INotifyPropertyChanged
     {
-
+        public Cycle() : this(null)
+        {
+        }
         public Cycle(CV Parent)
         {
             this.Datapoints = new List<Datapoint>();
@@ -19,14 +22,20 @@ namespace CV_Evaluator
             this.Number = -1;
             this.Parent = Parent;
             Scanrate = 0.0;
+            Setup();
+        }
+
+        public void Setup()
+        {
             bdsPeaks = new BindingSource();
             bdsPeaks.DataSource = Peaks;
             bdsDataPoints = new BindingSource();
             bdsDataPoints.DataSource = Datapoints;
         }
-
         #region "Interface fields"
+        [NonSerialized]
         public BindingSource bdsPeaks;
+        [NonSerialized]
         public BindingSource bdsDataPoints;
         public CV Parent;
         #endregion  
@@ -80,6 +89,7 @@ namespace CV_Evaluator
                 if (ReversalPoints.Any(reversal => Math.Abs(p - reversal) < Window)) return;
                 var newp = new CVPeak(this);
                 newp.PeakCenterIndex = p;
+                newp.PeakDirection = Larger ? CVPeak.enDirection.Positive : CVPeak.enDirection.Negative;
                 newp.RefinePosition();
                 if (!newp.IsSteepEnoughPeak(SteepnessLimit)) continue;
                 this.Peaks.Add(newp);

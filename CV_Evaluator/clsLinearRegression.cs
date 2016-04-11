@@ -90,6 +90,17 @@ using System.Linq;
                 }
                 ResultParams = res;
             }
+        public static double GetRegressionNoIntercept(double[][] data)
+        {
+            double sum1 = 0.0;
+            double sum2 = 0.0;
+            for(int i=0;i<data[0].Count();i++)
+            {
+                sum1 += data[0][i] * data[1][i];
+                sum2 += data[0][i] * data[0][i];
+            }
+            return sum1 / sum2;
+        }
 
             public static double[] Get2ndOrderPoly(double x1,double y1, double x2, double y2, double x3, double y3)
         {

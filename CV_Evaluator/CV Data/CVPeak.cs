@@ -8,9 +8,10 @@ using System.Drawing;
 
 namespace CV_Evaluator
 {
+    [Serializable]
     public class CVPeak : INotifyPropertyChanged
     {
-
+        public CVPeak() :this(null) { }
         public CVPeak(Cycle Parent)
         {
             this.Parent = Parent;

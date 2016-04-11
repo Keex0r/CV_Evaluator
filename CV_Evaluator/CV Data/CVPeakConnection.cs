@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace CV_Evaluator
 {
+    [Serializable]
     public class CVPeakConnection : IEquatable<CVPeakConnection>
     {
+        public CVPeakConnection() : this(null) { }
         public CVPeakConnection(Cycle Parent)
         {
             Title = "";
