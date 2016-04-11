@@ -53,13 +53,23 @@ namespace CV_Evaluator
 
         private void cVBindingSource_CurrentChanged(object sender, EventArgs e)
         {
+            if (cVBindingSource.Current == null)
+            {
+                cycleBindingSource.DataSource = null;
+                return;
+            }
             cycleBindingSource.DataSource = ((CV)cVBindingSource.Current).bdsCycles;
         }
 
         private Cycle LastCycle;
         private void cycleBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-           if(LastCycle != null) LastCycle.bdsPeaks.ListChanged -= RefreshCurrentCycle;
+            if (LastCycle != null) LastCycle.bdsPeaks.ListChanged -= RefreshCurrentCycle;
+            if(cycleBindingSource.Current==null)
+            {
+                cVPeakBindingSource.DataSource = null;
+                return;
+            }
             cVPeakBindingSource.DataSource = ((Cycle)cycleBindingSource.Current).bdsPeaks;
             ((Cycle)cycleBindingSource.Current).bdsPeaks.ListChanged += RefreshCurrentCycle;
             LastCycle = ((Cycle)cycleBindingSource.Current);
@@ -190,43 +200,63 @@ namespace CV_Evaluator
                 frmResult.ShowDialog(this);
             }
         }
-
+        private string LastSaveName;
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            using(var ms = new MemoryStream())
+            try
             {
-                ser1.Serialize(ms, this.CVs.ToList());
-                using (var sfd = new SaveFileDialog())
+                var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                using (var ms = new MemoryStream())
                 {
-                    sfd.Filter = "CV Evaluator File|*.cve";
-                    sfd.AddExtension = true;
-                    if (sfd.ShowDialog() == DialogResult.Cancel) return;
-                    File.WriteAllBytes(sfd.FileName, ms.ToArray());
+                    using (var sfd = new SaveFileDialog())
+                    {
+                        if (!string.IsNullOrEmpty(LastSaveName)) sfd.FileName = LastSaveName;
+                        sfd.Filter = "CV Evaluator File|*.cve";
+                        sfd.AddExtension = true;
+                        if (sfd.ShowDialog() == DialogResult.Cancel) return;
+                        ser1.Serialize(ms, this.CVs.ToList());
+                        File.WriteAllBytes(sfd.FileName, ms.ToArray());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured while saving: " + ex.Message);
+                throw ex;
             }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            using (var ofd = new OpenFileDialog())
-            {
-                ofd.Filter= "CV Evaluator File|*.cve";
-                ofd.Multiselect = false;
-                if (ofd.ShowDialog() == DialogResult.Cancel) return;
-                var data = File.ReadAllBytes(ofd.FileName);
-                using (var ms = new MemoryStream(data))
+            List<CV> PreviousCVs = new List<CV>();
+            PreviousCVs.AddRange(CVs);
+            try {
+                var ser1 = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                using (var ofd = new OpenFileDialog())
                 {
-                    var values = (List<CV>)ser1.Deserialize(ms);
-                    this.CVs.Clear();
-                    foreach (var cv in values)
+                    ofd.Filter = "CV Evaluator File|*.cve";
+                    ofd.Multiselect = false;
+                    if (ofd.ShowDialog() == DialogResult.Cancel) return;
+                    LastSaveName = ofd.FileName;
+                    var data = File.ReadAllBytes(ofd.FileName);
+                    using (var ms = new MemoryStream(data))
                     {
-                        cv.Setup();
-                        CVs.Add(cv);
+                        var values = (List<CV>)ser1.Deserialize(ms);
+                        this.CVs.Clear();
+                        foreach (var cv in values)
+                        {
+                            cv.Setup();
+                            CVs.Add(cv);
+                        }
                     }
-                }
 
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show("An error occured while loading: " + ex.Message);
+                //Restore previous state state
+                CVs.Clear();
+                foreach (var cv in PreviousCVs) CVs.Add(cv);
             }
         }
 
@@ -261,6 +291,23 @@ namespace CV_Evaluator
                 cycles.Add((Cycle)row.DataBoundItem);
             }
             SplitToNew(cycles);
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Do you really want to discard all current items? All unsaved progress will be lost.", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No) return;
+            CVs.Clear();
+        }
+
+        private void cVBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (cVBindingSource.Current == null)
+            {
+                cycleBindingSource.DataSource = null;
+                return;
+            }
+            cycleBindingSource.DataSource = ((CV)cVBindingSource.Current).bdsCycles;
+
         }
     }
 }
