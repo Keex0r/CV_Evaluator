@@ -52,13 +52,13 @@ namespace CV_Evaluator
         #endregion
 
         #region "Interface functions"
-        public void PickPeaks(int Window, double MinHeightPercent, double SteepnessLimit)
+        public void PickPeaks(int Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit)
         {
             double PosMinHeight = Datapoints.Select(d => d.Current).Max() * MinHeightPercent;
             double NegMinHeight = Datapoints.Select(d => d.Current).Min() * MinHeightPercent;
             this.Peaks.Clear();
-            PickPeaksDirection(Window, PosMinHeight,true, SteepnessLimit);
-            PickPeaksDirection(Window, NegMinHeight, false, SteepnessLimit);
+            PickPeaksDirection(Window, PosMinHeight,true, SteepnessLimit, BaselineStdLimit);
+            PickPeaksDirection(Window, NegMinHeight, false, SteepnessLimit, BaselineStdLimit);
             for(int i = 0;i<this.Peaks.Count;i++)
             {
                 Peaks[i].Process = "Process " + (i + 1).ToString();
@@ -66,7 +66,7 @@ namespace CV_Evaluator
         }
         #endregion
         #region "Helper functions"
-        private void PickPeaksDirection(int Window, double minHeight, bool Larger, double SteepnessLimit)
+        private void PickPeaksDirection(int Window, double minHeight, bool Larger, double SteepnessLimit, double BaselineStdLimit)
         {
             var ReversalPoints = FindReversalPoints();
             if (Window % 2 == 0) Window += 1;
@@ -90,7 +90,7 @@ namespace CV_Evaluator
                 var newp = new CVPeak(this);
                 newp.PeakCenterIndex = p;
                 newp.PeakDirection = Larger ? CVPeak.enDirection.Positive : CVPeak.enDirection.Negative;
-                newp.RefinePosition();
+                newp.RefinePosition(BaselineStdLimit);
                 if (!newp.IsSteepEnoughPeak(SteepnessLimit)) continue;
                 this.Peaks.Add(newp);
             }

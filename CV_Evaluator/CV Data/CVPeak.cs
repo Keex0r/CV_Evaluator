@@ -216,10 +216,10 @@ namespace CV_Evaluator
                 values.Add(data[i].Current);
             }
             var avg = values.Average();
-            return (avg / RawPeakCurrent < 0.75);
+            return (avg / RawPeakCurrent < (1-height));
 
         }
-        public void RefinePosition()
+        public void RefinePosition(double BaselineStdLimit)
         {
             if (PeakCenterIndex == -1) return;
             var index = (int)PeakCenterIndex;
@@ -236,7 +236,7 @@ namespace CV_Evaluator
 
             PeakCenterIndex = extreme.Item1;
             RawPeakCurrent = extreme.Item2;
-            AutoPickBaseline();
+            AutoPickBaseline(BaselineStdLimit);
         }
 
         private double Derivative(int index)
@@ -288,7 +288,7 @@ namespace CV_Evaluator
         }
 
         
-        private void AutoPickBaseline()
+        private void AutoPickBaseline(double BaselineStdLimit)
         {
             //Start at steepest rise, go back
             //Find 6? points with standard deviation <5e-9
@@ -317,7 +317,7 @@ namespace CV_Evaluator
                     lastd = thisd;
                 }
                 deriv = Tools.stdev(values);
-                if (isZeroCross || deriv <= 5e-9) OK = true;
+                if (isZeroCross || deriv <= BaselineStdLimit) OK = true;
             } while (!OK && start > (int)SteepestRiseIndex - 30);
             if(OK)
             {

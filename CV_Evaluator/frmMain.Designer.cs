@@ -79,6 +79,8 @@
             this.tsbSplitCycles = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.peakPickingSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -92,6 +94,11 @@
             this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tsbRepeatPickPeaks = new System.Windows.Forms.ToolStripDropDownButton();
+            this.thisCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thisCVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allCVsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -109,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -117,7 +125,8 @@
             this.fileToolStripMenuItem1,
             this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.windowsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(837, 24);
@@ -147,7 +156,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -157,14 +166,14 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -172,20 +181,20 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -193,7 +202,7 @@
             this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.printToolStripMenuItem.Text = "&Print";
             // 
             // printPreviewToolStripMenuItem
@@ -201,18 +210,18 @@
             this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
             this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -356,7 +365,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(837, 526);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(837, 501);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -367,6 +376,7 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
             // splitContainer1
             // 
@@ -381,7 +391,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.jwGraph1);
-            this.splitContainer1.Size = new System.Drawing.Size(837, 526);
+            this.splitContainer1.Size = new System.Drawing.Size(837, 501);
             this.splitContainer1.SplitterDistance = 279;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -399,7 +409,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(279, 526);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(279, 501);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dgvCycles
@@ -413,10 +423,10 @@
             this.numberDataGridViewTextBoxColumn});
             this.dgvCycles.DataSource = this.cycleBindingSource;
             this.dgvCycles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCycles.Location = new System.Drawing.Point(3, 178);
+            this.dgvCycles.Location = new System.Drawing.Point(3, 170);
             this.dgvCycles.Name = "dgvCycles";
             this.dgvCycles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCycles.Size = new System.Drawing.Size(273, 169);
+            this.dgvCycles.Size = new System.Drawing.Size(273, 161);
             this.dgvCycles.TabIndex = 0;
             // 
             // dgvCVs
@@ -435,7 +445,7 @@
             this.dgvCVs.Location = new System.Drawing.Point(3, 3);
             this.dgvCVs.Name = "dgvCVs";
             this.dgvCVs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCVs.Size = new System.Drawing.Size(273, 169);
+            this.dgvCVs.Size = new System.Drawing.Size(273, 161);
             this.dgvCVs.TabIndex = 0;
             // 
             // ScanRate
@@ -458,10 +468,10 @@
             this.processDataGridViewTextBoxColumn});
             this.dgvPeaks.DataSource = this.cVPeakBindingSource;
             this.dgvPeaks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPeaks.Location = new System.Drawing.Point(3, 353);
+            this.dgvPeaks.Location = new System.Drawing.Point(3, 337);
             this.dgvPeaks.Name = "dgvPeaks";
             this.dgvPeaks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPeaks.Size = new System.Drawing.Size(273, 170);
+            this.dgvPeaks.Size = new System.Drawing.Size(273, 161);
             this.dgvPeaks.TabIndex = 1;
             // 
             // jwGraph1
@@ -498,7 +508,7 @@
             this.jwGraph1.Name = "jwGraph1";
             this.jwGraph1.RightMouseFunctionalityEnabled = true;
             this.jwGraph1.ScaleProportional = false;
-            this.jwGraph1.Size = new System.Drawing.Size(554, 526);
+            this.jwGraph1.Size = new System.Drawing.Size(554, 501);
             this.jwGraph1.TabIndex = 0;
             this.jwGraph1.Text = "jwGraph1";
             this.jwGraph1.TopLeftColor = System.Drawing.Color.White;
@@ -512,10 +522,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
+            this.tsbSplitCycles,
             this.toolStripButton4,
             this.toolStripDropDownButton1,
-            this.toolStripButton5,
-            this.tsbSplitCycles});
+            this.toolStripButton5});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(707, 25);
@@ -613,6 +623,21 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // windowsToolStripMenuItem
+            // 
+            this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.peakPickingSetupToolStripMenuItem});
+            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
+            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.windowsToolStripMenuItem.Text = "Windows";
+            // 
+            // peakPickingSetupToolStripMenuItem
+            // 
+            this.peakPickingSetupToolStripMenuItem.Name = "peakPickingSetupToolStripMenuItem";
+            this.peakPickingSetupToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.peakPickingSetupToolStripMenuItem.Text = "Peak Picking Setup";
+            this.peakPickingSetupToolStripMenuItem.Click += new System.EventHandler(this.peakPickingSetupToolStripMenuItem_Click);
+            // 
             // scanrateDataGridViewTextBoxColumn
             // 
             this.scanrateDataGridViewTextBoxColumn.DataPropertyName = "Scanrate";
@@ -693,6 +718,50 @@
             // 
             this.cVPeakBindingSource.DataSource = typeof(CV_Evaluator.CVPeak);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbRepeatPickPeaks});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 25);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(157, 25);
+            this.toolStrip2.TabIndex = 1;
+            // 
+            // tsbRepeatPickPeaks
+            // 
+            this.tsbRepeatPickPeaks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbRepeatPickPeaks.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thisCycleToolStripMenuItem,
+            this.thisCVToolStripMenuItem,
+            this.allCVsToolStripMenuItem});
+            this.tsbRepeatPickPeaks.Image = ((System.Drawing.Image)(resources.GetObject("tsbRepeatPickPeaks.Image")));
+            this.tsbRepeatPickPeaks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRepeatPickPeaks.Name = "tsbRepeatPickPeaks";
+            this.tsbRepeatPickPeaks.Size = new System.Drawing.Size(114, 22);
+            this.tsbRepeatPickPeaks.Text = "Repeat Pick Peaks";
+            // 
+            // thisCycleToolStripMenuItem
+            // 
+            this.thisCycleToolStripMenuItem.Name = "thisCycleToolStripMenuItem";
+            this.thisCycleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.thisCycleToolStripMenuItem.Text = "This Cycle";
+            this.thisCycleToolStripMenuItem.Click += new System.EventHandler(this.thisCycleToolStripMenuItem_Click);
+            // 
+            // thisCVToolStripMenuItem
+            // 
+            this.thisCVToolStripMenuItem.Name = "thisCVToolStripMenuItem";
+            this.thisCVToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.thisCVToolStripMenuItem.Text = "This CV";
+            this.thisCVToolStripMenuItem.Click += new System.EventHandler(this.thisCVToolStripMenuItem_Click);
+            // 
+            // allCVsToolStripMenuItem
+            // 
+            this.allCVsToolStripMenuItem.Name = "allCVsToolStripMenuItem";
+            this.allCVsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.allCVsToolStripMenuItem.Text = "All CVs";
+            this.allCVsToolStripMenuItem.Click += new System.EventHandler(this.allCVsToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -727,6 +796,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -796,6 +867,13 @@
         private System.Windows.Forms.ToolStripButton tsbSplitCycles;
         private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem peakPickingSetupToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripDropDownButton tsbRepeatPickPeaks;
+        private System.Windows.Forms.ToolStripMenuItem thisCycleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem thisCVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allCVsToolStripMenuItem;
     }
 }
 

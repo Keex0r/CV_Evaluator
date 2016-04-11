@@ -14,12 +14,16 @@ namespace CV_Evaluator
 {
     public partial class frmMain : Form
     {
+        private PeakPicking.frmPeakPickingSetup frmPeakPicking;
         private BindingList<CV> CVs;
         public frmMain()
         {
             InitializeComponent();
             CVs = new BindingList<CV>();
             cVBindingSource.DataSource = CVs;
+            frmPeakPicking = new PeakPicking.frmPeakPickingSetup();
+            frmPeakPicking.Owner = this;
+            frmPeakPicking.Show();
         }
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
@@ -48,6 +52,7 @@ namespace CV_Evaluator
                 MessageBox.Show("Invalid/Incomplete Data!");
                 return;
             }
+            PickPeaksCV(newcv);
             CVs.Add(newcv);
         }
 
@@ -77,6 +82,8 @@ namespace CV_Evaluator
         }
         private void RefreshCurrentCycle(object sender, EventArgs e)
         {
+            jwGraph1.Series.Clear();
+            if (cycleBindingSource.Current == null) return;
             PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
         }
 
@@ -105,7 +112,9 @@ namespace CV_Evaluator
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            CVs.Add(CV.FromText(CV_Evaluator.Properties.Resources.CV, "\t"));
+            CV cv = CV.FromText(CV_Evaluator.Properties.Resources.CV, "\t");
+            PickPeaksCV(cv);
+            CVs.Add(cv);
         }
 
         private int pointselect = -1;
@@ -308,6 +317,62 @@ namespace CV_Evaluator
             }
             cycleBindingSource.DataSource = ((CV)cVBindingSource.Current).bdsCycles;
 
+        }
+
+        private void peakPickingSetupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (frmPeakPicking == null || frmPeakPicking.IsDisposed) frmPeakPicking = new PeakPicking.frmPeakPickingSetup();
+            frmPeakPicking.Owner = this;
+            frmPeakPicking.Show();
+        }
+        private void RefreshAll()
+        {
+            cVBindingSource.ResetBindings(true);
+            cycleBindingSource.ResetBindings(true);
+            cVPeakBindingSource.ResetBindings(true);
+            if(!(cycleBindingSource.Current==null))
+            {
+                PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
+            }
+        }
+        private void thisCycleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cycleBindingSource.Current == null) return;
+            if (frmPeakPicking == null) return;
+            var cyc = (Cycle)cycleBindingSource.Current;
+            PickPeaksCycle(cyc);
+            RefreshAll();
+        }
+
+        private void thisCVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cVBindingSource.Current == null) return;
+            if (frmPeakPicking == null) return;
+            var cv = (CV)cVBindingSource.Current;
+            PickPeaksCV(cv);
+            RefreshAll();
+        }
+        private void PickPeaksCycle(Cycle cyc)
+        {
+            if (frmPeakPicking == null) return;
+            var sets = frmPeakPicking.GetSettings();
+            cyc.PickPeaks(sets.Window, sets.MinHeight, sets.SteepnessLimit,sets.BaselineStdDevLimit);
+
+        }
+        private void PickPeaksCV(CV cv)
+        {
+            foreach(var cyc in cv.Cycles)
+            {
+                PickPeaksCycle(cyc);
+            }
+        }
+        private void allCVsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (var cv in CVs)
+            {
+                PickPeaksCV(cv);
+            }
+            RefreshAll();
         }
     }
 }
