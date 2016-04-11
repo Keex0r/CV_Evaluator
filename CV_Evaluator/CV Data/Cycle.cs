@@ -111,6 +111,44 @@ namespace CV_Evaluator
             }
             return res;
         }
+        private double Derivative(int index, Func<Datapoint, double> XSelector, Func<Datapoint, double> YSelector)
+        {
+            var p = Datapoints;
+            Datapoint d1, d2;
+            if (index > 0 && index < p.Count - 1)
+            {
+                // Forward/backward derivative
+                d1 = p[index + 1];
+                d2 = p[index - 1];
+            }
+            else if (index > 0)
+            {
+                //Forward
+                d1 = p[index];
+                d2 = p[index-1];
+            }
+            else
+            {
+                //Backward
+                d1 = p[index+1];
+                d2 = p[index];
+            }
+            double x1, x2, y1, y2;
+            x1 = XSelector(d1);
+            x2 = XSelector(d2);
+            y1 = YSelector(d1);
+            y2 = YSelector(d2);
+            return (y2 - y1) / (x2 - x1);
+        }
+        public double DerivativeTime(int index)
+        {
+            return Derivative(index, x => x.Time, x => x.Current);
+        }
+        public double DerivativeVoltage(int index)
+        {
+            return Derivative(index, x => x.Volt, x => x.Current);
+        }
+
         #endregion
 
         #region "INotifyPropertyChanged"

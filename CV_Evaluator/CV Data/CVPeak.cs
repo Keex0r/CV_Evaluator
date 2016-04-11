@@ -239,27 +239,9 @@ namespace CV_Evaluator
             AutoPickBaseline(BaselineStdLimit);
         }
 
-        private double Derivative(int index)
-        {
-            var p = this.Parent.Datapoints;
-            if (index>0 && index < p.Count-1)
-            {
-                // Forward/backward derivative
-                return (p[index + 1].Current - p[index - 1].Current) / (p[index + 1].Time - p[index - 1].Time);
-            } else if (index > 0)
-            {
-                //Forward
-                return (p[index + 1].Current - p[index].Current) / (p[index + 1].Time - p[index].Time);
-            } else
-            {
-                //Backward
-                return (p[index].Current - p[index - 1].Current) / (p[index].Time - p[index - 1].Time);
-            }
-        }
-
+        
         private void PickSteepestRise()
         {
-            var data = this.Parent.Datapoints;
             int start = (int)PeakCenterIndex;
             //int dif = Math.Sign(data[1].Volt-data[0].Volt);
             //Iteriere in Richtung -dif bis die nächste und übernächste Ableitung kleiner ist als die aktuelle
@@ -269,18 +251,18 @@ namespace CV_Evaluator
             do
             {
                 start--;
-                thisdiv = Math.Abs(Derivative(start));
-                nextdiv = Math.Abs(Derivative(start - 1));
-                nextnextdiv = Math.Abs(Derivative(start - 2));
+                thisdiv = Math.Abs(Parent.DerivativeTime(start));
+                nextdiv = Math.Abs(Parent.DerivativeTime(start - 1));
+                nextnextdiv = Math.Abs(Parent.DerivativeTime(start - 2));
             } while (start > 2 && thisdiv < nextdiv);// || thisdiv < nextnextdiv);
             if (start <= 2) return;
             var p = start;
             var x1 = Parent.Datapoints[p].Time;
-            var y1 = Derivative(p);
+            var y1 = Parent.DerivativeTime(p);
             var x2 = Parent.Datapoints[p - 1].Time;
-            var y2 = Derivative(p - 1);
+            var y2 = Parent.DerivativeTime(p - 1);
             var x3 = Parent.Datapoints[p + 1].Time;
-            var y3 = Derivative(p + 1);
+            var y3 = Parent.DerivativeTime(p + 1);
             var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
             var extreme = Fitting.LinearRegression.Get2ndOrderPolyExtreme(poly[0], poly[1], poly[2]);
 
@@ -306,7 +288,7 @@ namespace CV_Evaluator
                 double lastd = 0;
                 for (int i = 0; i < window; i++)
                 {
-                    var thisd = Derivative(start - i);
+                    var thisd = Parent.DerivativeTime(start - i);
                     if(i>0 && Math.Sign(lastd) != Math.Sign(thisd))
                     {
                         isZeroCross = true;

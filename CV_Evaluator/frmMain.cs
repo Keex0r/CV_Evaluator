@@ -24,16 +24,20 @@ namespace CV_Evaluator
             frmPeakPicking = new PeakPicking.frmPeakPickingSetup();
             frmPeakPicking.Owner = this;
             frmPeakPicking.Show();
+            jwGraph1.XAxis.Title = "E / V";
+            jwGraph1.Y1Axis.Title = "I / A";
         }
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
         {
             graph.Series.Clear();
-                var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
-                foreach (var d in cv.Datapoints)
+            var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
+            int count = 0;
+               foreach (var d in cv.Datapoints)
                 {
-                    ser.AddXY(d.Volt, d.Current);
-                }
+                ser.AddXY(d.Volt, d.Current);
+                count++;
+            }
             graph.Tag = cv;
 
         }
