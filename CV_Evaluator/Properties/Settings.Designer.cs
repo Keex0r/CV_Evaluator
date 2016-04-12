@@ -34,5 +34,17 @@ namespace CV_Evaluator.Properties {
                 this["RandlesSevSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ImportSettings {
+            get {
+                return ((string)(this["ImportSettings"]));
+            }
+            set {
+                this["ImportSettings"] = value;
+            }
+        }
     }
 }

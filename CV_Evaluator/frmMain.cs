@@ -378,5 +378,10 @@ namespace CV_Evaluator
             }
             RefreshAll();
         }
+
+        private void importSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

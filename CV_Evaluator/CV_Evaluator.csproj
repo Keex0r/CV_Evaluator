@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsLinearRegression.cs" />
+    <Compile Include="clsRuntimeData.cs" />
     <Compile Include="CV Data\CV.cs" />
     <Compile Include="CV Data\CVPeak.cs" />
     <Compile Include="CV Data\CVPeakConnection.cs" />
@@ -64,6 +65,13 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Import Settings\frmImportSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import Settings\frmImportSettings.Designer.cs">
+      <DependentUpon>frmImportSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import Settings\ImportSettings.cs" />
     <Compile Include="PeakPicking\frmPeakPickingSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +99,9 @@
     <Compile Include="Tools.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import Settings\frmImportSettings.resx">
+      <DependentUpon>frmImportSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PeakPicking\frmPeakPickingSetup.resx">
       <DependentUpon>frmPeakPickingSetup.cs</DependentUpon>
