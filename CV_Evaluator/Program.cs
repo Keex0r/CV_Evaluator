@@ -8,6 +8,7 @@ namespace CV_Evaluator
 {
     static class Program
     {
+        public static clsRuntimeData RuntimeData;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,6 +17,7 @@ namespace CV_Evaluator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            RuntimeData = new clsRuntimeData();
             Application.Run(new frmMain());
         }
     }

@@ -28,7 +28,11 @@ namespace CV_Evaluator.Import_Settings
             }
             pgSettings.SelectedObject = Settings;
         }
-
+        public void SetSetting(ImportSettings settings)
+        {
+            this.Settings = settings;
+            pgSettings.SelectedObject = settings;
+        }
         private void btnOK_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ImportSettings = Settings.GetXML();
@@ -39,9 +43,14 @@ namespace CV_Evaluator.Import_Settings
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Settings.GetXML());
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void btnDefault_Click(object sender, EventArgs e)
+        {
+            Settings = new ImportSettings();
+            pgSettings.SelectedObject = Settings;
         }
     }
 }

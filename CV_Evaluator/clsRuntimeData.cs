@@ -22,5 +22,6 @@ namespace CV_Evaluator
             }
         }
         public Import_Settings.ImportSettings ImportSettings;
+        
     }
 }

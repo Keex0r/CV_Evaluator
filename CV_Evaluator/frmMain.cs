@@ -50,14 +50,18 @@ namespace CV_Evaluator
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             if (!Clipboard.ContainsText()) return;
-            var newcv = CV.FromText(Clipboard.GetText(), "\t");
-            if(newcv== null)
+            var newcvs = CV.FromText(Clipboard.GetText(), Program.RuntimeData.ImportSettings);
+            if(newcvs== null ||newcvs.Count==0)
             {
                 MessageBox.Show("Invalid/Incomplete Data!");
                 return;
             }
-            PickPeaksCV(newcv);
-            CVs.Add(newcv);
+            foreach(CV cv in newcvs)
+            {
+                PickPeaksCV(cv);
+                CVs.Add(cv);
+            }
+            
         }
 
         private void cVBindingSource_CurrentChanged(object sender, EventArgs e)
@@ -116,9 +120,13 @@ namespace CV_Evaluator
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            CV cv = CV.FromText(CV_Evaluator.Properties.Resources.CV, "\t");
-            PickPeaksCV(cv);
-            CVs.Add(cv);
+            var cvs = CV.FromText(CV_Evaluator.Properties.Resources.CV, Program.RuntimeData.ImportSettings);
+            foreach(CV cv in cvs)
+            {
+                PickPeaksCV(cv);
+                CVs.Add(cv);
+            }
+            
         }
 
         private int pointselect = -1;
@@ -381,7 +389,15 @@ namespace CV_Evaluator
 
         private void importSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (var frm = new Import_Settings.frmImportSettings())
+            {
+                frm.SetSetting(Program.RuntimeData.ImportSettings);
+                if(frm.ShowDialog(this)==DialogResult.OK)
+                {
+                    Program.RuntimeData.ImportSettings = frm.Settings;
+                }
 
+            }
         }
     }
 }

@@ -39,7 +39,6 @@ namespace CV_Evaluator.RandlesSevchik
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Settings.GetXML());
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }

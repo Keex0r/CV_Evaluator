@@ -61,22 +61,36 @@ namespace CV_Evaluator
         }
 
 
-        public static CV FromText(string input, string delimiter)
+        public static List<CV> FromText(string input, Import_Settings.ImportSettings settings)
         {
-            var e = new List<double>();
-            var i = new List<double>();
+            var start = 0;
+            var rx = settings.GetDelimiterRegex();
+            int ie = settings.VoltColumn;
+            int ii = settings.CurrentColumn;
+            int it = settings.TimeColumn;
+            int maxcols = 0;
+            List<CV> res = new List<CV>();
             var lines = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach(string line in lines)
+            do
             {
-                var parts = line.Split(new string[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Count() < 2) continue;
-                double thise, thisi;
-                if (!Double.TryParse(parts[0], out thise) || !double.TryParse(parts[1], out thisi)) continue;
-                e.Add(thise);
-                i.Add(thisi);
-            }
-            return FromData(e, i, true);
-
+                var e = new List<double>();
+                var i = new List<double>();
+                var t = new List<double>();
+                 foreach (string line in lines)
+                {
+                    var parts = rx.Split(line); //line.Split(new string[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Count() < settings.ColumnsPerCV+start) continue;
+                    maxcols = Math.Max(maxcols, parts.Count());
+                    double thise, thisi;
+                    if (!Double.TryParse(parts[start+ie-1], out thise) || !double.TryParse(parts[start+ii-1], out thisi)) continue;
+                    e.Add(thise);
+                    i.Add(thisi);
+                }
+                var cv = FromData(e, i, true);
+                res.Add(cv);
+                start += settings.ColumnsPerCV;
+            } while (maxcols > start+settings.ColumnsPerCV);
+            return res;
         }
 
         public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, bool ByStartCrossing)
