@@ -23,6 +23,7 @@ namespace CV_Evaluator
             CVs = new BindingList<CV>();
             cVBindingSource.DataSource = CVs;
             frmPeakPicking = new PeakPicking.frmPeakPickingSetup();
+            frmPeakPicking.LoadSettings();
             frmPeakPicking.Owner = this;
             frmPeakPicking.Show();
             jwGraph1.XAxis.Title = "E / V";

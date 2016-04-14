@@ -124,6 +124,7 @@
             this.numMinHeight.ValidBackColor = System.Drawing.Color.White;
             this.numMinHeight.ValidForeColor = System.Drawing.Color.Green;
             this.numMinHeight.Value = 0.2D;
+            this.numMinHeight.TextChanged += new System.EventHandler(this.numMinHeight_TextChanged);
             // 
             // label2
             // 

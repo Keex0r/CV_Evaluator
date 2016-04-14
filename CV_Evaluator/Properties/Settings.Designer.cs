@@ -46,5 +46,17 @@ namespace CV_Evaluator.Properties {
                 this["ImportSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PeakPickSettings {
+            get {
+                return ((string)(this["PeakPickSettings"]));
+            }
+            set {
+                this["PeakPickSettings"] = value;
+            }
+        }
     }
 }

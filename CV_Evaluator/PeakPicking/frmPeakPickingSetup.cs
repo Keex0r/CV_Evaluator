@@ -15,6 +15,9 @@ namespace CV_Evaluator.PeakPicking
         public frmPeakPickingSetup()
         {
             InitializeComponent();
+            numStdLimit.TextChanged += numMinHeight_TextChanged;
+            numSteepness.TextChanged += numMinHeight_TextChanged;
+            numWindow.TextChanged += numMinHeight_TextChanged;
         }
         
         public PeakPickSettings GetSettings()
@@ -40,6 +43,27 @@ namespace CV_Evaluator.PeakPicking
             {
                 e.Cancel = true;
                 this.Hide();
+            }
+        }
+        public void LoadSettings()
+        {
+            if(!string.IsNullOrEmpty(CV_Evaluator.Properties.Settings.Default.PeakPickSettings))
+            {
+                var newsets = PeakPickSettings.FromXML(CV_Evaluator.Properties.Settings.Default.PeakPickSettings);
+                SetSettings(newsets);
+            }
+        }
+        public void SaveSettings()
+        {
+            CV_Evaluator.Properties.Settings.Default.PeakPickSettings = GetSettings().GetXML();
+            CV_Evaluator.Properties.Settings.Default.Save();
+        }
+
+        private void numMinHeight_TextChanged(object sender, EventArgs e)
+        {
+            if(((jwGraph.GeneralTools.NumericInputbox)sender).IsValid)
+            {
+                SaveSettings();
             }
         }
     }
