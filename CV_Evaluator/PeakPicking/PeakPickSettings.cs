@@ -10,7 +10,7 @@ namespace CV_Evaluator.PeakPicking
     {
         public double SteepnessLimit { get; set; }
         public double MinHeight { get; set; }
-        public int Window { get; set; }
+        public double Window { get; set; }
         public double BaselineStdDevLimit { get; set; }
     }
 }

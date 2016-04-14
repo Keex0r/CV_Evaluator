@@ -293,7 +293,7 @@ namespace CV_Evaluator
                 {
                     var thisd = Parent.DerivativeTime(start - i);
                     values.Add(thisd);
-                    xvalues.Add(Parent.Datapoints[start - 1].Volt);
+                    xvalues.Add(Parent.Datapoints[start - i].Volt);
                     lastd = thisd;
                 }
                 double[] linfit = null;
@@ -309,7 +309,7 @@ namespace CV_Evaluator
                 deriv = Tools.stdev(values);
 
                 if (isZeroCross || deriv <= BaselineStdLimit) OK = true;
-            } while (start > maxpoints+1 && !OK && start > (int)SteepestRiseIndex - maxpoints);
+            } while (start > window+1 && !OK && start > (int)SteepestRiseIndex - maxpoints);
             if(OK)
             {
                 if(!isZeroCross)

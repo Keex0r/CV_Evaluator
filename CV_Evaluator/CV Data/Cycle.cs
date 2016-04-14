@@ -52,7 +52,7 @@ namespace CV_Evaluator
         #endregion
 
         #region "Interface functions"
-        public void PickPeaks(int Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit)
+        public void PickPeaks(double Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit)
         {
             double PosMinHeight = Datapoints.Select(d => d.Current).Max() * MinHeightPercent;
             double NegMinHeight = Datapoints.Select(d => d.Current).Min() * MinHeightPercent;
@@ -66,9 +66,12 @@ namespace CV_Evaluator
         }
         #endregion
         #region "Helper functions"
-        private void PickPeaksDirection(int Window, double minHeight, bool Larger, double SteepnessLimit, double BaselineStdLimit)
+        private void PickPeaksDirection(double WindowSize, double minHeight, bool Larger, double SteepnessLimit, double BaselineStdLimit)
         {
             var ReversalPoints = FindReversalPoints();
+            var de = Math.Abs(Datapoints[1].Volt - Datapoints[0].Volt);
+            var Window = (int)(WindowSize / de); //Calculate point width for window
+            if (Window < 3) Window = 3;
             if (Window % 2 == 0) Window += 1;
             int left = (int)((Window - 1) / 2);
             List<int> Peaks = new List<int>();
@@ -127,11 +130,14 @@ namespace CV_Evaluator
                 d1 = p[index];
                 d2 = p[index-1];
             }
-            else
+            else if (index<p.Count-1)
             {
                 //Backward
                 d1 = p[index+1];
                 d2 = p[index];
+            } else
+            {
+                return 0.0;
             }
             double x1, x2, y1, y2;
             x1 = XSelector(d1);

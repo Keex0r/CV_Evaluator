@@ -71,9 +71,9 @@
             this.label3.Location = new System.Drawing.Point(3, 72);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(216, 13);
+            this.label3.Size = new System.Drawing.Size(198, 26);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Window Size (# of points for local extremum)";
+            this.label3.Text = "Window Size [V] (Ssearch width of local extremum)";
             // 
             // numSteepness
             // 
@@ -90,10 +90,10 @@
             this.numSteepness.Name = "numSteepness";
             this.numSteepness.Size = new System.Drawing.Size(56, 20);
             this.numSteepness.TabIndex = 3;
-            this.numSteepness.Text = "0.25";
+            this.numSteepness.Text = "0.1";
             this.numSteepness.ValidBackColor = System.Drawing.Color.White;
             this.numSteepness.ValidForeColor = System.Drawing.Color.Green;
-            this.numSteepness.Value = 0.25D;
+            this.numSteepness.Value = 0.1D;
             // 
             // label1
             // 
@@ -144,21 +144,21 @@
             this.numWindow.FormatString = "G";
             this.numWindow.InvalidBackColor = System.Drawing.Color.PaleVioletRed;
             this.numWindow.InvalidForeColor = System.Drawing.Color.Red;
-            this.numWindow.Location = new System.Drawing.Point(237, 65);
+            this.numWindow.Location = new System.Drawing.Point(237, 70);
             this.numWindow.Maximum = 100D;
-            this.numWindow.Minimum = 1D;
+            this.numWindow.Minimum = 0.001D;
             this.numWindow.Name = "numWindow";
             this.numWindow.Size = new System.Drawing.Size(56, 20);
             this.numWindow.TabIndex = 5;
-            this.numWindow.Text = "11";
+            this.numWindow.Text = "0.075";
             this.numWindow.ValidBackColor = System.Drawing.Color.White;
             this.numWindow.ValidForeColor = System.Drawing.Color.Green;
-            this.numWindow.Value = 11D;
+            this.numWindow.Value = 0.075D;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 98);
+            this.label4.Location = new System.Drawing.Point(3, 108);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(202, 13);
@@ -174,16 +174,16 @@
             this.numStdLimit.FormatString = "G";
             this.numStdLimit.InvalidBackColor = System.Drawing.Color.PaleVioletRed;
             this.numStdLimit.InvalidForeColor = System.Drawing.Color.Red;
-            this.numStdLimit.Location = new System.Drawing.Point(237, 91);
+            this.numStdLimit.Location = new System.Drawing.Point(237, 101);
             this.numStdLimit.Maximum = 1D;
             this.numStdLimit.Minimum = 1E-20D;
             this.numStdLimit.Name = "numStdLimit";
             this.numStdLimit.Size = new System.Drawing.Size(56, 20);
             this.numStdLimit.TabIndex = 7;
-            this.numStdLimit.Text = "5e-9";
+            this.numStdLimit.Text = "3E-09";
             this.numStdLimit.ValidBackColor = System.Drawing.Color.White;
             this.numStdLimit.ValidForeColor = System.Drawing.Color.Green;
-            this.numStdLimit.Value = 5E-09D;
+            this.numStdLimit.Value = 3E-09D;
             // 
             // frmPeakPickingSetup
             // 

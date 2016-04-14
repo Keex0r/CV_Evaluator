@@ -20,7 +20,7 @@ namespace CV_Evaluator.PeakPicking
         public PeakPickSettings GetSettings()
         {
             var settings = new PeakPickSettings();
-            settings.Window = (int)numWindow.Value;
+            settings.Window = numWindow.Value;
             settings.SteepnessLimit = numSteepness.Value;
             settings.MinHeight = numMinHeight.Value;
             settings.BaselineStdDevLimit = numStdLimit.Value;
