@@ -87,7 +87,7 @@ namespace CV_Evaluator
                     i.Add(thisi);
                 }
                 var cv = FromData(e, i, true);
-                res.Add(cv);
+                if (cv != null) res.Add(cv);
                 start += settings.ColumnsPerCV;
             } while (maxcols > start+settings.ColumnsPerCV);
             return res;

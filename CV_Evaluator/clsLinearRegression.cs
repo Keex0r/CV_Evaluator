@@ -43,12 +43,19 @@ using System.Linq;
                 return 1 - ess / variance;
             }
 
-            /// <summary>
-            /// Result will contain Slope as Result(0) and Intercept as Result(1)
-            /// </summary>
-            /// <param name="data">{X,Y}</param>
-            /// <param name="ResultParams">{Slope, Intercept}</param>
-            public static void GetRegression(double[][] data, ref double[] ResultParams)
+
+        public static void GetRegression(IEnumerable<double> xValues,IEnumerable<double> yValues, ref double[] ResultParams)
+        {
+            double[][] vals = { xValues.ToArray(), yValues.ToArray() };
+            GetRegression(vals, ref ResultParams);
+        }
+             
+        /// <summary>
+        /// Result will contain Slope as Result(0) and Intercept as Result(1)
+        /// </summary>
+        /// <param name="data">{X,Y}</param>
+        /// <param name="ResultParams">{Slope, Intercept}</param>
+        public static void GetRegression(double[][] data, ref double[] ResultParams)
             {
                 Tuple<double, double> means = getmeanxy(data);
                 double zaehler = 0;

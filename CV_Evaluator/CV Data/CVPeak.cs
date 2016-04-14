@@ -277,30 +277,39 @@ namespace CV_Evaluator
             //Set Baseline to these extremes
             //When a zero crossing accurs, use this point (and adjecent) for the baseline
             int start = (int)SteepestRiseIndex;
+            var de = Math.Abs(Parent.Datapoints[1].Volt - Parent.Datapoints[0].Volt);
+            var maxpoints = (int)(0.75 / de); //Maximum of 0.5V search window for baseline
             double deriv;
             bool OK = false;
             bool isZeroCross = false;
-            int window = 5;
+            int window = (int)(0.15/de); //20 mV window
             do
             {
                 start--;
                 List<double> values = new List<double>();
+                List<double> xvalues = new List<double>();
                 double lastd = 0;
                 for (int i = 0; i < window; i++)
                 {
                     var thisd = Parent.DerivativeTime(start - i);
-                    if(i>0 && Math.Sign(lastd) != Math.Sign(thisd))
-                    {
-                        isZeroCross = true;
-                        start = start - i;
-                        break;
-                    }
                     values.Add(thisd);
+                    xvalues.Add(Parent.Datapoints[start - 1].Volt);
                     lastd = thisd;
                 }
+                double[] linfit = null;
+                Fitting.LinearRegression.GetRegression(xvalues, values, ref linfit);
+                var root = -linfit[1] / linfit[0];
+                if (root <= start && root >= start - window)
+                {
+                    isZeroCross = true;
+                    start = (int)root;
+                    break;
+                }
+
                 deriv = Tools.stdev(values);
+
                 if (isZeroCross || deriv <= BaselineStdLimit) OK = true;
-            } while (!OK && start > (int)SteepestRiseIndex - 30);
+            } while (start > maxpoints+1 && !OK && start > (int)SteepestRiseIndex - maxpoints);
             if(OK)
             {
                 if(!isZeroCross)
