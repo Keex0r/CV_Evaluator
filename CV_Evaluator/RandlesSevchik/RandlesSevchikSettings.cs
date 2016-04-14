@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.ComponentModel;
 
 namespace CV_Evaluator.RandlesSevchik
 {
-   public class RandlesSevchikSettings
+    public class RandlesSevchikSettings : SerializableSettings<RandlesSevchikSettings>
     {
         public RandlesSevchikSettings()
         {
@@ -70,75 +63,53 @@ namespace CV_Evaluator.RandlesSevchik
 
         public double GetScanRate(double Scanrate)
         {
-            if(ScanrateUnit == enScanrateUnit.Vs)
+            if (ScanrateUnit == enScanrateUnit.Vs)
             {
                 return Scanrate;
-            } else
+            }
+            else
             {
                 return Scanrate / 1000;
             }
         }
         public double GetArea()
         {
-            if(ElectrodeAreaUnit== enAreaUnit.m2)
+            if (ElectrodeAreaUnit == enAreaUnit.m2)
             {
                 return ElectrodeArea;
-            } else if (ElectrodeAreaUnit == enAreaUnit.cm2)
+            }
+            else if (ElectrodeAreaUnit == enAreaUnit.cm2)
             {
                 return ElectrodeArea / 10000;
-            } else
+            }
+            else
             {
                 return ElectrodeArea / 1e6;
             }
         }
         public double GetConcentration()
         {
-            if (ConcentrationUnit ==  enConcentrationUnit.molm3)
+            if (ConcentrationUnit == enConcentrationUnit.molm3)
             {
                 return Concentration;
             }
             else
             {
-                return Concentration*1000;
+                return Concentration * 1000;
             }
         }
         public double GetTemperature()
         {
-            if (TemperatureUnit ==  enTemperatureUnit.K)
+            if (TemperatureUnit == enTemperatureUnit.K)
             {
                 return Temperature;
             }
             else
             {
-                return Temperature+273.15;
+                return Temperature + 273.15;
             }
-        }
 
-        public string GetXML()
-        {
-            var ser = new System.Xml.Serialization.XmlSerializer(typeof(RandlesSevchikSettings));
-            using (StringWriter sw = new StringWriter())
-            {
-                ser.Serialize(sw, this);
-                return sw.ToString(); 
-            }
-        }
-        public static RandlesSevchikSettings FromXML(string xml)
-        {
-            var ser = new System.Xml.Serialization.XmlSerializer(typeof(RandlesSevchikSettings));
-            using (StringReader sr = new StringReader(xml))
-            {
-                try
-                {
-                    var set = ser.Deserialize(sr);
-                    return (RandlesSevchikSettings)set;
-                } catch
-                {
-                    return null;
-                }
-               
 
-            }
         }
     }
 }

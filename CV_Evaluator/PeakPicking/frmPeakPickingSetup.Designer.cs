@@ -180,10 +180,10 @@
             this.numStdLimit.Name = "numStdLimit";
             this.numStdLimit.Size = new System.Drawing.Size(56, 20);
             this.numStdLimit.TabIndex = 7;
-            this.numStdLimit.Text = "3E-09";
+            this.numStdLimit.Text = "5E-09";
             this.numStdLimit.ValidBackColor = System.Drawing.Color.White;
             this.numStdLimit.ValidForeColor = System.Drawing.Color.Green;
-            this.numStdLimit.Value = 3E-09D;
+            this.numStdLimit.Value = 5E-09D;
             // 
             // frmPeakPickingSetup
             // 

@@ -96,6 +96,7 @@
     <Compile Include="CV Data\Datapoint.cs" />
     <Compile Include="RandlesSevchik\RandlesSevchikResults.cs" />
     <Compile Include="RandlesSevchik\RandlesSevchikSettings.cs" />
+    <Compile Include="SerializableSettings.cs" />
     <Compile Include="Tools.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

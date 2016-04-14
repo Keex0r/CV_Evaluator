@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,6 +27,30 @@ namespace CV_Evaluator
             frmPeakPicking.Show();
             jwGraph1.XAxis.Title = "E / V";
             jwGraph1.Y1Axis.Title = "I / A";
+            foreach(Control c in this.Controls)
+            {
+                if (c.GetType() == typeof(DataGridView) || c.GetType() == typeof(jwGraph.jwGraph.jwGraph))
+                {
+                    c.DragEnter += dgvCVs_DragEnter;
+                    c.DragDrop += dgvCVs_DragDrop;
+                    c.AllowDrop = true;
+                }
+                AddHandlers(c.Controls);
+            }
+            
+        }
+        private void AddHandlers(System.Windows.Forms.Control.ControlCollection controls)
+        {
+            foreach(Control c in controls)
+            {
+                if(c.GetType()==typeof(DataGridView) || c.GetType() == typeof(jwGraph.jwGraph.jwGraph))
+                {
+                    c.DragEnter += dgvCVs_DragEnter;
+                    c.DragDrop += dgvCVs_DragDrop;
+                    c.AllowDrop = true;
+                }
+                AddHandlers(c.Controls);
+            }
         }
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
@@ -116,6 +141,36 @@ namespace CV_Evaluator
             if (graph.Tag == null) return;
             Cycle cv = (Cycle)graph.Tag;
             PaintPeaks(cv, e.Graphics, graph);
+        }
+        private void ReadFile(string File)
+        {
+            try
+            {
+                var cvs = CV.FromText(System.IO.File.ReadAllText(File), Program.RuntimeData.ImportSettings);
+                foreach (CV cv in cvs)
+                {
+                    cv.Datasource = File;
+                    var rx = new Regex("(?:([0-9]+)(mVs)|([0-9]+)(Vs))", RegexOptions.IgnoreCase);
+                    if(rx.IsMatch(File))
+                    {
+                        var m = rx.Match(File);
+                        double fac = 1.0;
+                        if (m.Groups[2].Value.ToLower() == "mvs") fac = 1e-3;
+                        double scanrate = 0;
+                        if(jwGraph.GeneralTools.modGeneralTools.TryGetNumericValue(m.Groups[1].Value,ref scanrate))
+                        {
+                            scanrate *= fac;
+                            cv.ScanRate = scanrate;
+                        }
+                    }
+                    PickPeaksCV(cv);
+                    CVs.Add(cv);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not load file! " + ex.Message);
+            }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -397,6 +452,23 @@ namespace CV_Evaluator
                     Program.RuntimeData.ImportSettings = frm.Settings;
                 }
 
+            }
+        }
+
+        private void dgvCVs_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.All;
+        }
+
+        private void dgvCVs_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (var f in files)
+                {
+                    ReadFile(f);
+                }
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CV_Evaluator.PeakPicking
 {
-    public class PeakPickSettings
+    public class PeakPickSettings : SerializableSettings<PeakPickSettings>
     {
         public double SteepnessLimit { get; set; }
         public double MinHeight { get; set; }
