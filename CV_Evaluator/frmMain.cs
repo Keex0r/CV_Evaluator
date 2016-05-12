@@ -145,8 +145,8 @@ namespace CV_Evaluator
         }
         private void ReadFile(string File)
         {
-            try
-            {
+            //try
+            //{
                 var cvs = CV.FromText(System.IO.File.ReadAllText(File), Program.RuntimeData.ImportSettings);
                 foreach (CV cv in cvs)
                 {
@@ -167,11 +167,11 @@ namespace CV_Evaluator
                     PickPeaksCV(cv);
                     CVs.Add(cv);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Could not load file! " + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Could not load file! " + ex.Message);
+            //}
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)

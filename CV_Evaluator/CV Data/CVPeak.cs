@@ -210,6 +210,7 @@ namespace CV_Evaluator
         {
             var data = Parent.Datapoints;
             var index = (int)PeakCenterIndex;
+            if (index < 7 || index > data.Count() - 8) return false;
             List<double> values = new List<double>();
             for (int i = index - 7; i <= index + 7; i++)
             {
@@ -224,11 +225,11 @@ namespace CV_Evaluator
             if (PeakCenterIndex == -1) return;
             var index = (int)PeakCenterIndex;
             var data = Parent.Datapoints;
-            var x1 = data[index].Time;
+            var x1 = data[index].Index;
             var y1 = data[index].Current;
-            var x2 = data[index - 1].Time;
+            var x2 = data[index - 1].Index;
             var y2 = data[index - 1].Current;
-            var x3 = data[index + 1].Time;
+            var x3 = data[index + 1].Index;
             var y3 = data[index + 1].Current;
             var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
             //Since Time=Index, the extreme value is always directly the index
@@ -251,18 +252,18 @@ namespace CV_Evaluator
             do
             {
                 start--;
-                thisdiv = Math.Abs(Parent.DerivativeTime(start));
-                nextdiv = Math.Abs(Parent.DerivativeTime(start - 1));
-                nextnextdiv = Math.Abs(Parent.DerivativeTime(start - 2));
+                thisdiv = Math.Abs(Parent.DerivativeIndex(start));
+                nextdiv = Math.Abs(Parent.DerivativeIndex(start - 1));
+                nextnextdiv = Math.Abs(Parent.DerivativeIndex(start - 2));
             } while (start > 2 && thisdiv < nextdiv);// || thisdiv < nextnextdiv);
-            if (start <= 2) return;
+            if (start <= 2 || start >= Parent.Datapoints.Count-2) return;
             var p = start;
-            var x1 = Parent.Datapoints[p].Time;
-            var y1 = Parent.DerivativeTime(p);
-            var x2 = Parent.Datapoints[p - 1].Time;
-            var y2 = Parent.DerivativeTime(p - 1);
-            var x3 = Parent.Datapoints[p + 1].Time;
-            var y3 = Parent.DerivativeTime(p + 1);
+            var x1 = Parent.Datapoints[p].Index;
+            var y1 = Parent.DerivativeIndex(p);
+            var x2 = Parent.Datapoints[p - 1].Index;
+            var y2 = Parent.DerivativeIndex(p - 1);
+            var x3 = Parent.Datapoints[p + 1].Index;
+            var y3 = Parent.DerivativeIndex(p + 1);
             var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
             var extreme = Fitting.LinearRegression.Get2ndOrderPolyExtreme(poly[0], poly[1], poly[2]);
 
@@ -276,22 +277,24 @@ namespace CV_Evaluator
             //Find 6? points with standard deviation <5e-9
             //Set Baseline to these extremes
             //When a zero crossing accurs, use this point (and adjecent) for the baseline
+            if (double.IsNaN(SteepestRiseIndex) || double.IsInfinity(SteepestRiseIndex)) return;
             int start = (int)SteepestRiseIndex;
-            var de = Math.Abs(Parent.Datapoints[1].Volt - Parent.Datapoints[0].Volt);
+            var de = Math.Abs(Parent.GetVoltageStep());
             var maxpoints = (int)(0.75 / de); //Maximum of 0.5V search window for baseline
             double deriv;
             bool OK = false;
             bool isZeroCross = false;
-            int window = (int)(0.15/de); //20 mV window
+            int window = Math.Min((int)(0.15/de),Parent.Datapoints.Count()-5); //20 mV window
+            if (start < window) return;
             do
             {
                 start--;
                 List<double> values = new List<double>();
                 List<double> xvalues = new List<double>();
                 double lastd = 0;
-                for (int i = 0; i < window; i++)
+                for (int i = 0; i < Math.Min(window,start-1); i++)
                 {
-                    var thisd = Parent.DerivativeTime(start - i);
+                    var thisd = Parent.DerivativeIndex(start - i);
                     values.Add(thisd);
                     xvalues.Add(Parent.Datapoints[start - i].Volt);
                     lastd = thisd;

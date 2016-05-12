@@ -60,8 +60,11 @@ namespace CV_Evaluator
             }
         }
 
-
         public static List<CV> FromText(string input, Import_Settings.ImportSettings settings)
+        {
+            return FromText(input, settings, "Somewhere far beyond...");
+        }
+        public static List<CV> FromText(string input, Import_Settings.ImportSettings settings, string DataSource)
         {
             var start = 0;
             var rx = settings.GetDelimiterRegex();
@@ -85,19 +88,28 @@ namespace CV_Evaluator
                     if (!Double.TryParse(parts[start+ie-1], out thise) || !double.TryParse(parts[start+ii-1], out thisi)) continue;
                     e.Add(thise);
                     i.Add(thisi);
+                    double thist;
+                    if(it>0 && it<=settings.ColumnsPerCV && double.TryParse(parts[start+it-1],out thist))
+                    {
+                        t.Add(thist);
+                    } else
+                    {
+                        t.Add(double.NaN);
+                    }
                 }
-                var cv = FromData(e, i, true);
+                var cv = FromData(e, i, t, true, DataSource);
                 if (cv != null) res.Add(cv);
                 start += settings.ColumnsPerCV;
             } while (maxcols > start+settings.ColumnsPerCV);
             return res;
         }
 
-        public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, bool ByStartCrossing)
+        public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, IEnumerable<double> Time, bool ByStartCrossing, string Datasource)
         {
             if (Voltage.Count() == 0 || Current.Count() == 0 || Current.Count() != Voltage.Count()) return null;
             double[] volt = Voltage.ToArray();
             double[] currs = Current.ToArray();
+            double[] times = Time.ToArray();
             CV res = new CV();
             List<Cycle> cycles = new List<Cycle>();
             if(ByStartCrossing)
@@ -120,6 +132,7 @@ namespace CV_Evaluator
                         dp.Current = thisi;
                         dp.Volt = thise;
                         dp.Time = thisCycle.Datapoints.Count;
+                        dp.Index = thisCycle.Datapoints.Count;
                         thisCycle.Datapoints.Add(dp);
                         count += 1;
                         if (count < volt.Count() - 1)
@@ -138,7 +151,8 @@ namespace CV_Evaluator
                             var dp1 = new Datapoint(thisCycle);
                             dp1.Current = currs[count];
                             dp1.Volt = volt[count];
-                            dp1.Time = thisCycle.Datapoints.Count;
+                            dp1.Time = times[count];
+                            dp1.Index = thisCycle.Datapoints.Count;
                             thisCycle.Datapoints.Add(dp1);
                         }
                         isOriginCross = ((thisCycle.Datapoints.Count > 10) & isOriginCross) | count >= volt.Count() - 1;
@@ -148,9 +162,8 @@ namespace CV_Evaluator
                     
                     count += 1;
                 } while (!(count >= volt.Count()));
-
             }
-            res.Datasource = "Somewhere far beyond...";
+            res.Datasource = Datasource;
             return res;
 
         }

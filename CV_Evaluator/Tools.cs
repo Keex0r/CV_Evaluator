@@ -13,6 +13,7 @@ namespace CV_Evaluator
     {
         public static double stdev(IEnumerable<double> values)
         {
+            if (values == null || values.Count() == 0) return Double.NaN;
             double mean = values.Average();
             List<double> diffs = new List<double>();
             foreach (var d in values)

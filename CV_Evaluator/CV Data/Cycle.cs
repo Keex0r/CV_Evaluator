@@ -39,17 +39,33 @@ namespace CV_Evaluator
         public BindingSource bdsDataPoints;
         public CV Parent;
         #endregion  
+
         #region "Display properties"
         public double Scanrate { get; set; }
         public int Number { get; set; }
         #endregion
-
       
         #region "Data fields"
         public List<Datapoint> Datapoints;
         public List<CVPeak> Peaks;
         public List<CVPeakConnection> PeakConnections;
         #endregion
+
+        public double GetVoltageStep()
+        {
+            double sum = 0;
+            int count = 0;
+            for (int i = 0; i < Datapoints.Count - 1; i++)
+            {
+                var thisstep= Math.Abs(Datapoints[i + 1].Volt - Datapoints[i].Volt);
+                if (!(thisstep==0))
+                {
+                    sum += thisstep;
+                    count += 1;
+                }
+            }
+            return sum / count;
+        }
 
         #region "Interface functions"
         public void PickPeaks(double Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit)
@@ -69,7 +85,7 @@ namespace CV_Evaluator
         private void PickPeaksDirection(double WindowSize, double minHeight, bool Larger, double SteepnessLimit, double BaselineStdLimit)
         {
             var ReversalPoints = FindReversalPoints();
-            var de = Math.Abs(Datapoints[1].Volt - Datapoints[0].Volt);
+            var de = Math.Abs(GetVoltageStep());
             var Window = (int)(WindowSize / de); //Calculate point width for window
             if (Window < 3) Window = 3;
             if (Window % 2 == 0) Window += 1;
@@ -118,6 +134,7 @@ namespace CV_Evaluator
         {
             var p = Datapoints;
             Datapoint d1, d2;
+            if (index < 0 || index > p.Count()) return double.NaN;
             if (index > 0 && index < p.Count - 1)
             {
                 // Forward/backward derivative
@@ -145,6 +162,10 @@ namespace CV_Evaluator
             y1 = YSelector(d1);
             y2 = YSelector(d2);
             return (y2 - y1) / (x2 - x1);
+        }
+        public double DerivativeIndex(int index)
+        {
+            return Derivative(index, x => x.Index, x => x.Current);
         }
         public double DerivativeTime(int index)
         {

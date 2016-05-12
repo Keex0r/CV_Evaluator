@@ -21,6 +21,7 @@ namespace CV_Evaluator
         public double Volt { get; set; }
         public double Current { get; set; }
         public double Time { get; set; }
+        public int Index { get; set; }
 
         private void Notify(string PropName)
         {
