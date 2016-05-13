@@ -234,7 +234,8 @@ namespace CV_Evaluator
             var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
             //Since Time=Index, the extreme value is always directly the index
             var extreme = Fitting.LinearRegression.Get2ndOrderPolyExtreme(poly[0], poly[1], poly[2]);
-
+            var d2x = 2 * poly[0];
+            PeakDirection = d2x < 0 ? enDirection.Positive : enDirection.Negative;
             PeakCenterIndex = extreme.Item1;
             RawPeakCurrent = extreme.Item2;
             AutoPickBaseline(BaselineStdLimit);

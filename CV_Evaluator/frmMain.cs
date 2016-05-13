@@ -196,7 +196,7 @@ namespace CV_Evaluator
             PeakPicker = false;
             BLpointselect = 1;
             workpeak = peak;
-            toolStripStatusLabel1.Text = "Select 1st point.";
+            tlMessage.Text = "Select 1st point.";
         }
 
 
@@ -207,23 +207,41 @@ namespace CV_Evaluator
             int index = -1;
             var isHit = jwGraph1.PointHitTest(e.Location, ref ser, ref index, ref point);
 
-            if (BLpointselect == -1) return;
-           if (isHit)
+            if (BLpointselect == -1 && PeakPicker == false) return;
+
+            if (isHit)
             {
+                if(PeakPicker)
+                {
+                    if (cycleBindingSource.Current == null) return;
+                    Cycle cyc = (Cycle)cycleBindingSource.Current;
+                    var peak = new CVPeak(cyc);
+
+                    peak.PeakCenterIndex = index;
+
+                    if (frmPeakPicking == null) return;
+                    var sets = frmPeakPicking.GetSettings();
+                    peak.RefinePosition(sets.BaselineStdDevLimit);
+                    cyc.Peaks.Add(peak);
+                    cVPeakBindingSource.ResetBindings(true);
+                    
+                    dgvPeaks.Refresh();
+
+                    return;
+                }
                 if(BLpointselect==1)
                 {
                     workpeak.BaselineP1 = index;
                     BLpointselect = 2;
-                    toolStripStatusLabel1.Text = "Select 2nd point.";
+                    tlMessage.Text = "Select 2nd point.";
                 } else
                 {
                     workpeak.BaselineP2 = index;
                     BLpointselect = -1;
                     dgvPeaks.Refresh();
-                    toolStripStatusLabel1.Text = "Done.";
+                    tlMessage.Text = "Done.";
                     jwGraph1.Invalidate();
                 }
-                
 
             }
         }
@@ -476,6 +494,15 @@ namespace CV_Evaluator
                     ReadFile(f);
                 }
             }
+        }
+
+        private void tsbPickPeak_Click(object sender, EventArgs e)
+        {
+            PeakPicker = !PeakPicker;
+            BLpointselect = -1;
+            if (PeakPicker) tlMessage.Text = "Click Peaks.";
+            else tlMessage.Text = "";
+
         }
     }
 }
