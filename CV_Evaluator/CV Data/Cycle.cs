@@ -100,7 +100,7 @@ namespace CV_Evaluator
                     if (c != i) Values.Add(Datapoints[c].Current);
                 }
 
-                if ((Larger && Values.All(d => d < this.Datapoints[i].Current)) || (!Larger && Values.All(d => d > this.Datapoints[i].Current))) Peaks.Add(i);
+                if ((Larger && Values.All(d => d <= this.Datapoints[i].Current)) || (!Larger && Values.All(d => d >= this.Datapoints[i].Current))) Peaks.Add(i);
 
             }
             foreach (int p in Peaks)

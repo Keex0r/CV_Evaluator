@@ -72,6 +72,9 @@
       <DependentUpon>frmImportSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Import Settings\ImportSettings.cs" />
+    <Compile Include="MyToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PeakPicking\frmPeakPickingSetup.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -71,7 +71,7 @@
             this.ScanRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvPeaks = new System.Windows.Forms.DataGridView();
             this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip1 = new MyToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.tsbSplitCycles = new System.Windows.Forms.ToolStripButton();
@@ -80,7 +80,7 @@
             this.connectSelectedPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip2 = new MyToolStrip();
             this.tsbRepeatPickPeaks = new System.Windows.Forms.ToolStripDropDownButton();
             this.thisCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thisCVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -844,7 +844,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private MyToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dgvCVs;
@@ -877,7 +877,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem peakPickingSetupToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private MyToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripDropDownButton tsbRepeatPickPeaks;
         private System.Windows.Forms.ToolStripMenuItem thisCycleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem thisCVToolStripMenuItem;

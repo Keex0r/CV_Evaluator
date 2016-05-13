@@ -185,35 +185,40 @@ namespace CV_Evaluator
             
         }
 
-        private int pointselect = -1;
+        private int BLpointselect = -1;
         private CVPeak workpeak;
+        private bool PeakPicker = false;
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             if (cVPeakBindingSource.Current == null) return;
             CVPeak peak = (CVPeak)cVPeakBindingSource.Current;
-            pointselect = 1;
+            PeakPicker = false;
+            BLpointselect = 1;
             workpeak = peak;
             toolStripStatusLabel1.Text = "Select 1st point.";
         }
 
+
         private void jwGraph1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (pointselect == -1) return;
-            jwGraph.jwGraph.Series ser=null;
+            jwGraph.jwGraph.Series ser = null;
             jwGraph.jwGraph.Datapoint point = null;
-            int index=-1;
-            if (jwGraph1.PointHitTest(e.Location, ref ser, ref index, ref point))
+            int index = -1;
+            var isHit = jwGraph1.PointHitTest(e.Location, ref ser, ref index, ref point);
+
+            if (BLpointselect == -1) return;
+           if (isHit)
             {
-                if(pointselect==1)
+                if(BLpointselect==1)
                 {
                     workpeak.BaselineP1 = index;
-                    pointselect = 2;
+                    BLpointselect = 2;
                     toolStripStatusLabel1.Text = "Select 2nd point.";
                 } else
                 {
                     workpeak.BaselineP2 = index;
-                    pointselect = -1;
+                    BLpointselect = -1;
                     dgvPeaks.Refresh();
                     toolStripStatusLabel1.Text = "Done.";
                     jwGraph1.Invalidate();
