@@ -99,7 +99,8 @@ namespace CV_Evaluator
                 {
                     if (c != i) Values.Add(Datapoints[c].Current);
                 }
-
+                if (Peaks.Where(p => Math.Abs(p - i) <= 1).Count() > 0) continue;
+                if (this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - i) <= 1).Count() > 0) continue;
                 if ((Larger && Values.All(d => d <= this.Datapoints[i].Current)) || (!Larger && Values.All(d => d >= this.Datapoints[i].Current))) Peaks.Add(i);
 
             }
