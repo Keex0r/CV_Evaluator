@@ -447,9 +447,9 @@ namespace CV_Evaluator
         {
             if (frmPeakPicking == null) return;
             var sets = frmPeakPicking.GetSettings();
-            cyc.PickPeaks(sets.Window, sets.MinHeight, sets.SteepnessLimit,sets.BaselineStdDevLimit);
-
+            cyc.PickPeaks(sets.Window, sets.MinHeight, sets.SteepnessLimit,sets.BaselineStdDevLimit,sets.JustUseMaxMin);
         }
+
         private void PickPeaksCV(CV cv)
         {
             foreach(var cyc in cv.Cycles)
@@ -503,6 +503,31 @@ namespace CV_Evaluator
             if (PeakPicker) tlMessage.Text = "Click Peaks.";
             else tlMessage.Text = "";
 
+        }
+
+        private double RoundSig(double x, int p)
+        {
+            if (double.IsNaN(x) || double.IsInfinity(x) || x==0) return x;
+            var sign = Math.Sign(x);
+            x = Math.Abs(x);
+            var n = Math.Floor(Math.Log10(x)) + 1 - p;
+            return sign * Math.Round(Math.Pow(10, -n) * x) * Math.Pow(10, n);
+        }
+        private void dgvPeaks_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            double test;
+            if(double.TryParse(e.Value.ToString(),out test))
+            {
+                var d = test;
+                e.Value = RoundSig(d, 4).ToString();
+                e.FormattingApplied = true;
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            var res = ((CV)cVBindingSource.Current).ExportPeaks();
+            Clipboard.SetText(res);
         }
     }
 }

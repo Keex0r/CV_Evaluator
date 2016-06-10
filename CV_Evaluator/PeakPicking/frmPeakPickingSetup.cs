@@ -18,6 +18,7 @@ namespace CV_Evaluator.PeakPicking
             numStdLimit.TextChanged += numMinHeight_TextChanged;
             numSteepness.TextChanged += numMinHeight_TextChanged;
             numWindow.TextChanged += numMinHeight_TextChanged;
+            cbJustMaxMin.CheckedChanged += (s,e) => SaveSettings(); ;
         }
         
         public PeakPickSettings GetSettings()
@@ -27,6 +28,7 @@ namespace CV_Evaluator.PeakPicking
             settings.SteepnessLimit = numSteepness.Value;
             settings.MinHeight = numMinHeight.Value;
             settings.BaselineStdDevLimit = numStdLimit.Value;
+            settings.JustUseMaxMin = cbJustMaxMin.Checked;
             return settings;
         }
         public void SetSettings(PeakPickSettings settings)
@@ -35,6 +37,7 @@ namespace CV_Evaluator.PeakPicking
             numSteepness.Value= settings.SteepnessLimit;
             numMinHeight.Value= settings.MinHeight;
             numStdLimit.Value=settings.BaselineStdDevLimit;
+            cbJustMaxMin.Checked = settings.JustUseMaxMin;
         }
 
         private void frmPeakPickingSetup_FormClosing(object sender, FormClosingEventArgs e)

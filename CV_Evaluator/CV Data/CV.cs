@@ -71,6 +71,8 @@ namespace CV_Evaluator
             int ie = settings.VoltColumn;
             int ii = settings.CurrentColumn;
             int it = settings.TimeColumn;
+            var splitcols = settings.GetSplitColumns();
+            var dosplit = !settings.DontSplit;
             int maxcols = 0;
             List<CV> res = new List<CV>();
             var lines = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -79,6 +81,8 @@ namespace CV_Evaluator
                 var e = new List<double>();
                 var i = new List<double>();
                 var t = new List<double>();
+                var splits = new List<string>();
+                
                  foreach (string line in lines)
                 {
                     var parts = rx.Split(line); //line.Split(new string[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
@@ -96,24 +100,33 @@ namespace CV_Evaluator
                     {
                         t.Add(double.NaN);
                     }
+                    var split = "";
+                    for(int ic=0;ic < splitcols.Count();ic++) 
+                    {
+                        var c = splitcols[ic]-1;
+                        if (c >= 0 && c < settings.ColumnsPerCV) split += (ic>0 ? ";;" : "") + parts[start + c ];
+                    }
+                    splits.Add(split);
                 }
-                var cv = FromData(e, i, t, true, DataSource);
+                var cv = FromData(e, i, t, splits, dosplit, DataSource);
                 if (cv != null) res.Add(cv);
                 start += settings.ColumnsPerCV;
             } while (maxcols > start+settings.ColumnsPerCV);
             return res;
         }
 
-        public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, IEnumerable<double> Time, bool ByStartCrossing, string Datasource)
+        public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, IEnumerable<double> Time,
+            IEnumerable<string> SplitBy, bool DoSplit, string Datasource)
         {
             if (Voltage.Count() == 0 || Current.Count() == 0 || Current.Count() != Voltage.Count()) return null;
             double[] volt = Voltage.ToArray();
             double[] currs = Current.ToArray();
             double[] times = Time.ToArray();
+            string[] splits = SplitBy.ToArray();
             CV res = new CV();
-            List<Cycle> cycles = new List<Cycle>();
-            if(ByStartCrossing)
+             if(DoSplit && SplitBy.Count()==0)
             {
+                List<Cycle> cycles = new List<Cycle>();
                 double startvalue = volt[0];
                 int startDeriv = Math.Sign(volt[1] - volt[0]);
                 if (startDeriv == 0)
@@ -131,7 +144,7 @@ namespace CV_Evaluator
                         var dp = new Datapoint(thisCycle);
                         dp.Current = thisi;
                         dp.Volt = thise;
-                        dp.Time = thisCycle.Datapoints.Count;
+                        dp.Time = times[count];
                         dp.Index = thisCycle.Datapoints.Count;
                         thisCycle.Datapoints.Add(dp);
                         count += 1;
@@ -159,13 +172,70 @@ namespace CV_Evaluator
                     } while (!(isOriginCross));
                     thisCycle.Number = res.Cycles.Count + 1;
                     res.Cycles.Add(thisCycle);
-                    
                     count += 1;
                 } while (!(count >= volt.Count()));
+            }
+            else if (DoSplit && SplitBy.Count() > 0)
+            {
+                //Split by splitvalue
+                var cycles = new Dictionary<string, Cycle>();
+                for(int i = 0;i<volt.Count();i++)
+                {
+                    if(!cycles.ContainsKey(splits[i]))
+                    {
+                        Cycle thisCycle = new Cycle(res);
+                        thisCycle.Split = splits[i];
+                        thisCycle.Number = cycles.Count() + 1;
+                        cycles.Add(splits[i], thisCycle);
+                    }
+                    var dp1 = new Datapoint(cycles[splits[i]]);
+                    dp1.Current = currs[i];
+                    dp1.Volt = volt[i];
+                    dp1.Time = times[i];
+                    dp1.Index = cycles[splits[i]].Datapoints.Count;
+                    cycles[splits[i]].Datapoints.Add(dp1);
+                }
+                res.Cycles.AddRange(cycles.Values);
+            } else
+            {
+                //Dont split
+                Cycle thisCycle = new Cycle(res);
+                thisCycle.Split = "";
+                thisCycle.Number = 1;
+                for (int i = 0; i < volt.Count(); i++)
+                {
+                    var dp1 = new Datapoint(thisCycle);
+                    dp1.Current = currs[i];
+                    dp1.Volt = volt[i];
+                    dp1.Time = times[i];
+                    dp1.Index = thisCycle.Datapoints.Count;
+                    thisCycle.Datapoints.Add(dp1);
+                }
+                res.Cycles.Add(thisCycle);
             }
             res.Datasource = Datasource;
             return res;
 
+        }
+        public string ExportPeaks()
+        {
+            StringBuilder res = new StringBuilder();
+            foreach(var cyc in this.Cycles)
+            {
+                var cols = new List<string>();
+                var splitparts = cyc.Split.Split(new string[] { ";;" }, StringSplitOptions.None);
+                cols.Add(cyc.Number.ToString());
+                cols.Add(cyc.Scanrate.ToString());
+                cols.AddRange(splitparts);
+                foreach(var peak in cyc.Peaks)
+                {
+                    cols.Add(peak.PeakPosition.ToString());
+                    cols.Add(peak.PeakHeight.ToString());
+                }
+                var row = string.Join("\t", cols);
+                res.AppendLine(row);
+            }
+            return res.ToString();
         }
     }
 }

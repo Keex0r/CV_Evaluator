@@ -72,6 +72,13 @@
       <DependentUpon>frmImportSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Import Settings\ImportSettings.cs" />
+    <Compile Include="Matsuda\frmMatsudaSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Matsuda\frmMatsudaSetup.Designer.cs">
+      <DependentUpon>frmMatsudaSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Matsuda\MatsudaSettings.cs" />
     <Compile Include="MyToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -106,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Import Settings\frmImportSettings.resx">
       <DependentUpon>frmImportSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Matsuda\frmMatsudaSetup.resx">
+      <DependentUpon>frmMatsudaSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PeakPicking\frmPeakPickingSetup.resx">
       <DependentUpon>frmPeakPickingSetup.cs</DependentUpon>

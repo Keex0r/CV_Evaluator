@@ -224,8 +224,10 @@ namespace CV_Evaluator
         {
             if (PeakCenterIndex == -1) return;
             var index = (int)PeakCenterIndex;
+            
             var data = Parent.Datapoints;
-            var x1 = data[index].Index;
+            if (index <= 0 || index >= data.Count() - 1) return;
+                var x1 = data[index].Index;
             var y1 = data[index].Current;
             var x2 = data[index - 1].Index;
             var y2 = data[index - 1].Current;

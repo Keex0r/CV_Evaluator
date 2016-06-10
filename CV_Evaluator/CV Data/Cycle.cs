@@ -21,6 +21,7 @@ namespace CV_Evaluator
             PeakConnections = new List<CVPeakConnection>();
             this.Number = -1;
             this.Parent = Parent;
+            Split = "";
             Scanrate = 0.0;
             Setup();
         }
@@ -43,6 +44,7 @@ namespace CV_Evaluator
         #region "Display properties"
         public double Scanrate { get; set; }
         public int Number { get; set; }
+        public string Split { get; set; }
         #endregion
       
         #region "Data fields"
@@ -68,13 +70,18 @@ namespace CV_Evaluator
         }
 
         #region "Interface functions"
-        public void PickPeaks(double Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit)
+        public void PickPeaks(double Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit, bool JustUseMinMax)
         {
-            double PosMinHeight = Datapoints.Select(d => d.Current).Max() * MinHeightPercent;
-            double NegMinHeight = Datapoints.Select(d => d.Current).Min() * MinHeightPercent;
-            this.Peaks.Clear();
-            PickPeaksDirection(Window, PosMinHeight,true, SteepnessLimit, BaselineStdLimit);
-            PickPeaksDirection(Window, NegMinHeight, false, SteepnessLimit, BaselineStdLimit);
+            if(!JustUseMinMax) { 
+                double PosMinHeight = Datapoints.Select(d => d.Current).Max() * MinHeightPercent;
+                double NegMinHeight = Datapoints.Select(d => d.Current).Min() * MinHeightPercent;
+                this.Peaks.Clear();
+                PickPeaksDirection(Window, PosMinHeight,true, SteepnessLimit, BaselineStdLimit);
+                PickPeaksDirection(Window, NegMinHeight, false, SteepnessLimit, BaselineStdLimit);
+            } else
+            {
+                PickPeaksMinMax(BaselineStdLimit);
+            }
             for(int i = 0;i<this.Peaks.Count;i++)
             {
                 Peaks[i].Process = "Process " + (i + 1).ToString();
@@ -115,7 +122,39 @@ namespace CV_Evaluator
                 this.Peaks.Add(newp);
             }
         }
+        private void PickPeaksMinMax(double BaselineStdLimit)
+        {
+            var dmin = this.Datapoints.Aggregate((curmin,x) => (curmin == null || x.Current < curmin.Current ? x : curmin));
+            var dmax = this.Datapoints.Aggregate((curmax, x) => (curmax == null || x.Current < curmax.Current ? curmax : x));
+            var imin = this.Datapoints.IndexOf(dmin);
+            var imax = this.Datapoints.IndexOf(dmax);
 
+            var oldmin = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).FirstOrDefault();
+            var oldmax = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imax) <= 1).FirstOrDefault();
+            if (oldmin != null) this.Peaks.Remove(oldmin);
+            if (oldmax != null) this.Peaks.Remove(oldmax);
+            var con = new CVPeakConnection(this);
+            if (!(this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).Count() > 0))
+            {
+                var newpMin = new CVPeak(this);
+                newpMin.PeakCenterIndex = imin;
+                newpMin.PeakDirection = CVPeak.enDirection.Negative;
+                newpMin.RefinePosition(BaselineStdLimit);
+                con.Peak1 = newpMin;
+                this.Peaks.Add(newpMin);
+            }
+            if (!(this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imax) <= 1).Count() > 0))
+            {
+                var newpMax = new CVPeak(this);
+                newpMax.PeakCenterIndex = imax;
+                newpMax.PeakDirection = CVPeak.enDirection.Positive;
+                newpMax.RefinePosition(BaselineStdLimit);
+                con.Peak2 = newpMax;
+                this.Peaks.Add(newpMax);
+            }
+            con.Title = "Main Process";
+            this.PeakConnections.Add(con);
+        }
         private List<int> FindReversalPoints()
         {
             int dif = Math.Sign(Datapoints[1].Volt - Datapoints[0].Volt);

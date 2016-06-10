@@ -37,6 +37,7 @@
             this.numWindow = new jwGraph.GeneralTools.NumericInputbox();
             this.label4 = new System.Windows.Forms.Label();
             this.numStdLimit = new jwGraph.GeneralTools.NumericInputbox();
+            this.cbJustMaxMin = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             this.tableLayoutPanel1.Controls.Add(this.numWindow, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.numStdLimit, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.cbJustMaxMin, 0, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -186,6 +188,16 @@
             this.numStdLimit.ValidForeColor = System.Drawing.Color.Green;
             this.numStdLimit.Value = 5E-09D;
             // 
+            // cbJustMaxMin
+            // 
+            this.cbJustMaxMin.AutoSize = true;
+            this.cbJustMaxMin.Location = new System.Drawing.Point(3, 127);
+            this.cbJustMaxMin.Name = "cbJustMaxMin";
+            this.cbJustMaxMin.Size = new System.Drawing.Size(180, 17);
+            this.cbJustMaxMin.TabIndex = 8;
+            this.cbJustMaxMin.Text = "Always just pick Global Max+Min";
+            this.cbJustMaxMin.UseVisualStyleBackColor = true;
+            // 
             // frmPeakPickingSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,5 +227,6 @@
         private jwGraph.GeneralTools.NumericInputbox numWindow;
         private System.Windows.Forms.Label label4;
         private jwGraph.GeneralTools.NumericInputbox numStdLimit;
+        private System.Windows.Forms.CheckBox cbJustMaxMin;
     }
 }
