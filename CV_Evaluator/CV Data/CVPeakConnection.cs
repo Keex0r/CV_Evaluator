@@ -40,7 +40,7 @@ namespace CV_Evaluator
             var p1GraphPos = graph.ValuesToPixelposition(p1AbsPos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
             var p2AbsPos = Peak2.GetPeakPosition();
             var p2GraphPos = graph.ValuesToPixelposition(p2AbsPos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
-
+            if (double.IsNaN(p1AbsPos.Item1) || double.IsNaN(p1AbsPos.Item2) || double.IsNaN(p2AbsPos.Item1) || double.IsNaN(p2AbsPos.Item2)) return;
             using (Pen p = new Pen(Brushes.Red, 1))
             {
                 p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;

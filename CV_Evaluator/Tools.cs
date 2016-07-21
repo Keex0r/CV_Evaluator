@@ -11,7 +11,66 @@ namespace CV_Evaluator
 {
     class Tools
     {
-        public static double stdev(IEnumerable<double> values)
+
+        public static double InterpolateXY(IEnumerable<double> XValues, IEnumerable<double> YValues, double x)
+        {
+            var Index=-1;
+            var xv = XValues.ToArray();
+            var yv = YValues.ToArray();
+            for (int i = 0;i<XValues.Count()-1;i++)
+            {
+                if(xv[i]<=x && xv[i+1]>=x)
+                {
+                    Index = i;
+                    break;
+                }
+            }
+            if (Index != -1)
+            {
+                var x1 = xv[Index];
+                var x2 = xv[Index + 1];
+                var y1 = yv[Index];
+                var y2 = yv[Index + 1];
+                return Interpolate(x, x1, x2, y1, y2);
+            }else
+            {
+                var x1 = xv[xv.Count()-2];
+                var x2 = xv[xv.Count() - 1];
+                var y1 = yv[xv.Count() - 2];
+                var y2 = yv[xv.Count() - 1];
+                return double.NaN;
+            }
+        }
+        public static double Integrate(IEnumerable<double> XValues, IEnumerable<double> YValues)
+        {
+            double sum = 0;
+            var X = XValues.ToArray();
+            var Y = YValues.ToArray();
+            for (int i = 0; i <= X.Count() - 2; i++)
+            {
+                double deltaX = X[i + 1] - X[i];
+
+                double g = X[i];
+                double h = X[i + 1];
+
+                double[] linfit = null;
+                double[] thisx = { g, h };
+                double[] thisy = { Y[i], Y[i + 1] };
+                Fitting.LinearRegression.GetRegression(thisx,thisy, ref linfit);
+
+            double m = linfit[0];
+            double b = linfit[1];
+
+            double area1 = (-b) * g + b * h - (Math.Pow(g, 2) * m) / 2 + (Math.Pow(h, 2) * m) / 2;
+
+            
+            sum += area1;
+        }
+	return sum;
+}
+
+
+    public static double stdev(IEnumerable<double> values)
         {
             if (values == null || values.Count() == 0) return Double.NaN;
             double mean = values.Average();

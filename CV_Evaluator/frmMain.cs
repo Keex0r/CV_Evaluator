@@ -529,5 +529,12 @@ namespace CV_Evaluator
             var res = ((CV)cVBindingSource.Current).ExportPeaks();
             Clipboard.SetText(res);
         }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            var conv = ((Cycle)cycleBindingSource.Current).GetConvolution();
+            jwGraph1.Series.Clear();
+            var ser = jwGraph1.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary, conv[1], conv[3]);
+        }
     }
 }

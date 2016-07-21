@@ -75,7 +75,7 @@ namespace CV_Evaluator
             var dosplit = !settings.DontSplit;
             int maxcols = 0;
             List<CV> res = new List<CV>();
-            var lines = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = input.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             do
             {
                 var e = new List<double>();
@@ -123,8 +123,9 @@ namespace CV_Evaluator
             double[] currs = Current.ToArray();
             double[] times = Time.ToArray();
             string[] splits = SplitBy.ToArray();
+            var issplittable = splits.Any(x => String.IsNullOrEmpty(x) == false);
             CV res = new CV();
-             if(DoSplit && SplitBy.Count()==0)
+             if(DoSplit && !issplittable)
             {
                 List<Cycle> cycles = new List<Cycle>();
                 double startvalue = volt[0];
@@ -175,7 +176,7 @@ namespace CV_Evaluator
                     count += 1;
                 } while (!(count >= volt.Count()));
             }
-            else if (DoSplit && SplitBy.Count() > 0)
+            else if (DoSplit && issplittable)
             {
                 //Split by splitvalue
                 var cycles = new Dictionary<string, Cycle>();

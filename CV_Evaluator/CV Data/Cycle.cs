@@ -225,5 +225,45 @@ namespace CV_Evaluator
         }
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
+
+        public double[][] GetConvolution()
+        {
+            var times = this.Datapoints.Select(x => x.Time).ToList();
+            var currents = this.Datapoints.Select(x => x.Current).ToList();
+            var volts = this.Datapoints.Select(x => x.Volt).ToList();
+            var v = this.Scanrate;
+            var dt = (volts[1] - volts[0]) / Scanrate;
+            double fullvoltage = 0;
+            for (int t = 0; t < times.Count()-1; t++)
+            {
+                fullvoltage += Math.Abs(volts[t + 1] - volts[t]);
+            }
+           // dt = (fullvoltage / times.Max())/Scanrate;
+            for (int t=0;t<times.Count();t++)
+            {
+                times[t] = t * Math.Abs(dt);
+            }
+            List<double> convs = new List<double>();
+            convs.Add(0);
+            for (int t=1; t<times.Count(); t++)
+            {
+                var thist = new List<double>();
+                var thisi = new List<double>();
+                var valt = times[t];
+                for(int x = 0; x < t; x++)
+                {
+                    thist.Add(times[x]);
+                    thisi.Add(currents[x]/Math.Sqrt(valt-times[x]));
+                }
+                var value=Tools.Integrate(thist, thisi);
+                convs.Add(value);
+            }
+            double[][] res=new double[4][];
+            res[0]= times.ToArray();
+            res[1] = volts.ToArray();
+            res[2] = currents.ToArray();
+            res[3] = convs.ToArray();
+            return res;
+        }
     }
 }

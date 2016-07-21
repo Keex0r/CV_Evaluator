@@ -98,6 +98,7 @@ namespace CV_Evaluator
 
         private double GetDifferentialValue(double index, Func<Datapoint,double> Selector)
         {
+            if (index == -1) return double.NaN;
             var data = Parent.Datapoints;
             var lower = (int)Math.Floor(index);
             var upper = (int)Math.Ceiling(index);
