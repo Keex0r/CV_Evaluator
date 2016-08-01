@@ -71,6 +71,7 @@ namespace CV_Evaluator
             int ie = settings.VoltColumn;
             int ii = settings.CurrentColumn;
             int it = settings.TimeColumn;
+            int isr = settings.ScanRateColumn;
             var splitcols = settings.GetSplitColumns();
             var dosplit = !settings.DontSplit;
             int maxcols = 0;

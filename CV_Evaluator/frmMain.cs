@@ -536,5 +536,31 @@ namespace CV_Evaluator
             jwGraph1.Series.Clear();
             var ser = jwGraph1.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary, conv[1], conv[3]);
         }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            foreach(Cycle c in ((CV)cVBindingSource.Current).Cycles)
+            {
+                c.SetScanRateFromSplit(0);
+            }
+            RefreshAll();
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            CV current = (CV)cVBindingSource.Current;
+            for(int i = 1; i < current.Cycles.Count(); i++)
+            {
+                CV newcv = new CV();
+                newcv.Datasource = current.Datasource;
+                newcv.Cycles.Add(current.Cycles[i]);
+                CVs.Add(newcv);
+            }
+            for(int i = current.Cycles.Count - 1; i > 0; i--)
+            {
+                current.Cycles.RemoveAt(i);
+            }
+            RefreshAll();
+        }
     }
 }

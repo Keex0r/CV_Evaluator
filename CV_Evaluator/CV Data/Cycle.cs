@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -70,6 +71,15 @@ namespace CV_Evaluator
         }
 
         #region "Interface functions"
+        public void SetScanRateFromSplit(int index)
+        {
+            var splits = (new Regex(";;")).Split(this.Split);
+            if (index < 0 || index > Split.Count() - 1) return;
+            double d;
+            if (!double.TryParse(splits[index], out d)) return;
+            this.Scanrate = d;
+        }
+
         public void PickPeaks(double Window, double MinHeightPercent, double SteepnessLimit, double BaselineStdLimit, bool JustUseMinMax)
         {
             if(!JustUseMinMax) { 

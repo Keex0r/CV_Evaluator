@@ -16,6 +16,7 @@ namespace CV_Evaluator.Import_Settings
             VoltColumn = 1;
             CurrentColumn = 2;
             TimeColumn = -1;
+            ScanRateColumn = -1;
             SplitByColumns = "";
             DontSplit = false;
             Delimiter = enDelimiter.Tab;
@@ -29,6 +30,7 @@ namespace CV_Evaluator.Import_Settings
             Semicolon
         }
         public int ColumnsPerCV { get; set; }
+        public int ScanRateColumn { get; set; }
         public int VoltColumn { get; set; }
         public int CurrentColumn { get; set; }
         public int TimeColumn { get; set; }
