@@ -71,7 +71,7 @@ namespace CV_Evaluator
             int ie = settings.VoltColumn;
             int ii = settings.CurrentColumn;
             int it = settings.TimeColumn;
-            int isr = settings.ScanRateColumn;
+            
             var splitcols = settings.GetSplitColumns();
             var dosplit = !settings.DontSplit;
             int maxcols = 0;
@@ -109,7 +109,7 @@ namespace CV_Evaluator
                     }
                     splits.Add(split);
                 }
-                var cv = FromData(e, i, t, splits, dosplit, DataSource);
+                var cv = FromData(e, i, t, splits, dosplit, DataSource, settings.IgnorePoints);
                 if (cv != null) res.Add(cv);
                 start += settings.ColumnsPerCV;
             } while (maxcols > start+settings.ColumnsPerCV);
@@ -117,7 +117,7 @@ namespace CV_Evaluator
         }
 
         public static CV FromData(IEnumerable<double> Voltage,IEnumerable<double> Current, IEnumerable<double> Time,
-            IEnumerable<string> SplitBy, bool DoSplit, string Datasource)
+            IEnumerable<string> SplitBy, bool DoSplit, string Datasource, int IgnorePoints)
         {
             if (Voltage.Count() == 0 || Current.Count() == 0 || Current.Count() != Voltage.Count()) return null;
             double[] volt = Voltage.ToArray();
@@ -138,9 +138,16 @@ namespace CV_Evaluator
                 do
                 {
                     Cycle thisCycle = new Cycle(res);
+                    int skipped = 0;
                     bool isOriginCross = false;
                     do
                     {
+                        if (skipped < IgnorePoints)
+                        {
+                            skipped++;
+                            count++;
+                            continue;
+                        }
                         var thise = volt[count];
                         var thisi = currs[count];
                         var dp = new Datapoint(thisCycle);
@@ -181,7 +188,8 @@ namespace CV_Evaluator
             {
                 //Split by splitvalue
                 var cycles = new Dictionary<string, Cycle>();
-                for(int i = 0;i<volt.Count();i++)
+                var skipped = new Dictionary<string, int>();
+                for (int i = 0;i<volt.Count();i++)
                 {
                     if(!cycles.ContainsKey(splits[i]))
                     {
@@ -189,13 +197,21 @@ namespace CV_Evaluator
                         thisCycle.Split = splits[i];
                         thisCycle.Number = cycles.Count() + 1;
                         cycles.Add(splits[i], thisCycle);
+                        skipped.Add(splits[i], 0);
                     }
-                    var dp1 = new Datapoint(cycles[splits[i]]);
-                    dp1.Current = currs[i];
-                    dp1.Volt = volt[i];
-                    dp1.Time = times[i];
-                    dp1.Index = cycles[splits[i]].Datapoints.Count;
-                    cycles[splits[i]].Datapoints.Add(dp1);
+                    if(skipped[splits[i]]<IgnorePoints)
+                    {
+                        skipped[splits[i]]++;
+                    } else
+                    {
+                        var dp1 = new Datapoint(cycles[splits[i]]);
+                        dp1.Current = currs[i];
+                        dp1.Volt = volt[i];
+                        dp1.Time = times[i];
+                        dp1.Index = cycles[splits[i]].Datapoints.Count;
+                        cycles[splits[i]].Datapoints.Add(dp1);
+                    }
+
                 }
                 res.Cycles.AddRange(cycles.Values);
             } else

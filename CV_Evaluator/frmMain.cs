@@ -57,10 +57,17 @@ namespace CV_Evaluator
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
         {
             graph.Series.Clear();
+            graph.HighQuality = false;
             var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
             int count = 0;
-               foreach (var d in cv.Datapoints)
+            int step = 1;
+            if (cv.Datapoints.Count() > 10000)
+            {
+                step = (int)Math.Round((double)cv.Datapoints.Count() / 1000);
+            }
+               for(int i=0;i<cv.Datapoints.Count();i=i+step) 
                 {
+                var d = cv.Datapoints[i];
                 ser.AddXY(d.Volt, d.Current);
                 count++;
             }
