@@ -92,6 +92,10 @@ namespace CV_Evaluator
                     double thise, thisi;
                     if (!Double.TryParse(parts[start+ie-1], out thise) || !double.TryParse(parts[start+ii-1], out thisi)) continue;
                     e.Add(thise);
+                    if(i.Count() > 0)
+                    {
+                        if (thisi == i.Last()) thisi = thisi + thisi / 1e14;
+                    }
                     i.Add(thisi);
                     double thist;
                     if(it>0 && it<=settings.ColumnsPerCV && double.TryParse(parts[start+it-1],out thist))
@@ -112,7 +116,7 @@ namespace CV_Evaluator
                 var cv = FromData(e, i, t, splits, dosplit, DataSource, settings.IgnorePoints);
                 if (cv != null) res.Add(cv);
                 start += settings.ColumnsPerCV;
-            } while (maxcols > start+settings.ColumnsPerCV);
+            } while (maxcols >= start+settings.ColumnsPerCV);
             return res;
         }
 
@@ -213,7 +217,56 @@ namespace CV_Evaluator
                     }
 
                 }
-                res.Cycles.AddRange(cycles.Values);
+                foreach(Cycle cyc in cycles.Values)
+                {
+                    //Further subdivide
+                    double startvalue = cyc.Datapoints[0].Volt;
+                    int startDeriv = Math.Sign(cyc.Datapoints[1].Volt - cyc.Datapoints[0].Volt);
+                    if (startDeriv == 0)
+                        startDeriv = 1;
+                    int count = 0;
+                    do
+                    {
+                        bool isOriginCross = false;
+                        Cycle newcyc = new Cycle(res);
+                        newcyc.Split = cyc.Split;
+                        do
+                        {
+                            var thise = cyc.Datapoints[count].Volt;
+                            var thisi = cyc.Datapoints[count].Current;
+                            var dp = new Datapoint(newcyc);
+                            dp.Current = thisi;
+                            dp.Volt = thise;
+                            dp.Time = cyc.Datapoints[count].Time;
+                            dp.Index = newcyc.Datapoints.Count;
+                            newcyc.Datapoints.Add(dp);
+                            count += 1;
+                            if (count < cyc.Datapoints.Count() - 1)
+                            {
+                                if (startDeriv == -1)
+                                {
+                                    isOriginCross = cyc.Datapoints[count - 1].Volt > startvalue && cyc.Datapoints[count + 1].Volt < startvalue;
+                                }
+                                else
+                                {
+                                    isOriginCross = cyc.Datapoints[count - 1].Volt < startvalue && cyc.Datapoints[count + 1].Volt > startvalue;
+                                }
+                            }
+                            else if(count<cyc.Datapoints.Count())
+                            {
+                                var dp1 = new Datapoint(newcyc);
+                                dp1.Current = cyc.Datapoints[count].Current;
+                                dp1.Volt = cyc.Datapoints[count].Volt;
+                                dp1.Time = cyc.Datapoints[count].Time;
+                                dp1.Index = newcyc.Datapoints.Count;
+                                newcyc.Datapoints.Add(dp1);
+                            }
+                            isOriginCross = ((newcyc.Datapoints.Count > 10) & isOriginCross) | count >= volt.Count() - 1;
+                        } while (!isOriginCross);
+                        res.Cycles.Add(newcyc);
+                    } while (!(count >= cyc.Datapoints.Count()-10));
+
+                }
             } else
             {
                 //Dont split

@@ -98,7 +98,7 @@ namespace CV_Evaluator
 
         private double GetDifferentialValue(double index, Func<Datapoint,double> Selector)
         {
-            if (index == -1) return double.NaN;
+            if (Double.IsNaN(index)||index == -1||index>Parent.Datapoints.Count()-1||index<0) return double.NaN;
             var data = Parent.Datapoints;
             var lower = (int)Math.Floor(index);
             var upper = (int)Math.Ceiling(index);
@@ -241,6 +241,7 @@ namespace CV_Evaluator
             PeakDirection = d2x < 0 ? enDirection.Positive : enDirection.Negative;
             PeakCenterIndex = extreme.Item1;
             RawPeakCurrent = extreme.Item2;
+            PickSteepestRise();
             AutoPickBaseline(BaselineStdLimit);
         }
 
@@ -248,6 +249,7 @@ namespace CV_Evaluator
         private void PickSteepestRise()
         {
             int start = (int)PeakCenterIndex;
+            if (start < 1 || start > Parent.Datapoints.Count()) return;
             //int dif = Math.Sign(data[1].Volt-data[0].Volt);
             //Iteriere in Richtung -dif bis die nächste und übernächste Ableitung kleiner ist als die aktuelle
             double thisdiv;

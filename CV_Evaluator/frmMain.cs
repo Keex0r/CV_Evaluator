@@ -569,5 +569,81 @@ namespace CV_Evaluator
             }
             RefreshAll();
         }
+        private void Delete10()
+        {
+            foreach (CV c in CVs)
+            {
+                foreach (Cycle cyc in c.Cycles)
+                {
+                    for(int i=1;i<=10;i++)
+                    {
+                        cyc.Datapoints.RemoveAt(0);
+                    }
+                }
+            }
+        }
+        private void DestroyFirstCycle()
+        {
+            var srs = new List<double>(new double[] { 0.025,0.05,0.1,0.15,0.25,0.5 });
+            int scount = 0;
+            foreach(CV c in CVs)
+            {
+                c.ScanRate = srs[scount];
+                scount++;
+                foreach (Cycle cyc in c.Cycles)
+                {
+                    cyc.PeakConnections.Clear();
+                    cyc.Peaks.Clear();
+                    //Further subdivide
+                    double startvalue = cyc.Datapoints[0].Volt;
+                    int startDeriv = Math.Sign(cyc.Datapoints[1].Volt - cyc.Datapoints[0].Volt);
+                    if (startDeriv == 0)
+                        startDeriv = 1;
+                    int count = 0;
+
+                    bool isOriginCross = false;
+                    do
+                    {
+                        var thise = cyc.Datapoints[count].Volt;
+                        var thisi = cyc.Datapoints[count].Current;
+                        count += 1;
+                        if (count < cyc.Datapoints.Count() - 1)
+                        {
+                            if (startDeriv == -1)
+                            {
+                                isOriginCross = cyc.Datapoints[count - 1].Volt > startvalue && cyc.Datapoints[count + 1].Volt < startvalue;
+                            }
+                            else
+                            {
+                                isOriginCross = cyc.Datapoints[count - 1].Volt < startvalue && cyc.Datapoints[count + 1].Volt > startvalue;
+                            }
+                        }
+                        else if (count < cyc.Datapoints.Count())
+                        {
+                        }
+                        isOriginCross = isOriginCross | count >= cyc.Datapoints.Count() - 1;
+                    } while (!isOriginCross);
+
+                    for (int d = 0; d < count+10; d++)
+                    {
+                        cyc.Datapoints.RemoveAt(0);
+                    }
+                    for (int d = 0; d < cyc.Datapoints.Count(); d++)
+                    {
+                        cyc.Datapoints[d].Index = d;
+                    }
+                }
+            }
+
+
+            RefreshAll();
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            DestroyFirstCycle();
+        }
     }
+  
 }
+

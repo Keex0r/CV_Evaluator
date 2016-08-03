@@ -134,25 +134,38 @@ namespace CV_Evaluator
         }
         private void PickPeaksMinMax(double BaselineStdLimit)
         {
-            var dmin = this.Datapoints.Aggregate((curmin,x) => (curmin == null || x.Current < curmin.Current ? x : curmin));
-            var dmax = this.Datapoints.Aggregate((curmax, x) => (curmax == null || x.Current < curmax.Current ? curmax : x));
-            var imin = this.Datapoints.IndexOf(dmin);
-            var imax = this.Datapoints.IndexOf(dmax);
-
-            var oldmin = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).FirstOrDefault();
-            var oldmax = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imax) <= 1).FirstOrDefault();
-            if (oldmin != null) this.Peaks.Remove(oldmin);
-            if (oldmax != null) this.Peaks.Remove(oldmax);
-            var con = new CVPeakConnection(this);
-            if (!(this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).Count() > 0))
+            double mincurr = double.PositiveInfinity;
+            double maxcurr = double.NegativeInfinity;
+            Datapoint dmin, dmax;
+            int imin=0, imax=0;
+            for(int i = 0; i < Datapoints.Count(); i++)
             {
-                var newpMin = new CVPeak(this);
-                newpMin.PeakCenterIndex = imin;
-                newpMin.PeakDirection = CVPeak.enDirection.Negative;
-                newpMin.RefinePosition(BaselineStdLimit);
-                con.Peak1 = newpMin;
-                this.Peaks.Add(newpMin);
+                if(Datapoints[i].Current>maxcurr)
+                {
+                    imax = i;
+                    maxcurr = Datapoints[i].Current;
+                    dmax = Datapoints[i];
+                }
+                if (Datapoints[i].Current < mincurr)
+                {
+                    imin = i;
+                    mincurr = Datapoints[i].Current;
+                    dmin = Datapoints[i];
+                }
             }
+
+            //var dmin = this.Datapoints.Aggregate((curmin,x) => (curmin == null || x.Current < curmin.Current ? x : curmin));
+            //var dmax = this.Datapoints.Aggregate((curmax, x) => (curmax == null || x.Current < curmax.Current ? curmax : x));
+            //var imin = this.Datapoints.IndexOf(dmin);
+            //var imax = this.Datapoints.IndexOf(dmax);
+
+            //var oldmin = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).FirstOrDefault();
+            //var oldmax = this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imax) <= 1).FirstOrDefault();
+            //if (oldmin != null) this.Peaks.Remove(oldmin);
+            //if (oldmax != null) this.Peaks.Remove(oldmax);
+            this.Peaks.Clear();
+
+            var con = new CVPeakConnection(this);
             if (!(this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imax) <= 1).Count() > 0))
             {
                 var newpMax = new CVPeak(this);
@@ -162,6 +175,16 @@ namespace CV_Evaluator
                 con.Peak2 = newpMax;
                 this.Peaks.Add(newpMax);
             }
+            if (!(this.Peaks.Where(p => Math.Abs(p.PeakCenterIndex - imin) <= 1).Count() > 0))
+            {
+                var newpMin = new CVPeak(this);
+                newpMin.PeakCenterIndex = imin;
+                newpMin.PeakDirection = CVPeak.enDirection.Negative;
+                newpMin.RefinePosition(BaselineStdLimit);
+                con.Peak1 = newpMin;
+                this.Peaks.Add(newpMin);
+            }
+
             con.Title = "Main Process";
             this.PeakConnections.Add(con);
         }

@@ -36,6 +36,7 @@ namespace CV_Evaluator
         }
         public void DrawYourself(Graphics g, jwGraph.jwGraph.jwGraph graph)
         {
+            if (Peak1 == null || Peak2 == null) return;
             var p1AbsPos = Peak1.GetPeakPosition();
             var p1GraphPos = graph.ValuesToPixelposition(p1AbsPos, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
             var p2AbsPos = Peak2.GetPeakPosition();
