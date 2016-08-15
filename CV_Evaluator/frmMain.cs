@@ -56,8 +56,9 @@ namespace CV_Evaluator
 
         private void PlotCV(Cycle cv, jwGraph.jwGraph.jwGraph graph)
         {
+            graph.BeginUpdate();
             graph.Series.Clear();
-            graph.HighQuality = false;
+            
             var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
             int count = 0;
             int step = 1;
@@ -72,7 +73,7 @@ namespace CV_Evaluator
                 count++;
             }
             graph.Tag = cv;
-
+            graph.EndUpdate();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -199,6 +200,12 @@ namespace CV_Evaluator
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             if (cVPeakBindingSource.Current == null) return;
+            if(BLpointselect>-1)
+            {
+                BLpointselect = -1;
+                tlMessage.Text = "";
+                return;
+            }
             CVPeak peak = (CVPeak)cVPeakBindingSource.Current;
             PeakPicker = false;
             BLpointselect = 1;
@@ -537,12 +544,40 @@ namespace CV_Evaluator
             Clipboard.SetText(res);
         }
 
-        private void toolStripButton6_Click(object sender, EventArgs e)
+        private async void toolStripButton6_Click(object sender, EventArgs e)
         {
-            var conv = ((Cycle)cycleBindingSource.Current).GetConvolution();
-            jwGraph1.Series.Clear();
-            var ser = jwGraph1.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary, conv[1], conv[3]);
-        }
+            double progress = 0.0;
+            var t = new Timer();
+            t.Interval = 500;
+            toolStrip1.Enabled = false;
+            toolStrip2.Enabled = false;
+            
+            t.Tick += (s, e1) => tlMessage.Text = (progress * 100).ToString();
+            t.Start();
+            var conv = await Task.Run(()=>((Cycle)cycleBindingSource.Current).GetConvolution(ref progress));
+            t.Stop();
+            toolStrip1.Enabled = true;
+            toolStrip2.Enabled = true;
+            tlMessage.Text = "Done.";
+            var cv = new CV();
+            var cyc = new Cycle(cv);
+            //res[0] = times.ToArray();
+            //res[1] = volts.ToArray();
+            //res[2] = currents.ToArray();
+            //res[3] = convs.ToArray();
+            for (int i=0;i<conv[0].Count();i++)
+            {
+                var d = new Datapoint(cyc);
+                d.Index = i;
+                d.Time = conv[0][i];
+                d.Volt = conv[1][i];
+                d.Current = conv[3][i];
+                cyc.Datapoints.Add(d);
+            }
+            cv.Datasource = "Convolution of " + ((CV)cVBindingSource.Current).Datasource;
+            cv.Cycles.Add(cyc);
+            CVs.Add(cv);
+            }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
@@ -642,6 +677,12 @@ namespace CV_Evaluator
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
             DestroyFirstCycle();
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            var curr = (Cycle)cycleBindingSource.Current;
+            curr.SetTimeFromScanrate();
         }
     }
   

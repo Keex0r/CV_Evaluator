@@ -53,7 +53,15 @@ namespace CV_Evaluator
         public List<CVPeak> Peaks;
         public List<CVPeakConnection> PeakConnections;
         #endregion
-
+        public void SetTimeFromScanrate()
+        {
+            if (this.Scanrate <= 0) return;
+            var dt = Math.Abs((this.Datapoints[1].Volt - this.Datapoints[0].Volt) / Scanrate);
+            for(int i = 0; i < this.Datapoints.Count(); i++)
+            {
+                this.Datapoints[i].Time = dt * i;
+            }
+        }
         public double GetVoltageStep()
         {
             double sum = 0;
@@ -258,39 +266,91 @@ namespace CV_Evaluator
         }
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
+        private List<double> xValues,yValues;
+        private double t;
+        private double IntegrationFunction(double x)
+        {
+            return Interpolate(x, xValues, yValues)/Math.Sqrt(t-x);
+        }
+        private double Interpolate(double pos, List<double> x, List<double> y)
+        {
+            int ind = x.BinarySearch(pos);
+            if (ind>=0 && ind < x.Count()-1)
+            {
+                return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
+            } else if (ind >= 0)
+            {
+                return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
+            } else
+            {
+                ind *= -1;
+                ind -= 1;
+                if(ind==x.Count-1)
+                {
+                    return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
+                }
+                else
+                {
+                    return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
+                }
+            }
+        }
 
-        public double[][] GetConvolution()
+        public double[][] GetConvolution(ref double progress)
         {
             var times = this.Datapoints.Select(x => x.Time).ToList();
             var currents = this.Datapoints.Select(x => x.Current).ToList();
             var volts = this.Datapoints.Select(x => x.Volt).ToList();
-            var v = this.Scanrate;
-            var dt = (volts[1] - volts[0]) / Scanrate;
-            double fullvoltage = 0;
-            for (int t = 0; t < times.Count()-1; t++)
+            var convs = new List<double>();
+            xValues = times;
+            yValues = currents;
+            var max = times.Count();
+            progress = 0;
+            for(int i=0;i<times.Count();i++)
             {
-                fullvoltage += Math.Abs(volts[t + 1] - volts[t]);
+                t = times[i];
+                //var value1 = MathNet.Numerics.Integration.GaussLegendreRule.Integrate(IntegrationFunction, 0, t,4096) / Math.Sqrt(Math.PI);
+                var value2 = MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(IntegrationFunction, 0, t, 1e-12) / Math.Sqrt(Math.PI);
+                //var value = MathNet.Numerics.Integration.SimpsonRule.IntegrateComposite(IntegrationFunction, 0, t-t/10000, 10000)/Math.Sqrt(Math.PI);
+                convs.Add(value2);
+                progress = (double)i / (double)max;
             }
-           // dt = (fullvoltage / times.Max())/Scanrate;
-            for (int t=0;t<times.Count();t++)
-            {
-                times[t] = t * Math.Abs(dt);
-            }
-            List<double> convs = new List<double>();
-            convs.Add(0);
-            for (int t=1; t<times.Count(); t++)
-            {
-                var thist = new List<double>();
-                var thisi = new List<double>();
-                var valt = times[t];
-                for(int x = 0; x < t; x++)
-                {
-                    thist.Add(times[x]);
-                    thisi.Add(currents[x]/Math.Sqrt(valt-times[x]));
-                }
-                var value=Tools.Integrate(thist, thisi);
-                convs.Add(value);
-            }
+
+
+            //var expansion = 8;
+            //var dt = times.Max() / (times.Count()*expansion-1);
+            
+            
+            //List<double> timesip = new List<double>();
+            //List<double> voltip = new List<double>();
+            //List<double> currentip = new List<double>();
+            //for (int t=0;t<times.Count()*expansion;t++)
+            //{
+            //    double thist = t * Math.Abs(dt);
+            //    timesip.Add( thist);
+            //    currentip.Add(Interpolate(thist, times, currents));
+            //    voltip.Add(Interpolate(thist, times, volts));
+            //}
+
+            //List<double> convs = new List<double>();
+            //convs.Add(0);
+            //for (int t = 1; t < timesip.Count(); t++)
+            //{
+            //    var thist = new List<double>();
+            //    var thisi = new List<double>();
+            //    var valt = timesip[t];
+            //    for (int x=0;x<t;x++)
+            //    {
+            //        thist.Add(timesip[x]);
+            //        thisi.Add(currentip[x] / Math.Sqrt(valt - timesip[x]));
+            //    }
+            //    var value = Tools.Integrate(thist, thisi);
+
+            //    convs.Add(value / Math.Sqrt(Math.PI));
+            //}
+
+
+
             double[][] res=new double[4][];
             res[0]= times.ToArray();
             res[1] = volts.ToArray();

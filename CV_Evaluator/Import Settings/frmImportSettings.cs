@@ -52,5 +52,20 @@ namespace CV_Evaluator.Import_Settings
             Settings = new ImportSettings();
             pgSettings.SelectedObject = Settings;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var sets = new ImportSettings();
+            sets.ColumnsPerCV = 6;
+            sets.CurrentColumn = 6;
+            sets.Delimiter = ImportSettings.enDelimiter.Tab;
+            sets.DontSplit = false;
+            sets.IgnorePoints = 0;
+            sets.SplitByColumns = "1";
+            sets.TimeColumn = 2;
+            sets.VoltColumn = 3;
+            pgSettings.SelectedObject = sets;
+
+        }
     }
 }

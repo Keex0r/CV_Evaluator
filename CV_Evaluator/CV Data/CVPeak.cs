@@ -258,18 +258,18 @@ namespace CV_Evaluator
             do
             {
                 start--;
-                thisdiv = Math.Abs(Parent.DerivativeIndex(start));
-                nextdiv = Math.Abs(Parent.DerivativeIndex(start - 1));
-                nextnextdiv = Math.Abs(Parent.DerivativeIndex(start - 2));
+                thisdiv = Math.Abs(Parent.DerivativeTime(start));
+                nextdiv = Math.Abs(Parent.DerivativeTime(start - 1));
+                nextnextdiv = Math.Abs(Parent.DerivativeTime(start - 2));
             } while (start > 2 && thisdiv < nextdiv);// || thisdiv < nextnextdiv);
             if (start <= 2 || start >= Parent.Datapoints.Count-2) return;
             var p = start;
             var x1 = Parent.Datapoints[p].Index;
-            var y1 = Parent.DerivativeIndex(p);
+            var y1 = Parent.DerivativeTime(p);
             var x2 = Parent.Datapoints[p - 1].Index;
-            var y2 = Parent.DerivativeIndex(p - 1);
+            var y2 = Parent.DerivativeTime(p - 1);
             var x3 = Parent.Datapoints[p + 1].Index;
-            var y3 = Parent.DerivativeIndex(p + 1);
+            var y3 = Parent.DerivativeTime(p + 1);
             var poly = Fitting.LinearRegression.Get2ndOrderPoly(x1, y1, x2, y2, x3, y3);
             var extreme = Fitting.LinearRegression.Get2ndOrderPolyExtreme(poly[0], poly[1], poly[2]);
 
@@ -300,7 +300,7 @@ namespace CV_Evaluator
                 double lastd = 0;
                 for (int i = 0; i < Math.Min(window,start-1); i++)
                 {
-                    var thisd = Parent.DerivativeIndex(start - i);
+                    var thisd = Parent.DerivativeTime(start - i);
                     values.Add(thisd);
                     xvalues.Add(Parent.Datapoints[start - i].Volt);
                     lastd = thisd;
