@@ -49,23 +49,64 @@ namespace CV_Evaluator.Import_Settings
 
         private void btnDefault_Click(object sender, EventArgs e)
         {
-            Settings = new ImportSettings();
-            pgSettings.SelectedObject = Settings;
+            Settings.SetFrom(new ImportSettings());
+            pgSettings.Refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var sets = new ImportSettings();
-            sets.ColumnsPerCV = 6;
-            sets.CurrentColumn = 6;
-            sets.Delimiter = ImportSettings.enDelimiter.Tab;
-            sets.DontSplit = false;
-            sets.IgnorePoints = 0;
-            sets.SplitByColumns = "1";
-            sets.TimeColumn = 2;
-            sets.VoltColumn = 3;
-            pgSettings.SelectedObject = sets;
+            Settings.SetFrom(new ImportSettings());
+            Settings.ColumnsPerCV = 6;
+            Settings.CurrentColumn = 6;
+            Settings.Delimiter = ImportSettings.enDelimiter.Tab;
+            Settings.DontSplit = false;
+            Settings.IgnorePoints = 0;
+            Settings.SplitByColumns = "1";
+            Settings.TimeColumn = 2;
+            Settings.VoltColumn = 3;
+            pgSettings.Refresh();
+        }
 
+        private void btnBiologicSingle_Click(object sender, EventArgs e)
+        {
+            Settings.SetFrom(new ImportSettings());
+            Settings.ColumnsPerCV = 13;
+            Settings.CurrentColumn = 10;
+            Settings.CurrentMulti = 1e-3;
+            Settings.Delimiter = ImportSettings.enDelimiter.Tab;
+            Settings.DontSplit = true;
+            Settings.IgnorePoints = 0;
+            Settings.SplitByColumns = "";
+            Settings.TimeColumn = 7;
+            Settings.VoltColumn = 9;
+            pgSettings.Refresh();
+        }
+
+        private void btnBiologicMulti_Click(object sender, EventArgs e)
+        {
+            Settings.SetFrom(new ImportSettings());
+            Settings.ColumnsPerCV = 15;
+            Settings.CurrentColumn = 10;
+            Settings.CurrentMulti = 1e-3;
+            Settings.Delimiter = ImportSettings.enDelimiter.Tab;
+            Settings.DontSplit = false;
+            Settings.IgnorePoints = 0;
+            Settings.SplitByColumns = "11";
+            Settings.TimeColumn = 13;
+            Settings.VoltColumn = 9;
+            pgSettings.Refresh();
+        }
+
+        private void btnZahner_Click(object sender, EventArgs e)
+        {
+            Settings.SetFrom(new ImportSettings());
+            Settings.ColumnsPerCV = 4;
+            Settings.CurrentColumn = 4;
+            Settings.Delimiter = ImportSettings.enDelimiter.Whitespace;
+            Settings.DontSplit = false;
+            Settings.TimeColumn = 2;
+            Settings.VoltColumn = 3;
+            pgSettings.Refresh();
         }
     }
 }

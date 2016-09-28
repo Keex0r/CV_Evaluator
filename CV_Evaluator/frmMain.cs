@@ -561,10 +561,6 @@ namespace CV_Evaluator
             tlMessage.Text = "Done.";
             var cv = new CV();
             var cyc = new Cycle(cv);
-            //res[0] = times.ToArray();
-            //res[1] = volts.ToArray();
-            //res[2] = currents.ToArray();
-            //res[3] = convs.ToArray();
             for (int i=0;i<conv[0].Count();i++)
             {
                 var d = new Datapoint(cyc);
@@ -683,6 +679,37 @@ namespace CV_Evaluator
         {
             var curr = (Cycle)cycleBindingSource.Current;
             curr.SetTimeFromScanrate();
+        }
+
+        private async void toolStripButton11_Click(object sender, EventArgs e)
+        {
+            toolStrip1.Enabled = false;
+            toolStrip2.Enabled = false;
+            var interpolate = Math.Max(Program.RuntimeData.ImportSettings.InterpolateToNPoints, 1000); 
+            var conv = await Task.Run(() => ((Cycle)cycleBindingSource.Current).InterpolateTo(interpolate,true));
+            toolStrip1.Enabled = true;
+            toolStrip2.Enabled = true;
+
+            var cv = new CV();
+            var cyc = new Cycle(cv);
+            for (int i = 0; i < conv[0].Count(); i++)
+            {
+                var d = new Datapoint(cyc);
+                d.Index = i;
+                d.Time = conv[0][i];
+                d.Volt = conv[1][i];
+                d.Current = conv[2][i];
+                cyc.Datapoints.Add(d);
+            }
+            cv.Datasource = "Interpolation of " + ((CV)cVBindingSource.Current).Datasource;
+            cv.Cycles.Add(cyc);
+            CVs.Add(cv);
+        }
+
+        private void toolStripButton12_Click(object sender, EventArgs e)
+        {
+            var cyc = (Cycle)cycleBindingSource.Current;
+            Clipboard.SetText(cyc.Export());
         }
     }
   

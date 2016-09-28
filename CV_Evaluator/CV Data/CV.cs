@@ -91,16 +91,16 @@ namespace CV_Evaluator
                     maxcols = Math.Max(maxcols, parts.Count());
                     double thise, thisi;
                     if (!Double.TryParse(parts[start+ie-1], out thise) || !double.TryParse(parts[start+ii-1], out thisi)) continue;
-                    e.Add(thise);
+                    e.Add(thise * settings.VoltageMulti);
                     if(i.Count() > 0)
                     {
                         if (thisi == i.Last()) thisi = thisi + thisi / 1e14;
                     }
-                    i.Add(thisi);
+                    i.Add(thisi*settings.CurrentMulti);
                     double thist;
                     if(it>0 && it<=settings.ColumnsPerCV && double.TryParse(parts[start+it-1],out thist))
                     {
-                        t.Add(thist);
+                        t.Add(thist * settings.TimeMulti);
                     } else
                     {
                         t.Add(double.NaN);
@@ -281,6 +281,7 @@ namespace CV_Evaluator
                 thisCycle.Number = 1;
                 for (int i = 0; i < volt.Count(); i++)
                 {
+                    if (i < IgnorePoints) continue;
                     var dp1 = new Datapoint(thisCycle);
                     dp1.Current = currs[i];
                     dp1.Volt = volt[i];

@@ -20,6 +20,10 @@ namespace CV_Evaluator.Import_Settings
             SplitByColumns = "";
             DontSplit = false;
             Delimiter = enDelimiter.Tab;
+            CurrentMulti = 1.0;
+            VoltageMulti = 1.0;
+            TimeMulti = 1.0;
+            InterpolateToNPoints = -1;
         }
         public enum enDelimiter
         {
@@ -29,6 +33,25 @@ namespace CV_Evaluator.Import_Settings
             Dot,
             Semicolon
         }
+        public void SetFrom(ImportSettings sets)
+        {
+            CurrentMulti = sets.CurrentMulti;
+            VoltageMulti = sets.VoltageMulti;
+            TimeMulti = sets.TimeMulti;
+            ColumnsPerCV = sets.ColumnsPerCV;
+            IgnorePoints = sets.IgnorePoints;
+            VoltColumn = sets.VoltColumn;
+            CurrentColumn = sets.CurrentColumn;
+            TimeColumn = sets.TimeColumn;
+            Delimiter = sets.Delimiter;
+            SplitByColumns = sets.SplitByColumns;
+            DontSplit = sets.DontSplit;
+            InterpolateToNPoints = sets.InterpolateToNPoints;
+        }
+        public int InterpolateToNPoints { get; set; }
+        public double CurrentMulti { get; set; }
+        public double VoltageMulti { get; set; }
+        public double TimeMulti { get; set; }
         public int ColumnsPerCV { get; set; }
         public int IgnorePoints { get; set; }
         public int VoltColumn { get; set; }

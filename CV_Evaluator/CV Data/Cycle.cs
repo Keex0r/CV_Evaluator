@@ -79,6 +79,7 @@ namespace CV_Evaluator
         }
 
         #region "Interface functions"
+     
         public void SetScanRateFromSplit(int index)
         {
             var splits = (new Regex(";;")).Split(this.Split);
@@ -278,10 +279,12 @@ namespace CV_Evaluator
             if (ind>=0 && ind < x.Count()-1)
             {
                 return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
-            } else if (ind >= 0)
+            }
+            else if (ind >= 0)
             {
                 return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
-            } else
+            }
+            else
             {
                 ind *= -1;
                 ind -= 1;
@@ -289,16 +292,23 @@ namespace CV_Evaluator
                 {
                     return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
                 }
-                else
+                else if(ind < x.Count()-1) 
                 {
                     return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
+                } else if(ind<0)
+                {
+                    return y.First();
+                } else
+                {
+                    return y.Last();
                 }
             }
         }
 
         public double[][] GetConvolution(ref double progress)
         {
-            var times = this.Datapoints.Select(x => x.Time).ToList();
+            var tmin = this.Datapoints.Select(x => x.Time).Min();
+            var times = this.Datapoints.Select(x => x.Time-tmin).ToList();
             var currents = this.Datapoints.Select(x => x.Current).ToList();
             var volts = this.Datapoints.Select(x => x.Volt).ToList();
             var convs = new List<double>();
@@ -309,54 +319,54 @@ namespace CV_Evaluator
             for(int i=0;i<times.Count();i++)
             {
                 t = times[i];
-                //var value1 = MathNet.Numerics.Integration.GaussLegendreRule.Integrate(IntegrationFunction, 0, t,4096) / Math.Sqrt(Math.PI);
                 var value2 = MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(IntegrationFunction, 0, t, 1e-12) / Math.Sqrt(Math.PI);
-                //var value = MathNet.Numerics.Integration.SimpsonRule.IntegrateComposite(IntegrationFunction, 0, t-t/10000, 10000)/Math.Sqrt(Math.PI);
                 convs.Add(value2);
                 progress = (double)i / (double)max;
             }
-
-
-            //var expansion = 8;
-            //var dt = times.Max() / (times.Count()*expansion-1);
-            
-            
-            //List<double> timesip = new List<double>();
-            //List<double> voltip = new List<double>();
-            //List<double> currentip = new List<double>();
-            //for (int t=0;t<times.Count()*expansion;t++)
-            //{
-            //    double thist = t * Math.Abs(dt);
-            //    timesip.Add( thist);
-            //    currentip.Add(Interpolate(thist, times, currents));
-            //    voltip.Add(Interpolate(thist, times, volts));
-            //}
-
-            //List<double> convs = new List<double>();
-            //convs.Add(0);
-            //for (int t = 1; t < timesip.Count(); t++)
-            //{
-            //    var thist = new List<double>();
-            //    var thisi = new List<double>();
-            //    var valt = timesip[t];
-            //    for (int x=0;x<t;x++)
-            //    {
-            //        thist.Add(timesip[x]);
-            //        thisi.Add(currentip[x] / Math.Sqrt(valt - timesip[x]));
-            //    }
-            //    var value = Tools.Integrate(thist, thisi);
-
-            //    convs.Add(value / Math.Sqrt(Math.PI));
-            //}
-
-
-
             double[][] res=new double[4][];
             res[0]= times.ToArray();
             res[1] = volts.ToArray();
             res[2] = currents.ToArray();
             res[3] = convs.ToArray();
             return res;
+        }
+        public double[][] InterpolateTo(int nPoints, bool SettZero)
+        {
+            var thist = this.Datapoints.Select(x => x.Time).ToList();
+            var thisE = this.Datapoints.Select(x => x.Volt).ToList();
+            var thisI = this.Datapoints.Select(x => x.Current).ToList();
+            List<double> newEs = new List<double>();
+            List<double> newIs = new List<double>();
+            List<double> newts = new List<double>();
+            var tmin = this.Datapoints.Select(x => x.Time).Min();
+            var tmax = this.Datapoints.Select(x => x.Time).Max();
+            var dt = (tmax - tmin) / (nPoints - 1);
+            var t = 0.0;
+            for (int i = 0; i <= nPoints - 1; i++)
+            {
+                t = i * dt+tmin;
+                var newe = Interpolate(t, thist, thisE);
+                var newi = Interpolate(t, thist, thisI);
+                newts.Add(SettZero ? t-tmin : t);
+                newEs.Add(newe);
+                newIs.Add(newi);
+            }
+            double[][] res = new double[3][];
+            res[0] = newts.ToArray();
+            res[1] = newEs.ToArray();
+            res[2] = newIs.ToArray();
+            return res;
+        }
+        public string Export()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Index\tTime\tVoltage\tCurrent");
+            for (int i=0;i<this.Datapoints.Count();i++)
+            {
+                var d = this.Datapoints[i];
+                sb.AppendLine(d.Index.ToString() + "\t" + d.Time.ToString() + "\t" + d.Volt.ToString() + "\t" + d.Current.ToString());
+            }
+            return sb.ToString();
         }
     }
 }

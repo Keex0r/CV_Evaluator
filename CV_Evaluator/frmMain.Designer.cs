@@ -106,8 +106,10 @@
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tlMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -138,7 +140,7 @@
             this.windowsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(837, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1023, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -397,11 +399,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(837, 501);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1023, 501);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(837, 551);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1023, 551);
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -423,8 +425,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.jwGraph1);
-            this.splitContainer1.Size = new System.Drawing.Size(837, 501);
-            this.splitContainer1.SplitterDistance = 279;
+            this.splitContainer1.Size = new System.Drawing.Size(1023, 501);
+            this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -441,7 +443,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(279, 501);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(341, 501);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dgvCycles
@@ -459,7 +461,7 @@
             this.dgvCycles.Location = new System.Drawing.Point(3, 170);
             this.dgvCycles.Name = "dgvCycles";
             this.dgvCycles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCycles.Size = new System.Drawing.Size(273, 161);
+            this.dgvCycles.Size = new System.Drawing.Size(335, 161);
             this.dgvCycles.TabIndex = 0;
             // 
             // scanrateDataGridViewTextBoxColumn
@@ -500,7 +502,7 @@
             this.dgvCVs.Location = new System.Drawing.Point(3, 3);
             this.dgvCVs.Name = "dgvCVs";
             this.dgvCVs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCVs.Size = new System.Drawing.Size(273, 161);
+            this.dgvCVs.Size = new System.Drawing.Size(335, 161);
             this.dgvCVs.TabIndex = 0;
             // 
             // datasourceDataGridViewTextBoxColumn
@@ -545,7 +547,7 @@
             this.dgvPeaks.Location = new System.Drawing.Point(3, 337);
             this.dgvPeaks.Name = "dgvPeaks";
             this.dgvPeaks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPeaks.Size = new System.Drawing.Size(273, 161);
+            this.dgvPeaks.Size = new System.Drawing.Size(335, 161);
             this.dgvPeaks.TabIndex = 1;
             this.dgvPeaks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPeaks_CellFormatting);
             // 
@@ -626,7 +628,7 @@
             this.jwGraph1.Name = "jwGraph1";
             this.jwGraph1.RightMouseFunctionalityEnabled = true;
             this.jwGraph1.ScaleProportional = false;
-            this.jwGraph1.Size = new System.Drawing.Size(554, 501);
+            this.jwGraph1.Size = new System.Drawing.Size(678, 501);
             this.jwGraph1.TabIndex = 0;
             this.jwGraph1.Text = "jwGraph1";
             this.jwGraph1.TopLeftColor = System.Drawing.Color.White;
@@ -644,10 +646,11 @@
             this.toolStripButton4,
             this.toolStripDropDownButton1,
             this.toolStripButton5,
-            this.toolStripButton3});
+            this.toolStripButton3,
+            this.toolStripButton12});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(907, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -745,10 +748,11 @@
             this.toolStripButton7,
             this.toolStripButton8,
             this.toolStripButton9,
-            this.toolStripButton10});
+            this.toolStripButton10,
+            this.toolStripButton11});
             this.toolStrip2.Location = new System.Drawing.Point(3, 25);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(741, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(807, 25);
             this.toolStrip2.TabIndex = 1;
             // 
             // tsbRepeatPickPeaks
@@ -845,13 +849,23 @@
             this.toolStripButton10.Text = "Time from Scanrate";
             this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
+            // toolStripButton11
+            // 
+            this.toolStripButton11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton11.Image")));
+            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton11.Name = "toolStripButton11";
+            this.toolStripButton11.Size = new System.Drawing.Size(97, 22);
+            this.toolStripButton11.Text = "Interpolate to 5k";
+            this.toolStripButton11.Click += new System.EventHandler(this.toolStripButton11_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tlMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 575);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(837, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1023, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -861,11 +875,21 @@
             this.tlMessage.Size = new System.Drawing.Size(118, 17);
             this.tlMessage.Text = "toolStripStatusLabel1";
             // 
+            // toolStripButton12
+            // 
+            this.toolStripButton12.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton12.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton12.Image")));
+            this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton12.Name = "toolStripButton12";
+            this.toolStripButton12.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButton12.Text = "Export Cycle";
+            this.toolStripButton12.Click += new System.EventHandler(this.toolStripButton12_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(837, 597);
+            this.ClientSize = new System.Drawing.Size(1023, 597);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
@@ -982,6 +1006,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
         private System.Windows.Forms.ToolStripButton toolStripButton10;
+        private System.Windows.Forms.ToolStripButton toolStripButton11;
+        private System.Windows.Forms.ToolStripButton toolStripButton12;
     }
 }
 

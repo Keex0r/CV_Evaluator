@@ -179,6 +179,7 @@ namespace CV_Evaluator
             {
                 var zeroy = graph.Y1Axis.ValueToPixelPosition(0) + graph.GraphBorder.Top;
                 var p1 = new PointF(peakp.X, zeroy);
+                if (Single.IsNaN(peakp.X) || Single.IsNaN(zeroy) || Single.IsInfinity(peakp.X) || Single.IsInfinity(zeroy) || Math.Abs(peakp.X) > 100000 || Math.Abs(zeroy) > 100000) return;
                 using (Pen p = new Pen(Brushes.Brown, 3))
                 {
                     g.DrawLine(p, peakp, p1);
