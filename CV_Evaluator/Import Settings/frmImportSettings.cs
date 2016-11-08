@@ -108,5 +108,19 @@ namespace CV_Evaluator.Import_Settings
             Settings.VoltColumn = 3;
             pgSettings.Refresh();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Settings.SetFrom(new ImportSettings());
+            Settings.ColumnsPerCV = 10;
+            Settings.CurrentColumn = 10;
+            Settings.Delimiter = ImportSettings.enDelimiter.Whitespace;
+            Settings.DontSplit = false;
+            Settings.TimeColumn = 4;
+            Settings.VoltColumn = 5;
+            Settings.SplitByColumns = "1,3";
+            Settings.nHeaderLines = 5;
+            pgSettings.Refresh();
+        }
     }
 }

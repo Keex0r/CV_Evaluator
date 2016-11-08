@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace CV_Evaluator.Import_Settings
 {
@@ -24,6 +25,7 @@ namespace CV_Evaluator.Import_Settings
             VoltageMulti = 1.0;
             TimeMulti = 1.0;
             InterpolateToNPoints = -1;
+            nHeaderLines = 0;
         }
         public enum enDelimiter
         {
@@ -48,18 +50,32 @@ namespace CV_Evaluator.Import_Settings
             DontSplit = sets.DontSplit;
             InterpolateToNPoints = sets.InterpolateToNPoints;
         }
+        [Category("General file structure")]
         public int InterpolateToNPoints { get; set; }
+        [Category("Multiplier")]
         public double CurrentMulti { get; set; }
+        [Category("Multiplier")]
         public double VoltageMulti { get; set; }
+        [Category("Multiplier")]
         public double TimeMulti { get; set; }
+        [Category("General file structure")]
         public int ColumnsPerCV { get; set; }
+        [Category("General file structure")]
         public int IgnorePoints { get; set; }
+        [Category("Column Designations")]
         public int VoltColumn { get; set; }
+        [Category("Column Designations")]
         public int CurrentColumn { get; set; }
+        [Category("Column Designations")]
         public int TimeColumn { get; set; }
+        [Category("General file structure")]
         public enDelimiter Delimiter { get; set; }
+        [Category("General file structure")]
         public string SplitByColumns { get; set; }
+        [Category("General file structure")]
         public bool DontSplit { get; set; }
+        [Category("General file structure")]
+        public int nHeaderLines { get; set; }
         public Regex GetDelimiterRegex()
         {
             if(Delimiter==enDelimiter.Comma)

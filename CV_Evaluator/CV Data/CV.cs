@@ -76,7 +76,16 @@ namespace CV_Evaluator
             var dosplit = !settings.DontSplit;
             int maxcols = 0;
             List<CV> res = new List<CV>();
-            var lines = input.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            //var lines = input.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = new List<string>();
+            var sr = new System.IO.StringReader(input);
+            string tline;
+            var count = 0;
+            while((tline = sr.ReadLine()) != null)
+            {
+                if(count>=settings.nHeaderLines) lines.Add(tline);
+                count++;
+            }
             do
             {
                 var e = new List<double>();

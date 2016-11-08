@@ -38,6 +38,7 @@
             this.btnBiologicSingle = new System.Windows.Forms.Button();
             this.btnBiologicMulti = new System.Windows.Forms.Button();
             this.btnZahner = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -49,6 +50,7 @@
             this.pgSettings.HelpVisible = false;
             this.pgSettings.Location = new System.Drawing.Point(3, 3);
             this.pgSettings.Name = "pgSettings";
+            this.pgSettings.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.pgSettings.Size = new System.Drawing.Size(468, 311);
             this.pgSettings.TabIndex = 0;
             // 
@@ -103,6 +105,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnBiologicSingle);
             this.flowLayoutPanel1.Controls.Add(this.btnBiologicMulti);
             this.flowLayoutPanel1.Controls.Add(this.btnZahner);
+            this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(477, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -161,6 +164,16 @@
             this.btnZahner.UseVisualStyleBackColor = true;
             this.btnZahner.Click += new System.EventHandler(this.btnZahner_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(108, 61);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(99, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Comsol Combined";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // frmImportSettings
             // 
             this.AcceptButton = this.btnOK;
@@ -190,5 +203,6 @@
         private System.Windows.Forms.Button btnBiologicSingle;
         private System.Windows.Forms.Button btnBiologicMulti;
         private System.Windows.Forms.Button btnZahner;
+        private System.Windows.Forms.Button button1;
     }
 }

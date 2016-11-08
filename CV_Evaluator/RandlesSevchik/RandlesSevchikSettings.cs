@@ -14,6 +14,7 @@ namespace CV_Evaluator.RandlesSevchik
             ScanrateUnit = enScanrateUnit.mVs;
             Concentration = 5;
             ConcentrationUnit = enConcentrationUnit.molm3;
+            UseCycles = false;
         }
         [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enScanrateUnit
@@ -60,7 +61,7 @@ namespace CV_Evaluator.RandlesSevchik
         public double Concentration { get; set; }
         public enConcentrationUnit ConcentrationUnit { get; set; }
         public double z { get; set; }
-
+        public bool UseCycles { get; set; }
         public double GetScanRate(double Scanrate)
         {
             if (ScanrateUnit == enScanrateUnit.Vs)

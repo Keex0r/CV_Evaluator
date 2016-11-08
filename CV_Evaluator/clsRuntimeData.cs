@@ -20,8 +20,12 @@ namespace CV_Evaluator
                 ImportSettings = ImportSettings.FromXML(Properties.Settings.Default.ImportSettings);
                 if (ImportSettings == null) ImportSettings = new ImportSettings();
             }
+            PlotAsCV = true;
+            Style = jwGraph.jwGraph.Series.enumSeriesType.Line;
         }
         public Import_Settings.ImportSettings ImportSettings;
+        public jwGraph.jwGraph.Series.enumSeriesType Style;
+        public bool PlotAsCV;
         
     }
 }

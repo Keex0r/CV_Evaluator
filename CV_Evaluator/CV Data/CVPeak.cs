@@ -243,7 +243,12 @@ namespace CV_Evaluator
             PeakCenterIndex = extreme.Item1;
             RawPeakCurrent = extreme.Item2;
             PickSteepestRise();
-            AutoPickBaseline(BaselineStdLimit);
+            for(double limit=-12;limit<-5;limit+=0.1)
+            {
+                AutoPickBaseline(Math.Pow(10,limit));
+                if (BaselineP1 != -1 && BaselineP2 != -1) break;
+            }
+
         }
 
         

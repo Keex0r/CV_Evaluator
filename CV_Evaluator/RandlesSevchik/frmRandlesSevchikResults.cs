@@ -15,10 +15,12 @@ namespace CV_Evaluator.RandlesSevchik
         public RandlesSevchikSettings Settings;
         public IEnumerable<CV> CVs;
         public RandlesSevchikResults Results;
-        public frmRandlesSevchikResults(RandlesSevchikSettings Settings, IEnumerable<CV> CVs)
+        private CV CurrentCV;
+        public frmRandlesSevchikResults(RandlesSevchikSettings Settings, IEnumerable<CV> CVs, CV CurrentCV)
         {
             InitializeComponent();
             this.CVs = CVs;
+            this.CurrentCV = CurrentCV;
             this.Settings = Settings;
             var values = GetValues();
             var result = GetResult(values);
@@ -40,17 +42,33 @@ namespace CV_Evaluator.RandlesSevchik
         public List<Tuple<double,double>> GetValues()
         {
             List<Tuple<double, double>> res = new List<Tuple<double, double>>();
-            if (Settings == null || CVs == null || CVs.Count() == 0) return res;
-            foreach(var CV in CVs)
+            if (Settings == null || CVs == null || CurrentCV==null || CVs.Count() == 0) return res;
+            if(!Settings.UseCycles)
             {
-                var cycle = CV.Cycles[Settings.CycleNumber - 1];
-                if (cycle.Scanrate == 0) continue;
-                double x = Math.Sqrt(Settings.GetScanRate(cycle.Scanrate));
-                var peak = cycle.Peaks.Where(peak1 => peak1.Process == Settings.ProcessName).Select(peak1 => peak1).FirstOrDefault();
-                if (peak == null) continue;
-                var y = peak.PeakHeight / Settings.GetArea(); ;
-                res.Add(Tuple.Create(x, y));
+                foreach (var CV in CVs)
+                {
+                    var cycle = CV.Cycles[Settings.CycleNumber - 1];
+                    if (cycle.Scanrate == 0) continue;
+                    double x = Math.Sqrt(Settings.GetScanRate(cycle.Scanrate));
+                    var peak = cycle.Peaks.Where(peak1 => peak1.Process == Settings.ProcessName).Select(peak1 => peak1).FirstOrDefault();
+                    if (peak == null) continue;
+                    var y = peak.PeakHeight / Settings.GetArea(); ;
+                    res.Add(Tuple.Create(x, y));
+                }
+            } else
+            {
+                foreach(Cycle cyc in CurrentCV.Cycles)
+                {
+                    if (cyc.Scanrate == 0) continue;
+                    double x = Math.Sqrt(Settings.GetScanRate(cyc.Scanrate));
+                    var peak = cyc.Peaks.Where(peak1 => peak1.Process == Settings.ProcessName).Select(peak1 => peak1).FirstOrDefault();
+                    if (peak == null) continue;
+                    var y = peak.PeakHeight / Settings.GetArea(); ;
+                    res.Add(Tuple.Create(x, y));
+                }
             }
+            
+
             return res;
         }
         public RandlesSevchikResults GetResult(List<Tuple<double, double>> Values)

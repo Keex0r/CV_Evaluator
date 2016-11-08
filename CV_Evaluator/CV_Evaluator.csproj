@@ -70,11 +70,23 @@
     <Compile Include="CV Data\CVPeak.cs" />
     <Compile Include="CV Data\CVPeakConnection.cs" />
     <Compile Include="CV Data\Cycle.cs" />
+    <Compile Include="frmInterpolateSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInterpolateSettings.Designer.cs">
+      <DependentUpon>frmInterpolateSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmScanFromSplitOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScanFromSplitOption.Designer.cs">
+      <DependentUpon>frmScanFromSplitOption.cs</DependentUpon>
     </Compile>
     <Compile Include="Import Settings\frmImportSettings.cs">
       <SubType>Form</SubType>
@@ -119,8 +131,14 @@
     <Compile Include="RandlesSevchik\RandlesSevchikSettings.cs" />
     <Compile Include="SerializableSettings.cs" />
     <Compile Include="Tools.cs" />
+    <EmbeddedResource Include="frmInterpolateSettings.resx">
+      <DependentUpon>frmInterpolateSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScanFromSplitOption.resx">
+      <DependentUpon>frmScanFromSplitOption.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Import Settings\frmImportSettings.resx">
       <DependentUpon>frmImportSettings.cs</DependentUpon>

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace CV_Evaluator
 {
     [Serializable]
-    public class Cycle : INotifyPropertyChanged
+    public class Cycle : INotifyPropertyChanged, ICloneable
     {
         public Cycle() : this(null)
         {
@@ -273,21 +273,25 @@ namespace CV_Evaluator
         {
             return Interpolate(x, xValues, yValues)/Math.Sqrt(t-x);
         }
-        private double Interpolate(double pos, List<double> x, List<double> y)
+        public static double Interpolate(double pos, List<double> x, List<double> y)
         {
             int ind = x.BinarySearch(pos);
             if (ind>=0 && ind < x.Count()-1)
             {
+                //pos is an actual item in the list
                 return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
             }
             else if (ind >= 0)
             {
+                //pos is larger than the largest item in the list?
                 return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
             }
             else
             {
+                //pos is not in the list
                 ind *= -1;
-                ind -= 1;
+                ind -= 2;
+                //ind is now the index of the first item larger than pos -1
                 if(ind==x.Count-1)
                 {
                     return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
@@ -330,7 +334,31 @@ namespace CV_Evaluator
             res[3] = convs.ToArray();
             return res;
         }
-        public double[][] InterpolateTo(int nPoints, bool SettZero)
+
+        private List<int> FindVertices()
+        {
+            var thist = this.Datapoints.Select(x => x.Time).ToList();
+            var thisE = this.Datapoints.Select(x => x.Volt).ToList();
+            var dedt = (thisE[1] - thisE[0]) / (thist[1] - thist[0]);
+            var currsign = Math.Sign(dedt);
+            int i = 0;
+            List<int> res = new List<int>();
+            res.Add(0);
+            do
+            {
+                var thisdedt = (thisE[i + 1] - thisE[i]) / (thist[i + 1] - thist[i]);
+                if (!Double.IsNaN(thisdedt) && Math.Sign(thisdedt) != currsign)
+                {
+                    res.Add(i);
+                    currsign = Math.Sign(thisdedt);
+                }
+                i++;
+            } while (i < thist.Count()-1);
+            res.Add(thist.Count() - 1);
+            return res;
+        }
+
+        public double[][] InterpolateTo(double tstep, bool SettZero,int Skips, bool FromScanrate)
         {
             var thist = this.Datapoints.Select(x => x.Time).ToList();
             var thisE = this.Datapoints.Select(x => x.Volt).ToList();
@@ -338,18 +366,46 @@ namespace CV_Evaluator
             List<double> newEs = new List<double>();
             List<double> newIs = new List<double>();
             List<double> newts = new List<double>();
-            var tmin = this.Datapoints.Select(x => x.Time).Min();
-            var tmax = this.Datapoints.Select(x => x.Time).Max();
-            var dt = (tmax - tmin) / (nPoints - 1);
-            var t = 0.0;
-            for (int i = 0; i <= nPoints - 1; i++)
+            double dt;
+            if(!FromScanrate)
             {
-                t = i * dt+tmin;
-                var newe = Interpolate(t, thist, thisE);
-                var newi = Interpolate(t, thist, thisI);
-                newts.Add(SettZero ? t-tmin : t);
-                newEs.Add(newe);
-                newIs.Add(newi);
+                dt = tstep;
+            } else
+            {
+                dt = 1/this.Scanrate * tstep;
+            }
+            //(tmax - tmin) / (nPoints - 1);
+
+            var verts = FindVertices();
+            for(int verti = Skips; verti < verts.Count() - 1; verti++)
+            {
+                var tstart = thist[verts[verti]];
+                var tend = thist[verts[verti+1]];
+                
+                newEs.Add(thisE[verts[verti]]);
+                newIs.Add(thisI[verts[verti]]);
+                newts.Add(thist[verts[verti]]);
+                var t = tstart+dt;
+                do
+                {
+                    var newe = Interpolate(t, thist, thisE);
+                    var newi = Interpolate(t, thist, thisI);
+                    newEs.Add(newe);
+                    newIs.Add(newi);
+                    newts.Add(t);
+                    t += dt;
+                } while (t<tend);
+                newEs.Add(thisE[verts[verti + 1]]);
+                newIs.Add(thisI[verts[verti + 1]]);
+                newts.Add(thist[verts[verti + 1]]);
+            }
+            if(SettZero)
+            {
+                var tstart = newts.Min();
+                for(int i = 0;i<newts.Count();i++)
+                {
+                    newts[i] = newts[i] - tstart;
+                }
             }
             double[][] res = new double[3][];
             res[0] = newts.ToArray();
@@ -367,6 +423,44 @@ namespace CV_Evaluator
                 sb.AppendLine(d.Index.ToString() + "\t" + d.Time.ToString() + "\t" + d.Volt.ToString() + "\t" + d.Current.ToString());
             }
             return sb.ToString();
+        }
+
+        public object Clone()
+        {
+            var cyc = new Cycle(this.Parent);
+            cyc.Number = Number;
+            cyc.Scanrate = Scanrate;
+            cyc.Split = Split;
+            foreach(var d in Datapoints)
+            {
+                var newd = new Datapoint(cyc);
+                newd.Current = d.Current;
+                newd.Index = d.Index;
+                newd.Time = d.Time;
+                newd.Volt = d.Volt;
+                cyc.Datapoints.Add(newd);
+            }
+            foreach(var p in Peaks)
+            {
+                var newp = new CVPeak(cyc);
+                newp.BaselineP1 = p.BaselineP1;
+                newp.BaselineP2 = p.BaselineP2;
+                newp.PeakCenterIndex = p.PeakCenterIndex;
+                newp.PeakDirection = p.PeakDirection;
+                newp.Process = p.Process;
+                newp.RawPeakCurrent = p.RawPeakCurrent;
+                newp.SteepestRiseIndex = p.SteepestRiseIndex;
+                cyc.Peaks.Add(newp);
+            }
+            foreach(var c in PeakConnections)
+            {
+                var newc = new CVPeakConnection(cyc);
+                newc.Peak1 = cyc.Peaks[Peaks.IndexOf(c.Peak1)];
+                newc.Peak2 = cyc.Peaks[Peaks.IndexOf(c.Peak2)];
+                newc.Title = c.Title;
+                cyc.PeakConnections.Add(newc);
+            }
+            return cyc;
         }
     }
 }

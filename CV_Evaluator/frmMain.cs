@@ -59,7 +59,8 @@ namespace CV_Evaluator
             graph.BeginUpdate();
             graph.Series.Clear();
             
-            var ser = graph.Series.AddSeries(jwGraph.jwGraph.Series.enumSeriesType.Line, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
+            var ser = graph.Series.AddSeries(Program.RuntimeData.Style, jwGraph.jwGraph.Axis.enumAxisLocation.Primary);
+            ser.MarkerFillColor = Color.Transparent;
             int count = 0;
             int step = 1;
             if (cv.Datapoints.Count() > 10000)
@@ -69,7 +70,8 @@ namespace CV_Evaluator
                for(int i=0;i<cv.Datapoints.Count();i=i+step) 
                 {
                 var d = cv.Datapoints[i];
-                ser.AddXY(d.Volt, d.Current);
+                var point = ser.AddXY(d.Volt, d.Current);
+                point.Tag = d;
                 count++;
             }
             graph.Tag = cv;
@@ -92,12 +94,51 @@ namespace CV_Evaluator
             }
             foreach(CV cv in newcvs)
             {
-                PickPeaksCV(cv);
                 CVs.Add(cv);
             }
-            
         }
+        private void SplitBySplit()
+        {
+            int index = 0;
+            using (var frm = new frmScanFromSplitOption())
+            {
+                if (frm.ShowDialog(this) == DialogResult.Cancel) return;
+                index = frm.WhichSplit;
+            }
 
+            SplitBySplit(index);
+
+        }
+        private void SplitBySplit(int index)
+        {
+            var cv = (CV)cVBindingSource.Current;
+            var cycs = new Dictionary<string, List<Cycle>>();
+            foreach (var c in cv.Cycles)
+            {
+                var splits = (new Regex(";;")).Split(c.Split);
+                if (index < 0 || index > splits.Count() - 1)
+                {
+                    MessageBox.Show("Invalid split");
+                    return;
+                }
+                var k = splits[index];
+                if (!cycs.ContainsKey(k)) cycs.Add(k, new List<Cycle>());
+                cycs[k].Add(c);
+
+            }
+            foreach (var k in cycs.Keys)
+            {
+                var newcv = new CV();
+                newcv.Datasource = "From Split " + k;
+
+                foreach (var cyc in cycs[k])
+                {
+                    newcv.Cycles.Add((Cycle)cyc.Clone());
+                }
+                CVs.Add(newcv);
+            }
+            RefreshAll();
+        }
         private void cVBindingSource_CurrentChanged(object sender, EventArgs e)
         {
             if (cVBindingSource.Current == null)
@@ -124,11 +165,15 @@ namespace CV_Evaluator
         }
         private void RefreshCurrentCycle(object sender, EventArgs e)
         {
+            DoRefreshCurrentCycle();
+        }
+        private void DoRefreshCurrentCycle()
+        {
             jwGraph1.Series.Clear();
             if (cycleBindingSource.Current == null) return;
             PlotCV((Cycle)cycleBindingSource.Current, jwGraph1);
-        }
 
+        }
         private void PaintPeaks(Cycle cv, Graphics g, jwGraph.jwGraph.jwGraph graph)
         {
             var rect = graph.InnerChartArea;
@@ -220,7 +265,7 @@ namespace CV_Evaluator
             jwGraph.jwGraph.Datapoint point = null;
             int index = -1;
             var isHit = jwGraph1.PointHitTest(e.Location, ref ser, ref index, ref point);
-
+          if(isHit)  index = ((Datapoint)point.Tag).Index;
             if (BLpointselect == -1 && PeakPicker == false) return;
 
             if (isHit)
@@ -309,7 +354,8 @@ namespace CV_Evaluator
                 if (frmSettings.ShowDialog(this) == DialogResult.Cancel) return;
                 settings = frmSettings.Settings;
             }
-            using (var frmResult = new RandlesSevchik.frmRandlesSevchikResults(settings,this.CVs))
+            var thiscv = (CV)cVBindingSource.Current;
+            using (var frmResult = new RandlesSevchik.frmRandlesSevchikResults(settings,this.CVs,thiscv))
             {
                 frmResult.ShowDialog(this);
             }
@@ -374,38 +420,6 @@ namespace CV_Evaluator
             }
         }
 
-        private void SplitToNew(List<Cycle> cycles)
-        {
-            //Only for the same parent CV
-            if (cycles.Select(x => x.Parent).Distinct().Count() > 1) return;
-            var parent = cycles[0].Parent;
-            var newcv = new CV();
-            newcv.Datasource = "From Split";
-            foreach(var cyc in cycles)
-            {
-                parent.Cycles.Remove(cyc);
-                cyc.Parent=newcv;
-                cyc.Number = newcv.Cycles.Count + 1;
-                newcv.Cycles.Add(cyc);
-            }
-            newcv.Setup();
-            CVs.Add(newcv);
-            dgvCVs.ClearSelection();
-            
-            var row=dgvCVs.Rows.Cast<DataGridViewRow>().Where(x => x.DataBoundItem == newcv).Select(x => x).First();
-            row.Selected = true;
-            dgvCVs.CurrentCell = row.Cells[0];
-        }
-    
-        private void tsbSplitCycles_Click(object sender, EventArgs e)
-        {
-            List<Cycle> cycles = new List<Cycle>();
-            foreach (DataGridViewRow row in dgvCycles.SelectedRows)
-            {
-                cycles.Add((Cycle)row.DataBoundItem);
-            }
-            SplitToNew(cycles);
-        }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -432,6 +446,11 @@ namespace CV_Evaluator
         }
         private void RefreshAll()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => RefreshAll()));
+                return;
+            }
             cVBindingSource.ResetBindings(true);
             cycleBindingSource.ResetBindings(true);
             cVPeakBindingSource.ResetBindings(true);
@@ -577,9 +596,23 @@ namespace CV_Evaluator
 
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
-            foreach(Cycle c in ((CV)cVBindingSource.Current).Cycles)
+            SetScanrateFromSplit();
+        }
+        private void SetScanrateFromSplit()
+        {
+            int index = 0;
+            using (var frm = new frmScanFromSplitOption())
             {
-                c.SetScanRateFromSplit(0);
+                if (frm.ShowDialog(this) == DialogResult.Cancel) return;
+                index = frm.WhichSplit;
+            }
+            SetScanrateFromSplit(index);
+        }
+        private void SetScanrateFromSplit(int index)
+        {
+            foreach (Cycle c in ((CV)cVBindingSource.Current).Cycles)
+            {
+                c.SetScanRateFromSplit(index);
             }
             RefreshAll();
         }
@@ -685,31 +718,239 @@ namespace CV_Evaluator
         {
             toolStrip1.Enabled = false;
             toolStrip2.Enabled = false;
-            var interpolate = Math.Max(Program.RuntimeData.ImportSettings.InterpolateToNPoints, 1000); 
-            var conv = await Task.Run(() => ((Cycle)cycleBindingSource.Current).InterpolateTo(interpolate,true));
+
+            await InterpolateCV();
+
             toolStrip1.Enabled = true;
             toolStrip2.Enabled = true;
+        }
 
+        private async Task InterpolateCV()
+        {
+            double dt = 0.1;
+            bool tzero = false;
+            int skips = 0;
+            var fromscan = false;
+            var allcycles = false;
+            var InPlace = false;
+            using (var frm = new frmInterpolateSettings((Cycle)cycleBindingSource.Current))
+            {
+                if (frm.ShowDialog(this) == DialogResult.Cancel) return;
+                dt = frm.dt;
+                tzero = frm.SettZero;
+                skips = frm.Skips;
+                fromscan = frm.FromScanrate;
+                allcycles = frm.AllCycles;
+                InPlace = frm.InPlace;
+            }
+            await InterpolateCV(dt, tzero, skips, fromscan, allcycles, InPlace);
+        }
+        private async Task InterpolateCV(double dt, bool tzero, int skips, bool fromscan, bool allcycles, bool InPlace)
+        {
+            if (allcycles)
+            {
+                var thiscv = (CV)cVBindingSource.Current;
+                foreach (var cyc in thiscv.Cycles)
+                {
+                    var data = await Task.Run(() => cyc.InterpolateTo(dt, tzero, skips, fromscan));
+                    if (InPlace)
+                    {
+                        ReplaceCycleData(cyc, data);
+                    }
+                    else
+                    {
+                        var cv = GetNewCV(data);
+                        CVs.Add(cv);
+                    }
+
+                }
+            }
+            else
+            {
+                var data = await Task.Run(() => ((Cycle)cycleBindingSource.Current).InterpolateTo(dt, tzero, skips, fromscan));
+                if (InPlace)
+                {
+                    ReplaceCycleData((Cycle)cycleBindingSource.Current, data);
+                }
+                else
+                {
+                    var cv = GetNewCV(data);
+                    CVs.Add(cv);
+                }
+            }
+            RefreshAll();
+        }
+        private CV GetNewCV(double[][] data)
+        {
             var cv = new CV();
             var cyc = new Cycle(cv);
-            for (int i = 0; i < conv[0].Count(); i++)
+            for (int i = 0; i < data[0].Count(); i++)
             {
                 var d = new Datapoint(cyc);
                 d.Index = i;
-                d.Time = conv[0][i];
-                d.Volt = conv[1][i];
-                d.Current = conv[2][i];
+                d.Time = data[0][i];
+                d.Volt = data[1][i];
+                d.Current = data[2][i];
                 cyc.Datapoints.Add(d);
             }
             cv.Datasource = "Interpolation of " + ((CV)cVBindingSource.Current).Datasource;
             cv.Cycles.Add(cyc);
-            CVs.Add(cv);
+            return cv;
         }
-
+        private void ReplaceCycleData(Cycle cyc, double[][] data)
+        {
+            cyc.PeakConnections.Clear();
+            cyc.Peaks.Clear();
+            cyc.Datapoints.Clear();
+            for (int i = 0; i < data[0].Count(); i++)
+            {
+                var d = new Datapoint(cyc);
+                d.Index = i;
+                d.Time = data[0][i];
+                d.Volt = data[1][i];
+                d.Current = data[2][i];
+                cyc.Datapoints.Add(d);
+            }
+        }
         private void toolStripButton12_Click(object sender, EventArgs e)
         {
             var cyc = (Cycle)cycleBindingSource.Current;
             Clipboard.SetText(cyc.Export());
+        }
+
+        private void tsbCombine2ndCycles_Click(object sender, EventArgs e)
+        {
+            var cv = (CV)cVBindingSource.Current;
+            List<Cycle> newCycs = new List<Cycle>();
+            for(int i=0;i<cv.Cycles.Count();i+=2)
+            {
+                Cycle newcyc = new Cycle(cv);
+                newcyc.Datapoints.AddRange(cv.Cycles[i].Datapoints);
+                newcyc.Datapoints.AddRange(cv.Cycles[i+1].Datapoints);
+                for (int x = 0; x < newcyc.Datapoints.Count(); x++) newcyc.Datapoints[x].Index = x;
+                newcyc.Number = i / 2+1;
+                newcyc.Split = cv.Cycles[i].Split;
+                newCycs.Add(newcyc);
+            }
+            cv.Cycles.Clear();
+            cv.Cycles.AddRange(newCycs);
+            RefreshAll();
+        }
+
+        private void tsbExportPeakSep_Click(object sender, EventArgs e)
+        {
+            var sb = new System.Text.StringBuilder();
+            foreach(CV c in CVs)
+            {
+                foreach(Cycle cyc in c.Cycles)
+                {
+                    foreach (CVPeakConnection con in cyc.PeakConnections)
+                    {
+                        var diff = Math.Abs(con.Peak1.GetPeakPosition().Item1 - con.Peak2.GetPeakPosition().Item1);
+                        sb.AppendLine(cyc.Scanrate.ToString() + "\t" + diff.ToString());
+                    }
+                }
+            }
+            Clipboard.SetText(sb.ToString());
+        }
+        private void CombineFiles()
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog(this) == DialogResult.Cancel) return;
+            var f1 = dlg.FileNames[0];
+            var f2 = dlg.FileNames[1];
+            using (var sr1 = File.OpenText(f1))
+            {
+                using (var sr2 = File.OpenText(f2))
+                {
+                    var newfn = Path.GetFileNameWithoutExtension(f1) + "_Combine.txt";
+                    var path = Path.GetDirectoryName(f1);
+                    using (var sw=File.CreateText(Path.Combine(path,newfn)))
+                    {
+                        while(!sr1.EndOfStream && !sr2.EndOfStream)
+                        {
+                            var l1 = sr1.ReadLine();
+                            var l2 = sr2.ReadLine();
+                            sw.WriteLine(l1 + "\t" + l2);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void combineTwoFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CombineFiles();
+        }
+
+        private void generateSweepsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var bla = 8.314 * 293 / 96485.0 * Math.Log(2.5 / 7.5);
+            var c =new double[] { 10.0, 7.5, 5.0, 2.5, 0.0 };
+            var v = new double[] { 10,25,50,100,150,200,300 };
+            var Estart = new double[] { -1, bla,0,-bla,1};
+
+            var allc = new List<string>();
+            var alle = new List<string>();
+            var allv = new List<string>();
+
+            for (int ci=0;ci<c.Count();ci++)
+            {
+                for(int vi = 0;vi < v.Count();vi++)
+                {
+                    allc.Add(c[ci].ToString());
+                    alle.Add(Estart[ci].ToString());
+                    allv.Add(v[vi].ToString());
+                }
+            }
+            var sb = new StringBuilder();
+            sb.AppendLine("cBulkFc {" + string.Join(",", allc) + "}[mol/m^3]");
+            sb.AppendLine("EStart {" + string.Join(",", alle) + "}[V]");
+            sb.AppendLine("v {" + string.Join(",", allv) + "}[mV/s]");
+            Clipboard.SetText(sb.ToString());
+        }
+
+        private void cVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.RuntimeData.PlotAsCV = true;
+            DoRefreshCurrentCycle();
+        }
+
+        private void vsTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.RuntimeData.PlotAsCV = false;
+            DoRefreshCurrentCycle();
+        }
+
+        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.RuntimeData.Style =  jwGraph.jwGraph.Series.enumSeriesType.Line;
+            DoRefreshCurrentCycle();
+        }
+
+        private void scatterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.RuntimeData.Style = jwGraph.jwGraph.Series.enumSeriesType.Scatter;
+            DoRefreshCurrentCycle();
+        }
+
+        private void bothToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.RuntimeData.Style = jwGraph.jwGraph.Series.enumSeriesType.LineScatter;
+            DoRefreshCurrentCycle();
+        }
+
+        private void tsbSplitBySplit_Click(object sender, EventArgs e)
+        {
+            SplitBySplit();
+        }
+
+        private async void tsbComsol1Click_Click(object sender, EventArgs e)
+        {
+            SetScanrateFromSplit(1);
+            await InterpolateCV(0.006, false, 0, true, true, true);
+            SplitBySplit(0);
         }
     }
   
