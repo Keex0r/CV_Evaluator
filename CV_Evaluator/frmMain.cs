@@ -229,15 +229,26 @@ namespace CV_Evaluator
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            var cvs = CV.FromText(CV_Evaluator.Properties.Resources.CV, Program.RuntimeData.ImportSettings);
-            foreach(CV cv in cvs)
+            ImportExample();
+        }
+        private void ImportExample()
+        {
+            var Settings = new Import_Settings.ImportSettings();
+            Settings.ColumnsPerCV = 10;
+            Settings.CurrentColumn = 10;
+            Settings.Delimiter = Import_Settings.ImportSettings.enDelimiter.Whitespace;
+            Settings.DontSplit = false;
+            Settings.TimeColumn = 4;
+            Settings.VoltColumn = 5;
+            Settings.SplitByColumns = "1,3";
+            Settings.nHeaderLines = 5;
+            var cvs = CV.FromText(CV_Evaluator.Properties.Resources.CV, Settings);
+            foreach (CV cv in cvs)
             {
                 PickPeaksCV(cv);
                 CVs.Add(cv);
             }
-            
         }
-
         private int BLpointselect = -1;
         private CVPeak workpeak;
         private bool PeakPicker = false;
@@ -345,8 +356,7 @@ namespace CV_Evaluator
         {
             ClearPeakConnections();
         }
-
-        private void toolStripButton5_Click(object sender, EventArgs e)
+        private void LaunchRandlesSevcik()
         {
             RandlesSevchik.RandlesSevchikSettings settings;
             using (var frmSettings = new RandlesSevchik.frmRandlesSevchikSetup())
@@ -355,11 +365,12 @@ namespace CV_Evaluator
                 settings = frmSettings.Settings;
             }
             var thiscv = (CV)cVBindingSource.Current;
-            using (var frmResult = new RandlesSevchik.frmRandlesSevchikResults(settings,this.CVs,thiscv))
+            using (var frmResult = new RandlesSevchik.frmRandlesSevchikResults(settings, this.CVs, thiscv))
             {
                 frmResult.ShowDialog(this);
             }
         }
+
         private string LastSaveName;
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -556,31 +567,29 @@ namespace CV_Evaluator
                 e.FormattingApplied = true;
             }
         }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void ExportPeaks()
         {
             var res = ((CV)cVBindingSource.Current).ExportPeaks();
             Clipboard.SetText(res);
         }
-
-        private async void toolStripButton6_Click(object sender, EventArgs e)
+        private async Task CalculateConvolution()
         {
             double progress = 0.0;
             var t = new Timer();
             t.Interval = 500;
             toolStrip1.Enabled = false;
             toolStrip2.Enabled = false;
-            
+
             t.Tick += (s, e1) => tlMessage.Text = (progress * 100).ToString();
             t.Start();
-            var conv = await Task.Run(()=>((Cycle)cycleBindingSource.Current).GetConvolution(ref progress));
+            var conv = await Task.Run(() => ((Cycle)cycleBindingSource.Current).GetConvolution(ref progress));
             t.Stop();
             toolStrip1.Enabled = true;
             toolStrip2.Enabled = true;
             tlMessage.Text = "Done.";
             var cv = new CV();
             var cyc = new Cycle(cv);
-            for (int i=0;i<conv[0].Count();i++)
+            for (int i = 0; i < conv[0].Count(); i++)
             {
                 var d = new Datapoint(cyc);
                 d.Index = i;
@@ -592,12 +601,9 @@ namespace CV_Evaluator
             cv.Datasource = "Convolution of " + ((CV)cVBindingSource.Current).Datasource;
             cv.Cycles.Add(cyc);
             CVs.Add(cv);
-            }
-
-        private void toolStripButton7_Click(object sender, EventArgs e)
-        {
-            SetScanrateFromSplit();
         }
+
+
         private void SetScanrateFromSplit()
         {
             int index = 0;
@@ -617,17 +623,17 @@ namespace CV_Evaluator
             RefreshAll();
         }
 
-        private void toolStripButton8_Click(object sender, EventArgs e)
+        private void SplitCyclestoNewCVs()
         {
             CV current = (CV)cVBindingSource.Current;
-            for(int i = 1; i < current.Cycles.Count(); i++)
+            for (int i = 1; i < current.Cycles.Count(); i++)
             {
                 CV newcv = new CV();
                 newcv.Datasource = current.Datasource;
                 newcv.Cycles.Add(current.Cycles[i]);
                 CVs.Add(newcv);
             }
-            for(int i = current.Cycles.Count - 1; i > 0; i--)
+            for (int i = current.Cycles.Count - 1; i > 0; i--)
             {
                 current.Cycles.RemoveAt(i);
             }
@@ -703,27 +709,13 @@ namespace CV_Evaluator
             RefreshAll();
         }
 
-        private void toolStripButton9_Click(object sender, EventArgs e)
-        {
-            DestroyFirstCycle();
-        }
 
-        private void toolStripButton10_Click(object sender, EventArgs e)
+        private void SetTimeFromScanrate()
         {
             var curr = (Cycle)cycleBindingSource.Current;
             curr.SetTimeFromScanrate();
         }
 
-        private async void toolStripButton11_Click(object sender, EventArgs e)
-        {
-            toolStrip1.Enabled = false;
-            toolStrip2.Enabled = false;
-
-            await InterpolateCV();
-
-            toolStrip1.Enabled = true;
-            toolStrip2.Enabled = true;
-        }
 
         private async Task InterpolateCV()
         {
@@ -812,23 +804,24 @@ namespace CV_Evaluator
                 cyc.Datapoints.Add(d);
             }
         }
-        private void toolStripButton12_Click(object sender, EventArgs e)
+
+        private void ExportCurrentCycle()
         {
             var cyc = (Cycle)cycleBindingSource.Current;
             Clipboard.SetText(cyc.Export());
         }
 
-        private void tsbCombine2ndCycles_Click(object sender, EventArgs e)
+        private void CombineEvery2ndCycle()
         {
             var cv = (CV)cVBindingSource.Current;
             List<Cycle> newCycs = new List<Cycle>();
-            for(int i=0;i<cv.Cycles.Count();i+=2)
+            for (int i = 0; i < cv.Cycles.Count(); i += 2)
             {
                 Cycle newcyc = new Cycle(cv);
                 newcyc.Datapoints.AddRange(cv.Cycles[i].Datapoints);
-                newcyc.Datapoints.AddRange(cv.Cycles[i+1].Datapoints);
+                newcyc.Datapoints.AddRange(cv.Cycles[i + 1].Datapoints);
                 for (int x = 0; x < newcyc.Datapoints.Count(); x++) newcyc.Datapoints[x].Index = x;
-                newcyc.Number = i / 2+1;
+                newcyc.Number = i / 2 + 1;
                 newcyc.Split = cv.Cycles[i].Split;
                 newCycs.Add(newcyc);
             }
@@ -836,13 +829,12 @@ namespace CV_Evaluator
             cv.Cycles.AddRange(newCycs);
             RefreshAll();
         }
-
-        private void tsbExportPeakSep_Click(object sender, EventArgs e)
+        private void ExportPeakSeps()
         {
             var sb = new System.Text.StringBuilder();
-            foreach(CV c in CVs)
+            foreach (CV c in CVs)
             {
-                foreach(Cycle cyc in c.Cycles)
+                foreach (Cycle cyc in c.Cycles)
                 {
                     foreach (CVPeakConnection con in cyc.PeakConnections)
                     {
@@ -852,6 +844,25 @@ namespace CV_Evaluator
                 }
             }
             Clipboard.SetText(sb.ToString());
+        }
+        private void RecombineEverySecondPeaks()
+        {
+            foreach (CV c in CVs)
+            {
+                foreach (Cycle cyc in c.Cycles)
+                {
+                    cyc.PeakConnections.Clear();
+                    for(int i = 0;i<cyc.Peaks.Count-1;i+=2)
+                    {
+                        var con = new CVPeakConnection();
+                        con.Parent = cyc;
+                        con.Peak1 = cyc.Peaks[i];
+                        con.Peak2 = cyc.Peaks[i+1];
+                        cyc.PeakConnections.Add(con);
+                    }
+                }
+            }
+            RefreshAll();
         }
         private void CombineFiles()
         {
@@ -941,16 +952,76 @@ namespace CV_Evaluator
             DoRefreshCurrentCycle();
         }
 
-        private void tsbSplitBySplit_Click(object sender, EventArgs e)
-        {
-            SplitBySplit();
-        }
-
-        private async void tsbComsol1Click_Click(object sender, EventArgs e)
+        private async Task OneClickComsol()
         {
             SetScanrateFromSplit(1);
             await InterpolateCV(0.006, false, 0, true, true, true);
             SplitBySplit(0);
+        }
+
+        private void exportPeaksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportPeaks();
+        }
+
+        private void exportPeakSeparationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportPeakSeps();
+        }
+
+        private void exportCycleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportCurrentCycle();
+        }
+
+        private void scanrateFromSplitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetScanrateFromSplit();
+        }
+
+        private void splitCVByASplitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SplitBySplit();
+        }
+
+        private void setTimeFromScanrateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetTimeFromScanrate();
+        }
+
+        private async void interpolateTheCVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await InterpolateCV();
+        }
+
+        private async void calculateConvolutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await CalculateConvolution();
+        }
+
+        private void randlesSevcikEvaluationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LaunchRandlesSevcik();
+        }
+
+        private async void clickComsolFixToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           await OneClickComsol();
+        }
+
+        private void recombineEvery2ndPeakToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RecombineEverySecondPeaks();
+        }
+
+        private void destroyTheFirstCycleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DestroyFirstCycle();
+        }
+
+        private void splitCyclesToNewCVsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SplitCyclestoNewCVs();
         }
     }
   

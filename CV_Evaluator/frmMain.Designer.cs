@@ -73,23 +73,36 @@
             this.lineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scatterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.peaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPeakSeparationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitsCoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanrateFromSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitCVByASplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setTimeFromScanrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataManipulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.interpolateTheCVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calculateConvolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randlesSevcikEvaluationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clickComsolFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recombineEvery2ndPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.destroyTheFirstCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitCyclesToNewCVsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvCycles = new System.Windows.Forms.DataGridView();
-            this.dgvCVs = new System.Windows.Forms.DataGridView();
-            this.ScanRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvPeaks = new System.Windows.Forms.DataGridView();
-            this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tlMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.scanrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cycleBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dgvCVs = new System.Windows.Forms.DataGridView();
             this.datasourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nCyclesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ScanRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dgvPeaks = new System.Windows.Forms.DataGridView();
             this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,32 +110,22 @@
             this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
             this.toolStrip1 = new CV_Evaluator.MyToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.connectSelectedPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
-            this.tsbCombine2ndCycles = new System.Windows.Forms.ToolStripButton();
-            this.tsbExportPeakSep = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new CV_Evaluator.MyToolStrip();
             this.tsbRepeatPickPeaks = new System.Windows.Forms.ToolStripDropDownButton();
             this.thisCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.thisCVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allCVsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbPickPeak = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.tsbSplitBySplit = new System.Windows.Forms.ToolStripButton();
-            this.tsbComsol1Click = new System.Windows.Forms.ToolStripButton();
+            this.tsbPeakConnections = new System.Windows.Forms.ToolStripDropDownButton();
+            this.connectSelectedPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tlMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -133,14 +136,14 @@
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCycles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -151,7 +154,10 @@
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.windowsToolStripMenuItem,
-            this.plotToolStripMenuItem});
+            this.plotToolStripMenuItem,
+            this.peaksToolStripMenuItem,
+            this.splitsCoToolStripMenuItem,
+            this.dataManipulationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1023, 24);
@@ -486,13 +492,138 @@
             this.bothToolStripMenuItem.Text = "Both";
             this.bothToolStripMenuItem.Click += new System.EventHandler(this.bothToolStripMenuItem_Click);
             // 
+            // peaksToolStripMenuItem
+            // 
+            this.peaksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportPeaksToolStripMenuItem,
+            this.exportPeakSeparationsToolStripMenuItem,
+            this.exportCycleToolStripMenuItem});
+            this.peaksToolStripMenuItem.Name = "peaksToolStripMenuItem";
+            this.peaksToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.peaksToolStripMenuItem.Text = "Export";
+            // 
+            // exportPeaksToolStripMenuItem
+            // 
+            this.exportPeaksToolStripMenuItem.Name = "exportPeaksToolStripMenuItem";
+            this.exportPeaksToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.exportPeaksToolStripMenuItem.Text = "Export Peaks";
+            this.exportPeaksToolStripMenuItem.Click += new System.EventHandler(this.exportPeaksToolStripMenuItem_Click);
+            // 
+            // exportPeakSeparationsToolStripMenuItem
+            // 
+            this.exportPeakSeparationsToolStripMenuItem.Name = "exportPeakSeparationsToolStripMenuItem";
+            this.exportPeakSeparationsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.exportPeakSeparationsToolStripMenuItem.Text = "Export Peak Separations";
+            this.exportPeakSeparationsToolStripMenuItem.Click += new System.EventHandler(this.exportPeakSeparationsToolStripMenuItem_Click);
+            // 
+            // exportCycleToolStripMenuItem
+            // 
+            this.exportCycleToolStripMenuItem.Name = "exportCycleToolStripMenuItem";
+            this.exportCycleToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.exportCycleToolStripMenuItem.Text = "Export Cycle";
+            this.exportCycleToolStripMenuItem.Click += new System.EventHandler(this.exportCycleToolStripMenuItem_Click);
+            // 
+            // splitsCoToolStripMenuItem
+            // 
+            this.splitsCoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanrateFromSplitToolStripMenuItem,
+            this.splitCVByASplitToolStripMenuItem,
+            this.setTimeFromScanrateToolStripMenuItem});
+            this.splitsCoToolStripMenuItem.Name = "splitsCoToolStripMenuItem";
+            this.splitsCoToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.splitsCoToolStripMenuItem.Text = "Splits && Co";
+            // 
+            // scanrateFromSplitToolStripMenuItem
+            // 
+            this.scanrateFromSplitToolStripMenuItem.Name = "scanrateFromSplitToolStripMenuItem";
+            this.scanrateFromSplitToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.scanrateFromSplitToolStripMenuItem.Text = "Scanrate from Split";
+            this.scanrateFromSplitToolStripMenuItem.Click += new System.EventHandler(this.scanrateFromSplitToolStripMenuItem_Click);
+            // 
+            // splitCVByASplitToolStripMenuItem
+            // 
+            this.splitCVByASplitToolStripMenuItem.Name = "splitCVByASplitToolStripMenuItem";
+            this.splitCVByASplitToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.splitCVByASplitToolStripMenuItem.Text = "Split CV by a Split";
+            this.splitCVByASplitToolStripMenuItem.Click += new System.EventHandler(this.splitCVByASplitToolStripMenuItem_Click);
+            // 
+            // setTimeFromScanrateToolStripMenuItem
+            // 
+            this.setTimeFromScanrateToolStripMenuItem.Name = "setTimeFromScanrateToolStripMenuItem";
+            this.setTimeFromScanrateToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.setTimeFromScanrateToolStripMenuItem.Text = "Set Time from Scanrate";
+            this.setTimeFromScanrateToolStripMenuItem.Click += new System.EventHandler(this.setTimeFromScanrateToolStripMenuItem_Click);
+            // 
+            // dataManipulationToolStripMenuItem
+            // 
+            this.dataManipulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.interpolateTheCVToolStripMenuItem,
+            this.calculateConvolutionToolStripMenuItem,
+            this.randlesSevcikEvaluationToolStripMenuItem,
+            this.clickComsolFixToolStripMenuItem,
+            this.recombineEvery2ndPeakToolStripMenuItem,
+            this.destroyTheFirstCycleToolStripMenuItem,
+            this.splitCyclesToNewCVsToolStripMenuItem});
+            this.dataManipulationToolStripMenuItem.Name = "dataManipulationToolStripMenuItem";
+            this.dataManipulationToolStripMenuItem.Size = new System.Drawing.Size(117, 20);
+            this.dataManipulationToolStripMenuItem.Text = "Data Manipulation";
+            // 
+            // interpolateTheCVToolStripMenuItem
+            // 
+            this.interpolateTheCVToolStripMenuItem.Name = "interpolateTheCVToolStripMenuItem";
+            this.interpolateTheCVToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.interpolateTheCVToolStripMenuItem.Text = "Interpolate the CV";
+            this.interpolateTheCVToolStripMenuItem.Click += new System.EventHandler(this.interpolateTheCVToolStripMenuItem_Click);
+            // 
+            // calculateConvolutionToolStripMenuItem
+            // 
+            this.calculateConvolutionToolStripMenuItem.Name = "calculateConvolutionToolStripMenuItem";
+            this.calculateConvolutionToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.calculateConvolutionToolStripMenuItem.Text = "Calculate Convolution";
+            this.calculateConvolutionToolStripMenuItem.Click += new System.EventHandler(this.calculateConvolutionToolStripMenuItem_Click);
+            // 
+            // randlesSevcikEvaluationToolStripMenuItem
+            // 
+            this.randlesSevcikEvaluationToolStripMenuItem.Name = "randlesSevcikEvaluationToolStripMenuItem";
+            this.randlesSevcikEvaluationToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.randlesSevcikEvaluationToolStripMenuItem.Text = "Randles Sevcik Evaluation";
+            this.randlesSevcikEvaluationToolStripMenuItem.Click += new System.EventHandler(this.randlesSevcikEvaluationToolStripMenuItem_Click);
+            // 
+            // clickComsolFixToolStripMenuItem
+            // 
+            this.clickComsolFixToolStripMenuItem.Name = "clickComsolFixToolStripMenuItem";
+            this.clickComsolFixToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.clickComsolFixToolStripMenuItem.Text = "1-Click-Comsol Fix";
+            this.clickComsolFixToolStripMenuItem.Click += new System.EventHandler(this.clickComsolFixToolStripMenuItem_Click);
+            // 
+            // recombineEvery2ndPeakToolStripMenuItem
+            // 
+            this.recombineEvery2ndPeakToolStripMenuItem.Name = "recombineEvery2ndPeakToolStripMenuItem";
+            this.recombineEvery2ndPeakToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.recombineEvery2ndPeakToolStripMenuItem.Text = "Recombine every 2nd Peak";
+            this.recombineEvery2ndPeakToolStripMenuItem.Click += new System.EventHandler(this.recombineEvery2ndPeakToolStripMenuItem_Click);
+            // 
+            // destroyTheFirstCycleToolStripMenuItem
+            // 
+            this.destroyTheFirstCycleToolStripMenuItem.Name = "destroyTheFirstCycleToolStripMenuItem";
+            this.destroyTheFirstCycleToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.destroyTheFirstCycleToolStripMenuItem.Text = "Destroy the first Cycle";
+            this.destroyTheFirstCycleToolStripMenuItem.Click += new System.EventHandler(this.destroyTheFirstCycleToolStripMenuItem_Click);
+            // 
+            // splitCyclesToNewCVsToolStripMenuItem
+            // 
+            this.splitCyclesToNewCVsToolStripMenuItem.Name = "splitCyclesToNewCVsToolStripMenuItem";
+            this.splitCyclesToNewCVsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.splitCyclesToNewCVsToolStripMenuItem.Text = "Split cycles to new CVs";
+            this.splitCyclesToNewCVsToolStripMenuItem.Click += new System.EventHandler(this.splitCyclesToNewCVsToolStripMenuItem_Click);
+            // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1023, 501);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1023, 526);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -518,7 +649,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.jwGraph1);
-            this.splitContainer1.Size = new System.Drawing.Size(1023, 501);
+            this.splitContainer1.Size = new System.Drawing.Size(1023, 526);
             this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -536,7 +667,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(341, 501);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(341, 526);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dgvCycles
@@ -551,114 +682,11 @@
             this.splitDataGridViewTextBoxColumn});
             this.dgvCycles.DataSource = this.cycleBindingSource;
             this.dgvCycles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCycles.Location = new System.Drawing.Point(3, 170);
+            this.dgvCycles.Location = new System.Drawing.Point(3, 178);
             this.dgvCycles.Name = "dgvCycles";
             this.dgvCycles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCycles.Size = new System.Drawing.Size(335, 161);
+            this.dgvCycles.Size = new System.Drawing.Size(335, 169);
             this.dgvCycles.TabIndex = 0;
-            // 
-            // dgvCVs
-            // 
-            this.dgvCVs.AllowDrop = true;
-            this.dgvCVs.AllowUserToAddRows = false;
-            this.dgvCVs.AutoGenerateColumns = false;
-            this.dgvCVs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCVs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.datasourceDataGridViewTextBoxColumn,
-            this.nCyclesDataGridViewTextBoxColumn,
-            this.ScanRate});
-            this.dgvCVs.DataSource = this.cVBindingSource;
-            this.dgvCVs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvCVs.Location = new System.Drawing.Point(3, 3);
-            this.dgvCVs.Name = "dgvCVs";
-            this.dgvCVs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCVs.Size = new System.Drawing.Size(335, 161);
-            this.dgvCVs.TabIndex = 0;
-            // 
-            // ScanRate
-            // 
-            this.ScanRate.DataPropertyName = "ScanRate";
-            this.ScanRate.HeaderText = "ScanRate";
-            this.ScanRate.Name = "ScanRate";
-            // 
-            // dgvPeaks
-            // 
-            this.dgvPeaks.AllowUserToAddRows = false;
-            this.dgvPeaks.AutoGenerateColumns = false;
-            this.dgvPeaks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPeaks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.peakDirectionDataGridViewTextBoxColumn,
-            this.steepestRiseVoltageDataGridViewTextBoxColumn,
-            this.peakHeightDataGridViewTextBoxColumn,
-            this.peakPositionDataGridViewTextBoxColumn,
-            this.rawPeakCurrentDataGridViewTextBoxColumn,
-            this.processDataGridViewTextBoxColumn});
-            this.dgvPeaks.DataSource = this.cVPeakBindingSource;
-            this.dgvPeaks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPeaks.Location = new System.Drawing.Point(3, 337);
-            this.dgvPeaks.Name = "dgvPeaks";
-            this.dgvPeaks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPeaks.Size = new System.Drawing.Size(335, 161);
-            this.dgvPeaks.TabIndex = 1;
-            this.dgvPeaks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPeaks_CellFormatting);
-            // 
-            // jwGraph1
-            // 
-            this.jwGraph1.AutoScaleBorder = 0.1D;
-            this.jwGraph1.BottomRightColor = System.Drawing.Color.LightSteelBlue;
-            this.jwGraph1.CenterImage = null;
-            this.jwGraph1.CenterImageMaxSize = new System.Drawing.Size(0, 0);
-            this.jwGraph1.CenterImageMinSize = new System.Drawing.Size(0, 0);
-            this.jwGraph1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.jwGraph1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jwGraph1.EnableAutoscaling = true;
-            this.jwGraph1.EnableGraphObjects = true;
-            this.jwGraph1.EnableLegend = true;
-            this.jwGraph1.EnableMarkers = true;
-            this.jwGraph1.EraserVisible = false;
-            this.jwGraph1.FreeMarkerCount = 0;
-            this.jwGraph1.GraphBackColor = System.Drawing.Color.GhostWhite;
-            this.jwGraph1.GraphBorder = new System.Windows.Forms.Padding(100, 20, 20, 70);
-            this.jwGraph1.HighQuality = true;
-            this.jwGraph1.HorizontalMarkerCount = 0;
-            this.jwGraph1.IncludeMarkersInScaling = true;
-            this.jwGraph1.LeftMouseAction = jwGraph.jwGraph.jwGraph.enLeftMouseAction.ZoomIn;
-            this.jwGraph1.LeftMouseFunctionalityEnabled = true;
-            this.jwGraph1.LegendAlwaysVisible = false;
-            this.jwGraph1.LegendPosition = jwGraph.jwGraph.jwGraph.enumLegendPosition.TopRight;
-            this.jwGraph1.LegendTitle = null;
-            this.jwGraph1.Location = new System.Drawing.Point(0, 0);
-            this.jwGraph1.Message = "";
-            this.jwGraph1.MessageColor = System.Drawing.Color.Black;
-            this.jwGraph1.MiddleMouseFunctionalityEnabled = true;
-            this.jwGraph1.MinimumSize = new System.Drawing.Size(160, 105);
-            this.jwGraph1.MouseWheelZoomEnabled = true;
-            this.jwGraph1.Name = "jwGraph1";
-            this.jwGraph1.RightMouseFunctionalityEnabled = true;
-            this.jwGraph1.ScaleProportional = false;
-            this.jwGraph1.Size = new System.Drawing.Size(678, 501);
-            this.jwGraph1.TabIndex = 0;
-            this.jwGraph1.Text = "jwGraph1";
-            this.jwGraph1.TopLeftColor = System.Drawing.Color.White;
-            this.jwGraph1.VerticalMarkerCount = 0;
-            this.jwGraph1.MouseDown += new jwGraph.jwGraph.jwGraph.MouseDownEventHandler(this.jwGraph1_MouseDown);
-            this.jwGraph1.Paint += new System.Windows.Forms.PaintEventHandler(this.jwGraph1_Paint);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tlMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 575);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1023, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tlMessage
-            // 
-            this.tlMessage.Name = "tlMessage";
-            this.tlMessage.Size = new System.Drawing.Size(118, 17);
-            this.tlMessage.Text = "toolStripStatusLabel1";
             // 
             // scanrateDataGridViewTextBoxColumn
             // 
@@ -683,6 +711,24 @@
             this.cycleBindingSource.DataSource = typeof(CV_Evaluator.Cycle);
             this.cycleBindingSource.CurrentChanged += new System.EventHandler(this.cycleBindingSource_CurrentChanged);
             // 
+            // dgvCVs
+            // 
+            this.dgvCVs.AllowDrop = true;
+            this.dgvCVs.AllowUserToAddRows = false;
+            this.dgvCVs.AutoGenerateColumns = false;
+            this.dgvCVs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCVs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.datasourceDataGridViewTextBoxColumn,
+            this.nCyclesDataGridViewTextBoxColumn,
+            this.ScanRate});
+            this.dgvCVs.DataSource = this.cVBindingSource;
+            this.dgvCVs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCVs.Location = new System.Drawing.Point(3, 3);
+            this.dgvCVs.Name = "dgvCVs";
+            this.dgvCVs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCVs.Size = new System.Drawing.Size(335, 169);
+            this.dgvCVs.TabIndex = 0;
+            // 
             // datasourceDataGridViewTextBoxColumn
             // 
             this.datasourceDataGridViewTextBoxColumn.DataPropertyName = "Datasource";
@@ -696,11 +742,38 @@
             this.nCyclesDataGridViewTextBoxColumn.Name = "nCyclesDataGridViewTextBoxColumn";
             this.nCyclesDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // ScanRate
+            // 
+            this.ScanRate.DataPropertyName = "ScanRate";
+            this.ScanRate.HeaderText = "ScanRate";
+            this.ScanRate.Name = "ScanRate";
+            // 
             // cVBindingSource
             // 
             this.cVBindingSource.DataSource = typeof(CV_Evaluator.CV);
             this.cVBindingSource.CurrentChanged += new System.EventHandler(this.cVBindingSource_CurrentChanged);
             this.cVBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.cVBindingSource_ListChanged);
+            // 
+            // dgvPeaks
+            // 
+            this.dgvPeaks.AllowUserToAddRows = false;
+            this.dgvPeaks.AutoGenerateColumns = false;
+            this.dgvPeaks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPeaks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.peakDirectionDataGridViewTextBoxColumn,
+            this.steepestRiseVoltageDataGridViewTextBoxColumn,
+            this.peakHeightDataGridViewTextBoxColumn,
+            this.peakPositionDataGridViewTextBoxColumn,
+            this.rawPeakCurrentDataGridViewTextBoxColumn,
+            this.processDataGridViewTextBoxColumn});
+            this.dgvPeaks.DataSource = this.cVPeakBindingSource;
+            this.dgvPeaks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPeaks.Location = new System.Drawing.Point(3, 353);
+            this.dgvPeaks.Name = "dgvPeaks";
+            this.dgvPeaks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPeaks.Size = new System.Drawing.Size(335, 170);
+            this.dgvPeaks.TabIndex = 1;
+            this.dgvPeaks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPeaks_CellFormatting);
             // 
             // peakDirectionDataGridViewTextBoxColumn
             // 
@@ -745,22 +818,57 @@
             // 
             this.cVPeakBindingSource.DataSource = typeof(CV_Evaluator.CVPeak);
             // 
+            // jwGraph1
+            // 
+            this.jwGraph1.AutoScaleBorder = 0.1D;
+            this.jwGraph1.BottomRightColor = System.Drawing.Color.LightSteelBlue;
+            this.jwGraph1.CenterImage = null;
+            this.jwGraph1.CenterImageMaxSize = new System.Drawing.Size(0, 0);
+            this.jwGraph1.CenterImageMinSize = new System.Drawing.Size(0, 0);
+            this.jwGraph1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.jwGraph1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.jwGraph1.EnableAutoscaling = true;
+            this.jwGraph1.EnableGraphObjects = true;
+            this.jwGraph1.EnableLegend = true;
+            this.jwGraph1.EnableMarkers = true;
+            this.jwGraph1.EraserVisible = false;
+            this.jwGraph1.FreeMarkerCount = 0;
+            this.jwGraph1.GraphBackColor = System.Drawing.Color.GhostWhite;
+            this.jwGraph1.GraphBorder = new System.Windows.Forms.Padding(100, 20, 20, 70);
+            this.jwGraph1.HighQuality = true;
+            this.jwGraph1.HorizontalMarkerCount = 0;
+            this.jwGraph1.IncludeMarkersInScaling = true;
+            this.jwGraph1.LeftMouseAction = jwGraph.jwGraph.jwGraph.enLeftMouseAction.ZoomIn;
+            this.jwGraph1.LeftMouseFunctionalityEnabled = true;
+            this.jwGraph1.LegendAlwaysVisible = false;
+            this.jwGraph1.LegendPosition = jwGraph.jwGraph.jwGraph.enumLegendPosition.TopRight;
+            this.jwGraph1.LegendTitle = null;
+            this.jwGraph1.Location = new System.Drawing.Point(0, 0);
+            this.jwGraph1.Message = "";
+            this.jwGraph1.MessageColor = System.Drawing.Color.Black;
+            this.jwGraph1.MiddleMouseFunctionalityEnabled = true;
+            this.jwGraph1.MinimumSize = new System.Drawing.Size(160, 105);
+            this.jwGraph1.MouseWheelZoomEnabled = true;
+            this.jwGraph1.Name = "jwGraph1";
+            this.jwGraph1.RightMouseFunctionalityEnabled = true;
+            this.jwGraph1.ScaleProportional = false;
+            this.jwGraph1.Size = new System.Drawing.Size(678, 526);
+            this.jwGraph1.TabIndex = 0;
+            this.jwGraph1.Text = "jwGraph1";
+            this.jwGraph1.TopLeftColor = System.Drawing.Color.White;
+            this.jwGraph1.VerticalMarkerCount = 0;
+            this.jwGraph1.MouseDown += new jwGraph.jwGraph.jwGraph.MouseDownEventHandler(this.jwGraph1_MouseDown);
+            this.jwGraph1.Paint += new System.Windows.Forms.PaintEventHandler(this.jwGraph1_Paint);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton4,
-            this.toolStripDropDownButton1,
-            this.toolStripButton5,
-            this.toolStripButton3,
-            this.toolStripButton12,
-            this.tsbCombine2ndCycles,
-            this.tsbExportPeakSep});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStripButton2});
+            this.toolStrip1.Location = new System.Drawing.Point(6, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(980, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(161, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -783,108 +891,17 @@
             this.toolStripButton2.Text = "Example";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(109, 22);
-            this.toolStripButton4.Text = "Set Baseline points";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectSelectedPeaksToolStripMenuItem,
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(115, 22);
-            this.toolStripDropDownButton1.Text = "Peak Connections";
-            // 
-            // connectSelectedPeaksToolStripMenuItem
-            // 
-            this.connectSelectedPeaksToolStripMenuItem.Name = "connectSelectedPeaksToolStripMenuItem";
-            this.connectSelectedPeaksToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
-            this.connectSelectedPeaksToolStripMenuItem.Text = "Connect selected Peaks";
-            this.connectSelectedPeaksToolStripMenuItem.Click += new System.EventHandler(this.connectSelectedPeaksToolStripMenuItem_Click);
-            // 
-            // clearConnectionsOfSelectedPeakToolStripMenuItem
-            // 
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Name = "clearConnectionsOfSelectedPeakToolStripMenuItem";
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Text = "Clear connections of selected Peak";
-            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Click += new System.EventHandler(this.clearConnectionsOfSelectedPeakToolStripMenuItem_Click);
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(146, 22);
-            this.toolStripButton5.Text = "Randles Sevcik Evaluation";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(93, 22);
-            this.toolStripButton3.Text = "Export Peaks";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // toolStripButton12
-            // 
-            this.toolStripButton12.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton12.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton12.Image")));
-            this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(76, 22);
-            this.toolStripButton12.Text = "Export Cycle";
-            this.toolStripButton12.Click += new System.EventHandler(this.toolStripButton12_Click);
-            // 
-            // tsbCombine2ndCycles
-            // 
-            this.tsbCombine2ndCycles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbCombine2ndCycles.Image = ((System.Drawing.Image)(resources.GetObject("tsbCombine2ndCycles.Image")));
-            this.tsbCombine2ndCycles.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbCombine2ndCycles.Name = "tsbCombine2ndCycles";
-            this.tsbCombine2ndCycles.Size = new System.Drawing.Size(144, 22);
-            this.tsbCombine2ndCycles.Text = "Combine every 2nd cycle";
-            this.tsbCombine2ndCycles.Click += new System.EventHandler(this.tsbCombine2ndCycles_Click);
-            // 
-            // tsbExportPeakSep
-            // 
-            this.tsbExportPeakSep.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbExportPeakSep.Image = ((System.Drawing.Image)(resources.GetObject("tsbExportPeakSep.Image")));
-            this.tsbExportPeakSep.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbExportPeakSep.Name = "tsbExportPeakSep";
-            this.tsbExportPeakSep.Size = new System.Drawing.Size(136, 22);
-            this.tsbExportPeakSep.Text = "Export Peak Separations";
-            this.tsbExportPeakSep.Click += new System.EventHandler(this.tsbExportPeakSep_Click);
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbRepeatPickPeaks,
             this.tsbPickPeak,
-            this.toolStripButton6,
-            this.toolStripButton7,
-            this.toolStripButton8,
-            this.toolStripButton9,
-            this.toolStripButton10,
-            this.toolStripButton11,
-            this.tsbSplitBySplit,
-            this.tsbComsol1Click});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 25);
+            this.tsbPeakConnections,
+            this.toolStripButton4});
+            this.toolStrip2.Location = new System.Drawing.Point(167, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1020, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(445, 25);
             this.toolStrip2.TabIndex = 1;
             // 
             // tsbRepeatPickPeaks
@@ -931,85 +948,57 @@
             this.tsbPickPeak.Text = "Pick Peak Mode";
             this.tsbPickPeak.Click += new System.EventHandler(this.tsbPickPeak_Click);
             // 
-            // toolStripButton6
+            // tsbPeakConnections
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(77, 22);
-            this.toolStripButton6.Text = "Convolution";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
+            this.tsbPeakConnections.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbPeakConnections.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectSelectedPeaksToolStripMenuItem,
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem});
+            this.tsbPeakConnections.Image = ((System.Drawing.Image)(resources.GetObject("tsbPeakConnections.Image")));
+            this.tsbPeakConnections.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPeakConnections.Name = "tsbPeakConnections";
+            this.tsbPeakConnections.Size = new System.Drawing.Size(115, 22);
+            this.tsbPeakConnections.Text = "Peak Connections";
             // 
-            // toolStripButton7
+            // connectSelectedPeaksToolStripMenuItem
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(111, 22);
-            this.toolStripButton7.Text = "Scanrate from Split";
-            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
+            this.connectSelectedPeaksToolStripMenuItem.Name = "connectSelectedPeaksToolStripMenuItem";
+            this.connectSelectedPeaksToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
+            this.connectSelectedPeaksToolStripMenuItem.Text = "Connect selected Peaks";
+            this.connectSelectedPeaksToolStripMenuItem.Click += new System.EventHandler(this.connectSelectedPeaksToolStripMenuItem_Click);
             // 
-            // toolStripButton8
+            // clearConnectionsOfSelectedPeakToolStripMenuItem
             // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(82, 22);
-            this.toolStripButton8.Text = "Cycles to CVs";
-            this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click);
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Name = "clearConnectionsOfSelectedPeakToolStripMenuItem";
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Text = "Clear connections of selected Peak";
+            this.clearConnectionsOfSelectedPeakToolStripMenuItem.Click += new System.EventHandler(this.clearConnectionsOfSelectedPeakToolStripMenuItem_Click);
             // 
-            // toolStripButton9
+            // toolStripButton4
             // 
-            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(104, 22);
-            this.toolStripButton9.Text = "Destroy first cycle";
-            this.toolStripButton9.Click += new System.EventHandler(this.toolStripButton9_Click);
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(109, 22);
+            this.toolStripButton4.Text = "Set Baseline points";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
-            // toolStripButton10
+            // statusStrip1
             // 
-            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(115, 22);
-            this.toolStripButton10.Text = "Time from Scanrate";
-            this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlMessage});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 575);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1023, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripButton11
+            // tlMessage
             // 
-            this.toolStripButton11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton11.Image")));
-            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(97, 22);
-            this.toolStripButton11.Text = "Interpolate to 5k";
-            this.toolStripButton11.Click += new System.EventHandler(this.toolStripButton11_Click);
-            // 
-            // tsbSplitBySplit
-            // 
-            this.tsbSplitBySplit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbSplitBySplit.Image = ((System.Drawing.Image)(resources.GetObject("tsbSplitBySplit.Image")));
-            this.tsbSplitBySplit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSplitBySplit.Name = "tsbSplitBySplit";
-            this.tsbSplitBySplit.Size = new System.Drawing.Size(103, 22);
-            this.tsbSplitBySplit.Text = "Split CV by a Split";
-            this.tsbSplitBySplit.Click += new System.EventHandler(this.tsbSplitBySplit_Click);
-            // 
-            // tsbComsol1Click
-            // 
-            this.tsbComsol1Click.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbComsol1Click.Image = ((System.Drawing.Image)(resources.GetObject("tsbComsol1Click.Image")));
-            this.tsbComsol1Click.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbComsol1Click.Name = "tsbComsol1Click";
-            this.tsbComsol1Click.Size = new System.Drawing.Size(113, 19);
-            this.tsbComsol1Click.Text = "1-Click-Comsol-Fix";
-            this.tsbComsol1Click.Click += new System.EventHandler(this.tsbComsol1Click_Click);
+            this.tlMessage.Name = "tlMessage";
+            this.tlMessage.Size = new System.Drawing.Size(118, 17);
+            this.tlMessage.Text = "toolStripStatusLabel1";
             // 
             // frmMain
             // 
@@ -1036,17 +1025,17 @@
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCycles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cycleBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCVs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1100,7 +1089,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tlMessage;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton tsbPeakConnections;
         private System.Windows.Forms.ToolStripMenuItem connectSelectedPeaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearConnectionsOfSelectedPeakToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn peakDirectionDataGridViewTextBoxColumn;
@@ -1109,7 +1098,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn peakPositionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn rawPeakCurrentDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ScanRate;
@@ -1125,16 +1113,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn scanrateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitDataGridViewTextBoxColumn;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
-        private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
-        private System.Windows.Forms.ToolStripButton toolStripButton11;
-        private System.Windows.Forms.ToolStripButton toolStripButton12;
-        private System.Windows.Forms.ToolStripButton tsbCombine2ndCycles;
-        private System.Windows.Forms.ToolStripButton tsbExportPeakSep;
         private System.Windows.Forms.ToolStripMenuItem combineTwoFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateSweepsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem plotToolStripMenuItem;
@@ -1145,8 +1123,22 @@
         private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scatterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bothToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton tsbSplitBySplit;
-        private System.Windows.Forms.ToolStripButton tsbComsol1Click;
+        private System.Windows.Forms.ToolStripMenuItem peaksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportPeaksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportPeakSeparationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem splitsCoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanrateFromSplitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem splitCVByASplitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dataManipulationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem interpolateTheCVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem calculateConvolutionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem randlesSevcikEvaluationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clickComsolFixToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportCycleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recombineEvery2ndPeakToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setTimeFromScanrateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem destroyTheFirstCycleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem splitCyclesToNewCVsToolStripMenuItem;
     }
 }
 
