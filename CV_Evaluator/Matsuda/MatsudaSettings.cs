@@ -8,12 +8,15 @@ namespace CV_Evaluator.Matsuda
         {
             ProcessName = "Process 1";
             CycleNumber = 1;
-            Temperature = 298.15;
+            Temperature = 293;
             ElectrodeArea = 1;
             z = 1;
             ScanrateUnit = enScanrateUnit.mVs;
             Concentration = 5;
             ConcentrationUnit = enConcentrationUnit.molm3;
+            DRed = 1e-11;
+            DOx = 1e-11;
+            alpha = 0.5;
         }
         [TypeConverter(typeof(Tools.EnumStringConverter))]
         public enum enScanrateUnit
@@ -60,6 +63,10 @@ namespace CV_Evaluator.Matsuda
         public double Concentration { get; set; }
         public enConcentrationUnit ConcentrationUnit { get; set; }
         public double z { get; set; }
+        public double DRed { get; set; }
+        public double DOx { get; set; }
+        public double alpha { get; set; }
+
 
         public double GetScanRate(double Scanrate)
         {

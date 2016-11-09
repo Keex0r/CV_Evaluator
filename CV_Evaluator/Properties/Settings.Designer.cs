@@ -58,5 +58,17 @@ namespace CV_Evaluator.Properties {
                 this["PeakPickSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MatsudaSettings {
+            get {
+                return ((string)(this["MatsudaSettings"]));
+            }
+            set {
+                this["MatsudaSettings"] = value;
+            }
+        }
     }
 }

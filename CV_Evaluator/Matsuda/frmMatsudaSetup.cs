@@ -18,12 +18,12 @@ namespace CV_Evaluator.Matsuda
         public frmMatsudaSetup()
         {
             InitializeComponent();
-            if(string.IsNullOrEmpty(Properties.Settings.Default.RandlesSevSettings))
+            if(string.IsNullOrEmpty(Properties.Settings.Default.MatsudaSettings))
             {
                 Settings = new MatsudaSettings();
             } else
             {
-                Settings = MatsudaSettings.FromXML(Properties.Settings.Default.RandlesSevSettings);
+                Settings = MatsudaSettings.FromXML(Properties.Settings.Default.MatsudaSettings);
                 if (Settings == null) Settings = new MatsudaSettings();
             }
             pgSettings.SelectedObject = Settings;

@@ -839,7 +839,7 @@ namespace CV_Evaluator
                     foreach (CVPeakConnection con in cyc.PeakConnections)
                     {
                         var diff = Math.Abs(con.Peak1.GetPeakPosition().Item1 - con.Peak2.GetPeakPosition().Item1);
-                        sb.AppendLine(cyc.Scanrate.ToString() + "\t" + diff.ToString());
+                        sb.AppendLine(cyc.Scanrate.ToString() + "\t" + diff.ToString() + "\t" + cyc.Split + "\t" + cyc.Parent.Datasource);
                     }
                 }
             }
@@ -888,6 +888,93 @@ namespace CV_Evaluator
                     }
                 }
             }
+        }
+        private List<double>[] ParseDoubles(string source)
+        {
+            List<double>[] res = null;
+            using (var sr = new StringReader(source))
+            {
+                do
+                {
+                    var line = sr.ReadLine();
+                    if (line == null) break;
+                    var parts = line.Split('\t');
+                    if(res==null)
+                    {
+                        res = new List<double>[parts.Count()];
+                        for(int i=0;i<parts.Count();i++)
+                        {
+                            res[i] = new List<double>();
+                        }
+                    }
+                    for (int i = 0; i < parts.Count(); i++)
+                    {
+                        res[i].Add(double.Parse(parts[i]));
+                    }
+                } while (true);
+            }
+            return res;
+        }
+        private void ExportMatsuda()
+        {
+            Matsuda.MatsudaSettings Settings = null;
+            using (var frm = new Matsuda.frmMatsudaSetup())
+            {
+                if (frm.ShowDialog(this) == DialogResult.Cancel) return;
+                Settings = frm.Settings;
+            }
+            var x = new double[] { 0.061, 0.063, 0.064, 0.065, 0.066, 0.068, 0.072, 0.084, 0.092, 0.105, 0.121, 0.141, 0.212 };
+            var y = new double[] { 36.0, 12.0, 11.0, 9.0, 7.0, 5.3, 3.5, 1.8, 1.3, 0.9, 0.6, 0.44, 0.18 };
+            Debug.Assert(x.Count() == y.Count());
+            string[] desc = new string[] {"Scanrate","Sqrt(v)","1/Sqrt(v)",
+                        "Delta E","Matsuda","K(Matsuda)","Ip1 Corrected","Ip2 Corrected","Ip1 for D","Ip2 for D",
+                        "Xi(Matsuda)","Matsuda from Xi","k"};
+            var sb = new StringBuilder();
+            sb.AppendLine(string.Join("\t",desc));
+            var K = ParseDoubles(CV_Evaluator.Properties.Resources.MatsudaK);
+            var Xi = ParseDoubles(CV_Evaluator.Properties.Resources.MatsudaXi);
+            Xi[0].Reverse();
+            Xi[1].Reverse();
+            foreach (CV c in CVs)
+            {
+                foreach (Cycle cyc in c.Cycles)
+                {
+                    foreach (CVPeakConnection con in cyc.PeakConnections)
+                    {
+                        var diff = Math.Abs(con.Peak1.GetPeakPosition().Item1 - con.Peak2.GetPeakPosition().Item1);
+                        double matsuda;
+                        if(diff<0.061)
+                        {
+                            //Extrapolate with exponential function
+                            matsuda = 10.82517 + 25.17483 * Math.Exp(-(diff - 0.061) / 6.03644e-4);
+                        } else if(diff>0.212)
+                        {
+                            //Extrapolate with exponential function
+                            matsuda = 0.06867 + 0.53133 * Math.Exp(-(diff - 0.121) / 0.05823);
+                        } else
+                        {
+                            matsuda = Cycle.Interpolate(diff, x, y);
+                        }
+                        var logm = Math.Log10(matsuda);
+                        var thisK = Cycle.Interpolate(logm, K[0], K[1]);
+                        var peak1corr = con.Peak1.PeakHeight / thisK;
+                        var peak2corr = con.Peak2.PeakHeight / thisK;
+                        var peak1DirectD = Math.Pow(peak1corr/(0.4463*Settings.z*96485*Settings.GetArea()*Settings.GetConcentration()*Math.Sqrt(Settings.z*96485/8.314/Settings.GetTemperature())),2);
+                        var peak2DirectD = Math.Pow(peak2corr / (0.4463 * Settings.z * 96485 * Settings.GetArea() * Settings.GetConcentration() * Math.Sqrt(Settings.z * 96485 / 8.314 / Settings.GetTemperature())), 2);
+                        var thisXi = diff * Settings.z * 96485 / (2 * 8.314 * Settings.GetTemperature()); //assume n=1 and Room temperature
+                        var matsudafromxi = Math.Pow(10, Cycle.Interpolate(thisXi, Xi[0], Xi[1]));
+                        var InvSqrtv = Math.Pow(cyc.Scanrate, -0.5);
+                        var k = matsudafromxi * Math.Sqrt(Math.Pow(Settings.DOx, 1 - Settings.alpha) * Math.Pow(Settings.DRed, Settings.alpha) * 96485 / 8.314 / Settings.GetTemperature());
+                        
+                        double[] values = new double[] {cyc.Scanrate,Math.Sqrt(cyc.Scanrate),InvSqrtv,
+                        diff,matsuda,thisK,peak1corr,peak2corr,peak1DirectD,peak2DirectD,
+                        thisXi,matsudafromxi,k};
+                        var strings = values.Select(v => v.ToString()).ToArray();
+                        sb.AppendLine(string.Join("\t",strings));
+                    }
+                }
+            }
+            Clipboard.SetText(sb.ToString());
         }
 
         private void combineTwoFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1022,6 +1109,11 @@ namespace CV_Evaluator
         private void splitCyclesToNewCVsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SplitCyclestoNewCVs();
+        }
+
+        private void exportMatsudaNumbersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportMatsuda();
         }
     }
   

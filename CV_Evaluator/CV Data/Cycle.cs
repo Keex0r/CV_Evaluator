@@ -273,8 +273,13 @@ namespace CV_Evaluator
         {
             return Interpolate(x, xValues, yValues)/Math.Sqrt(t-x);
         }
+        public static double Interpolate(double pos, IEnumerable<double> x, IEnumerable<double> y)
+        {
+            return Interpolate(pos, x.ToList(), y.ToList());
+        }
         public static double Interpolate(double pos, List<double> x, List<double> y)
         {
+            if (Double.IsNaN(pos) || double.IsInfinity(pos)) return double.NaN;
             int ind = x.BinarySearch(pos);
             if (ind>=0 && ind < x.Count()-1)
             {
@@ -296,7 +301,7 @@ namespace CV_Evaluator
                 {
                     return y[ind-1] + (y[ind] - y[ind-1]) * (pos - x[ind-1]) / (x[ind] - x[ind-1]);
                 }
-                else if(ind < x.Count()-1) 
+                else if(ind>=0 && ind < x.Count()-1) 
                 {
                     return y[ind] + (y[ind + 1] - y[ind]) * (pos - x[ind]) / (x[ind + 1] - x[ind]);
                 } else if(ind<0)
