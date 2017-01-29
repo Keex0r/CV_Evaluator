@@ -313,11 +313,10 @@ namespace CV_Evaluator
                 }
             }
         }
-
-        public double[][] GetConvolution(ref double progress)
+        public double[][] GetConvolution(ref double progress, double D, double cBulk)
         {
             var tmin = this.Datapoints.Select(x => x.Time).Min();
-            var times = this.Datapoints.Select(x => x.Time-tmin).ToList();
+            var times = this.Datapoints.Select(x => x.Time - tmin).ToList();
             var currents = this.Datapoints.Select(x => x.Current).ToList();
             var volts = this.Datapoints.Select(x => x.Volt).ToList();
             var convs = new List<double>();
@@ -325,19 +324,30 @@ namespace CV_Evaluator
             yValues = currents;
             var max = times.Count();
             progress = 0;
-            for(int i=0;i<times.Count();i++)
+            for (int i = 0; i < times.Count(); i++)
             {
                 t = times[i];
-                var value2 = MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(IntegrationFunction, 0, t, 1e-12) / Math.Sqrt(Math.PI);
-                convs.Add(value2);
+                var value2 = MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(IntegrationFunction, 0, t, 1e-12) / Math.Sqrt(Math.PI*D);
+                if(cBulk>-1)
+                {
+                    convs.Add(cBulk-value2);
+                } else
+                {
+                    convs.Add(value2);
+                }
                 progress = (double)i / (double)max;
             }
-            double[][] res=new double[4][];
-            res[0]= times.ToArray();
+            double[][] res = new double[4][];
+            res[0] = times.ToArray();
             res[1] = volts.ToArray();
             res[2] = currents.ToArray();
             res[3] = convs.ToArray();
             return res;
+        }
+        public double[][] GetConvolution(ref double progress)
+        {
+            return GetConvolution(ref progress, 1, -1);
+            
         }
 
         private List<int> FindVertices()

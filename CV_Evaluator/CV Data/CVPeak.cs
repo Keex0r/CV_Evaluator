@@ -75,6 +75,14 @@ namespace CV_Evaluator
                 return GetPeakPosition().Item1;
             }
         }
+        public string DeltaPeak
+        {
+            get
+            {
+                var cons = Parent.PeakConnections.Where(con => con.Peak1 == this || con.Peak2 == this).Select(con=>Math.Abs(con.Peak1.PeakPosition-con.Peak2.PeakPosition));
+                return string.Join(", ", cons);
+            }
+        }
         #endregion
 
         #region "Data"

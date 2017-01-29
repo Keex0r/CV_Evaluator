@@ -77,6 +77,7 @@
             this.exportPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPeakSeparationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMatsudaNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitsCoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanrateFromSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitCVByASplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,17 +104,8 @@
             this.ScanRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dgvPeaks = new System.Windows.Forms.DataGridView();
-            this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peakPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cVPeakBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.jwGraph1 = new jwGraph.jwGraph.jwGraph();
-            this.toolStrip1 = new CV_Evaluator.MyToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new CV_Evaluator.MyToolStrip();
             this.tsbRepeatPickPeaks = new System.Windows.Forms.ToolStripDropDownButton();
             this.thisCycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,9 +116,18 @@
             this.connectSelectedPeaksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearConnectionsOfSelectedPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1 = new CV_Evaluator.MyToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tlMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.exportMatsudaNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.peakDirectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.steepestRiseVoltageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peakHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peakPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rawPeakCurrentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.processDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DeltaPeak = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -142,8 +143,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -525,6 +526,13 @@
             this.exportCycleToolStripMenuItem.Text = "Export Cycle";
             this.exportCycleToolStripMenuItem.Click += new System.EventHandler(this.exportCycleToolStripMenuItem_Click);
             // 
+            // exportMatsudaNumbersToolStripMenuItem
+            // 
+            this.exportMatsudaNumbersToolStripMenuItem.Name = "exportMatsudaNumbersToolStripMenuItem";
+            this.exportMatsudaNumbersToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.exportMatsudaNumbersToolStripMenuItem.Text = "Export Matsuda Numbers";
+            this.exportMatsudaNumbersToolStripMenuItem.Click += new System.EventHandler(this.exportMatsudaNumbersToolStripMenuItem_Click);
+            // 
             // splitsCoToolStripMenuItem
             // 
             this.splitsCoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -635,8 +643,8 @@
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
             // splitContainer1
             // 
@@ -767,7 +775,8 @@
             this.peakHeightDataGridViewTextBoxColumn,
             this.peakPositionDataGridViewTextBoxColumn,
             this.rawPeakCurrentDataGridViewTextBoxColumn,
-            this.processDataGridViewTextBoxColumn});
+            this.processDataGridViewTextBoxColumn,
+            this.DeltaPeak});
             this.dgvPeaks.DataSource = this.cVPeakBindingSource;
             this.dgvPeaks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPeaks.Location = new System.Drawing.Point(3, 337);
@@ -776,45 +785,6 @@
             this.dgvPeaks.Size = new System.Drawing.Size(335, 161);
             this.dgvPeaks.TabIndex = 1;
             this.dgvPeaks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvPeaks_CellFormatting);
-            // 
-            // peakDirectionDataGridViewTextBoxColumn
-            // 
-            this.peakDirectionDataGridViewTextBoxColumn.DataPropertyName = "PeakDirection";
-            this.peakDirectionDataGridViewTextBoxColumn.HeaderText = "PeakDirection";
-            this.peakDirectionDataGridViewTextBoxColumn.Name = "peakDirectionDataGridViewTextBoxColumn";
-            // 
-            // steepestRiseVoltageDataGridViewTextBoxColumn
-            // 
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.DataPropertyName = "SteepestRiseVoltage";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.HeaderText = "SteepestRiseVoltage";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.Name = "steepestRiseVoltageDataGridViewTextBoxColumn";
-            this.steepestRiseVoltageDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // peakHeightDataGridViewTextBoxColumn
-            // 
-            this.peakHeightDataGridViewTextBoxColumn.DataPropertyName = "PeakHeight";
-            this.peakHeightDataGridViewTextBoxColumn.HeaderText = "PeakHeight";
-            this.peakHeightDataGridViewTextBoxColumn.Name = "peakHeightDataGridViewTextBoxColumn";
-            this.peakHeightDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // peakPositionDataGridViewTextBoxColumn
-            // 
-            this.peakPositionDataGridViewTextBoxColumn.DataPropertyName = "PeakPosition";
-            this.peakPositionDataGridViewTextBoxColumn.HeaderText = "PeakPosition";
-            this.peakPositionDataGridViewTextBoxColumn.Name = "peakPositionDataGridViewTextBoxColumn";
-            this.peakPositionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rawPeakCurrentDataGridViewTextBoxColumn
-            // 
-            this.rawPeakCurrentDataGridViewTextBoxColumn.DataPropertyName = "RawPeakCurrent";
-            this.rawPeakCurrentDataGridViewTextBoxColumn.HeaderText = "RawPeakCurrent";
-            this.rawPeakCurrentDataGridViewTextBoxColumn.Name = "rawPeakCurrentDataGridViewTextBoxColumn";
-            // 
-            // processDataGridViewTextBoxColumn
-            // 
-            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
-            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
-            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
             // 
             // cVPeakBindingSource
             // 
@@ -861,37 +831,6 @@
             this.jwGraph1.VerticalMarkerCount = 0;
             this.jwGraph1.MouseDown += new jwGraph.jwGraph.jwGraph.MouseDownEventHandler(this.jwGraph1_MouseDown);
             this.jwGraph1.Paint += new System.Windows.Forms.PaintEventHandler(this.jwGraph1_Paint);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 25);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(161, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(94, 22);
-            this.toolStripButton1.Text = "From Clipboard";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButton2.Text = "Example";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStrip2
             // 
@@ -986,6 +925,37 @@
             this.toolStripButton4.Text = "Set Baseline points";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 25);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(161, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(94, 22);
+            this.toolStripButton1.Text = "From Clipboard";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButton2.Text = "Example";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1002,12 +972,51 @@
             this.tlMessage.Size = new System.Drawing.Size(118, 17);
             this.tlMessage.Text = "toolStripStatusLabel1";
             // 
-            // exportMatsudaNumbersToolStripMenuItem
+            // peakDirectionDataGridViewTextBoxColumn
             // 
-            this.exportMatsudaNumbersToolStripMenuItem.Name = "exportMatsudaNumbersToolStripMenuItem";
-            this.exportMatsudaNumbersToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.exportMatsudaNumbersToolStripMenuItem.Text = "Export Matsuda Numbers";
-            this.exportMatsudaNumbersToolStripMenuItem.Click += new System.EventHandler(this.exportMatsudaNumbersToolStripMenuItem_Click);
+            this.peakDirectionDataGridViewTextBoxColumn.DataPropertyName = "PeakDirection";
+            this.peakDirectionDataGridViewTextBoxColumn.HeaderText = "PeakDirection";
+            this.peakDirectionDataGridViewTextBoxColumn.Name = "peakDirectionDataGridViewTextBoxColumn";
+            // 
+            // steepestRiseVoltageDataGridViewTextBoxColumn
+            // 
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.DataPropertyName = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.HeaderText = "SteepestRiseVoltage";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.Name = "steepestRiseVoltageDataGridViewTextBoxColumn";
+            this.steepestRiseVoltageDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // peakHeightDataGridViewTextBoxColumn
+            // 
+            this.peakHeightDataGridViewTextBoxColumn.DataPropertyName = "PeakHeight";
+            this.peakHeightDataGridViewTextBoxColumn.HeaderText = "PeakHeight";
+            this.peakHeightDataGridViewTextBoxColumn.Name = "peakHeightDataGridViewTextBoxColumn";
+            this.peakHeightDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // peakPositionDataGridViewTextBoxColumn
+            // 
+            this.peakPositionDataGridViewTextBoxColumn.DataPropertyName = "PeakPosition";
+            this.peakPositionDataGridViewTextBoxColumn.HeaderText = "PeakPosition";
+            this.peakPositionDataGridViewTextBoxColumn.Name = "peakPositionDataGridViewTextBoxColumn";
+            this.peakPositionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rawPeakCurrentDataGridViewTextBoxColumn
+            // 
+            this.rawPeakCurrentDataGridViewTextBoxColumn.DataPropertyName = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.HeaderText = "RawPeakCurrent";
+            this.rawPeakCurrentDataGridViewTextBoxColumn.Name = "rawPeakCurrentDataGridViewTextBoxColumn";
+            // 
+            // processDataGridViewTextBoxColumn
+            // 
+            this.processDataGridViewTextBoxColumn.DataPropertyName = "Process";
+            this.processDataGridViewTextBoxColumn.HeaderText = "Process";
+            this.processDataGridViewTextBoxColumn.Name = "processDataGridViewTextBoxColumn";
+            // 
+            // DeltaPeak
+            // 
+            this.DeltaPeak.DataPropertyName = "DeltaPeak";
+            this.DeltaPeak.HeaderText = "Peak separation";
+            this.DeltaPeak.Name = "DeltaPeak";
+            this.DeltaPeak.ReadOnly = true;
             // 
             // frmMain
             // 
@@ -1039,10 +1048,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.cVBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeaks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cVPeakBindingSource)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1101,12 +1110,6 @@
         private System.Windows.Forms.ToolStripDropDownButton tsbPeakConnections;
         private System.Windows.Forms.ToolStripMenuItem connectSelectedPeaksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearConnectionsOfSelectedPeakToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peakDirectionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn steepestRiseVoltageDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peakHeightDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peakPositionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rawPeakCurrentDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn datasourceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nCyclesDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ScanRate;
@@ -1149,6 +1152,13 @@
         private System.Windows.Forms.ToolStripMenuItem destroyTheFirstCycleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem splitCyclesToNewCVsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportMatsudaNumbersToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peakDirectionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn steepestRiseVoltageDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peakHeightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peakPositionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rawPeakCurrentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn processDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DeltaPeak;
     }
 }
 

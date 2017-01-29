@@ -38,7 +38,6 @@ namespace CV_Evaluator
                 }
                 AddHandlers(c.Controls);
             }
-            
         }
         private void AddHandlers(System.Windows.Forms.Control.ControlCollection controls)
         {
@@ -574,6 +573,10 @@ namespace CV_Evaluator
         }
         private async Task CalculateConvolution()
         {
+            await CalculateConvolution(1, -1);
+        }
+        private async Task CalculateConvolution(double D, double cBulk)
+        {
             double progress = 0.0;
             var t = new Timer();
             t.Interval = 500;
@@ -582,7 +585,7 @@ namespace CV_Evaluator
 
             t.Tick += (s, e1) => tlMessage.Text = (progress * 100).ToString();
             t.Start();
-            var conv = await Task.Run(() => ((Cycle)cycleBindingSource.Current).GetConvolution(ref progress));
+            var conv = await Task.Run(() => ((Cycle)cycleBindingSource.Current).GetConvolution(ref progress,D,cBulk));
             t.Stop();
             toolStrip1.Enabled = true;
             toolStrip2.Enabled = true;
@@ -602,7 +605,6 @@ namespace CV_Evaluator
             cv.Cycles.Add(cyc);
             CVs.Add(cv);
         }
-
 
         private void SetScanrateFromSplit()
         {
@@ -915,14 +917,25 @@ namespace CV_Evaluator
             }
             return res;
         }
-        private void ExportMatsuda()
+        private void GetMatsuda(double PeakD, double T)
+        {
+            var delta = ParseDoubles(CV_Evaluator.Properties.Resources.MatsudaDelta);
+            var d = PeakD / 2.0 * 96485 / 8.314 / T;
+            var m = Math.Pow(10, (Cycle.Interpolate(d, delta[1], delta[0])));
+            MessageBox.Show(m.ToString());
+        }
+
+        private Matsuda.MatsudaSettings previousMatsudaSettings;
+
+        private void ExportMatsuda(bool correct)
         {
             Matsuda.MatsudaSettings Settings = null;
-            using (var frm = new Matsuda.frmMatsudaSetup())
+            using (var frm = new Matsuda.frmMatsudaSetup(previousMatsudaSettings))
             {
                 if (frm.ShowDialog(this) == DialogResult.Cancel) return;
                 Settings = frm.Settings;
             }
+            previousMatsudaSettings = Settings;
             var x = new double[] { 0.061, 0.063, 0.064, 0.065, 0.066, 0.068, 0.072, 0.084, 0.092, 0.105, 0.121, 0.141, 0.212 };
             var y = new double[] { 36.0, 12.0, 11.0, 9.0, 7.0, 5.3, 3.5, 1.8, 1.3, 0.9, 0.6, 0.44, 0.18 };
             Debug.Assert(x.Count() == y.Count());
@@ -933,6 +946,7 @@ namespace CV_Evaluator
             sb.AppendLine(string.Join("\t",desc));
             var K = ParseDoubles(CV_Evaluator.Properties.Resources.MatsudaK);
             var Xi = ParseDoubles(CV_Evaluator.Properties.Resources.MatsudaXi);
+            
             Xi[0].Reverse();
             Xi[1].Reverse();
             foreach (CV c in CVs)
@@ -942,6 +956,7 @@ namespace CV_Evaluator
                     foreach (CVPeakConnection con in cyc.PeakConnections)
                     {
                         var diff = Math.Abs(con.Peak1.GetPeakPosition().Item1 - con.Peak2.GetPeakPosition().Item1);
+                        if (correct) diff = diff - 0.03 * Math.Sqrt(cyc.Scanrate);
                         double matsuda;
                         if(diff<0.061)
                         {
@@ -1113,9 +1128,10 @@ namespace CV_Evaluator
 
         private void exportMatsudaNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportMatsuda();
+            ExportMatsuda(false);
         }
-    }
+
+  }
   
 }
 
